@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/06/29 17:41:14 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/06/29 17:51:52 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR) -Iincludes
 
 SRC_DIR = src
-OBJ_DIR = $(SRC_DIR)/obj
+OBJ_DIR = obj
 
 SRCS = minishell.c
 
