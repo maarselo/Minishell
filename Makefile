@@ -1,49 +1,54 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/06/29 15:46:26 by fbanzo-s         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ #
+#   M I N I S H E L L   M A K E F I L E  #
+# ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ ~~ #
 
-SRCS = 
+NAME = minishell
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+ENTRY_DIR = src
+OBJ_DIR = obj
+INCLUDE_DIR = include
 
-LIBFT_DIR = ./libft
-LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
+HEADER = $(INCLUDE_DIR)/philosophers.h
 
-OBJ	= $(SRCS:.c=.o)
+SRC_FILES = main.c entry.c
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
-asdfasdf
+CC = cc -g
+CFLAGS = -Wall -Werror -Wextra -pthread -I$(INCLUDE_DIR) 
+RM = rm -rf
 
-all:	libft pipex
+GREEN = \033[1;32m
+BLUE = \033[1;34m
+YELLOW = \033[1;33m
+RED = \033[1;31m
+RESET = \033[0m
+BULLET = $(BLUE)•$(RESET)
+
+all: $(NAME)
 
 libft:
-	make -C $(LIBFT_DIR)
-	@echo "\033[0;32mLibft se ha compilado correctamente.\033[0m"
-	
-pipex: $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT_FLAGS)
-	@echo "\033[0;32mPipex se ha compilado.\033[0m"
-	
-%.o:%.c	Makefile pipex.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	make -p Li
+$(NAME): $(OBJS) $(HEADER) Makefile
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(GREEN)✓ Compilación completada!$(RESET)"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@echo "$(YELLOW)▶ Compilando $(RESET) $<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(BULLET) $(BLUE)Created:$(RESET) $(OBJ_DIR)/"
 
 clean:
-	rm -f $(OBJ)
-	make -C $(LIBFT_DIR) clean
+	@echo "$(BULLET) $(RED)Cleaning:$(RESET) object files"
+	@$(RM) $(OBJ_DIR)
 
 fclean: clean
-	rm -f pipex
-	make -C $(LIBFT_DIR) fclean
+	@echo "$(BULLET) $(RED)Removing:$(RESET) $(NAME)"
+	@$(RM) $(NAME)
 
-re:	fclean all
+re: fclean all
 
-.PHONY:	all libft clean fclean re libft
+.PHONY: all clean fclean re
