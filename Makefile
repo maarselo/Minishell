@@ -6,44 +6,60 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/06/29 15:46:26 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/06/29 17:14:54 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = 
+
+RED     = \033[1;31m
+GREEN   = \033[1;32m
+YELLOW  = \033[1;33m
+RESET   = \033[0m
+
+NAME = minishell
+HEADER = includes/minishell.h
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+# -fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
+INCLUDES = -I$(LIBFT_DIR) -Iincludes
 
-OBJ	= $(SRCS:.c=.o)
+SRC_DIR = src
+OBJ_DIR = $(SRC_DIR)/obj
 
-asdfasdf
+SRCS = minishell.c
 
-all:	libft pipex
+SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+
+all: libft $(NAME)
 
 libft:
-	make -C $(LIBFT_DIR)
-	@echo "\033[0;32mLibft se ha compilado correctamente.\033[0m"
-	
-pipex: $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT_FLAGS)
-	@echo "\033[0;32mPipex se ha compilado.\033[0m"
-	
-%.o:%.c	Makefile pipex.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@make -C $(LIBFT_DIR) --no-print-directory
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(HEADER)
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(NAME): $(LIBFT) $(OBJ) Makefile
+	@echo "$(YELLOW)Compilando $@...$(RESET)"
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@echo "$(GREEN)Hecho$(RESET)"
 
 clean:
-	rm -f $(OBJ)
-	make -C $(LIBFT_DIR) clean
+	@echo "$(RED)Limpiando objetos...$(RESET)"
+	@make -C $(LIBFT_DIR) clean --no-print-directory
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f pipex
-	make -C $(LIBFT_DIR) fclean
+	@echo "$(RED)Limpiando todo...$(RESET)"
+	@make -C $(LIBFT_DIR) fclean --no-print-directory
+	@rm -f $(NAME)
 
-re:	fclean all
+re: fclean all
 
-.PHONY:	all libft clean fclean re libft
+.PHONY: all clean fclean re
