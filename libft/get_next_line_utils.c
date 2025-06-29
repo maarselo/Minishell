@@ -1,35 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 14:55:09 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/01/05 14:55:09 by fbanzo-s         ###   ########.fr       */
+/*   Created: 2025/02/05 22:39:32 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/02/05 22:39:32 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strncpy(char *dest, char *src, size_t n)
 {
-	size_t	len;
-	char	*dup;
 	size_t	i;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	dup = (char *)malloc(len + 1);
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (s[i])
+	while (i < n && src[i] != '\0')
 	{
-		dup[i] = s[i];
+		dest[i] = src[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
+char	*ft_strcat(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (dest[i])
+	{
+		i++;
+	}
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		j++;
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

@@ -3,101 +3,110 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/29 13:54:46 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/06/29 13:54:48 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/02/05 22:39:34 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/02/05 22:39:34 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
 
-static void	ft_buffjoin(char **buffer, char *tmp_buffer)
+void	ft_addstr(char **stored, char *buffer)
 {
-	char	*tmp;
+	size_t	oldlen;
+	size_t	newlen;
+	char	*newbuffer;
+	size_t	i;
 
-	if (!buffer || !tmp_buffer)
+	if (!*stored)
+		*stored = ft_strdup("");
+	oldlen = ft_strlen(*stored);
+	newlen = oldlen + ft_strlen(buffer) + 1;
+	newbuffer = malloc(newlen);
+	if (!newbuffer)
 		return ;
-	tmp = *buffer;
-	*buffer = ft_strjoin(*buffer, tmp_buffer);
-	free(tmp);
-}
-
-static char	*ft_getline(char *buffer)
-{
-	size_t	i;
-
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while ((*stored)[i] != '\0')
+	{
+		newbuffer[i] = (*stored)[i];
 		i++;
-	if (buffer[i] == '\n')
-		i++;
-	return (ft_substr(buffer, 0, i));
+	}
+	newbuffer[i] = '\0';
+	ft_strcat(newbuffer, buffer);
+	free(*stored);
+	*stored = newbuffer;
 }
 
-static void	ft_nextline(char **buffer)
+char	*ft_getline(char **stored)
 {
-	char	*tmp;
-	size_t	i;
+	char	*nlpos;
+	char	*newstored;
+	char	*line;
 	size_t	len;
 
-	if (!*buffer)
-		return ;
-	i = 0;
-	tmp = *buffer;
-	while ((*buffer)[i] && (*buffer)[i] != '\n')
-		i++;
-	if ((*buffer)[i] == '\n')
-		i++;
-	len = ft_strlen(*buffer);
-	*buffer = ft_substr(*buffer, i, len - i);
-	free(tmp);
+	if (!*stored || !**stored)
+		return (NULL);
+	nlpos = ft_strchr(*stored, '\n');
+	if (!nlpos)
+	{
+		line = *stored;
+		*stored = NULL;
+		return (line);
+	}
+	len = nlpos - *stored + 1;
+	line = malloc(len + 1);
+	if (!line)
+		return (NULL);
+	ft_strncpy(line, *stored, len);
+	line[len] = '\0';
+	newstored = ft_strdup(nlpos + 1);
+	free(*stored);
+	*stored = newstored;
+	return (line);
 }
 
-static void	ft_read(int fd, char **buffer)
+void	ft_read(int fd, char **stored)
 {
-	ssize_t	bytes_read;
-	char	*tmp_buffer;
+	ssize_t		bytesread;
+	char		*buffer;
 
-	tmp_buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp_buffer)
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
 		return ;
-	bytes_read = 1;
-	while (bytes_read > 0 && !ft_strchr(tmp_buffer, '\n'))
+	bytesread = read(fd, buffer, BUFFER_SIZE);
+	while (bytesread > 0)
 	{
-		bytes_read = read(fd, tmp_buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-		{
-			free(tmp_buffer);
-			return ;
-		}
-		tmp_buffer[bytes_read] = '\0';
-		ft_buffjoin(buffer, tmp_buffer);
-		if (!*buffer)
-		{
-			free(tmp_buffer);
-			return ;
-		}
+		buffer[bytesread] = '\0';
+		ft_addstr(stored, buffer);
+		if (!*stored)
+			break ;
+		if (ft_strchr(buffer, '\n'))
+			break ;
+		bytesread = read(fd, buffer, BUFFER_SIZE);
 	}
-	free(tmp_buffer);
+	if (bytesread == -1)
+	{
+		free(*stored);
+		*stored = NULL;
+	}
+	free(buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*stored;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	ft_read(fd, &buffer);
-	if (!buffer || !*buffer)
+	ft_read(fd, &stored);
+	if (!stored || !*stored)
 	{
-		free(buffer);
+		free(stored);
+		stored = NULL;
 		return (NULL);
 	}
-	line = ft_getline(buffer);
-	if (!line)
-		free(buffer);
-	ft_nextline(&buffer);
+	line = ft_getline(&stored);
 	return (line);
 }

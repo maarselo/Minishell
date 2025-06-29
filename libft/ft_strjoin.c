@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/31 00:27:18 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/17 10:57:03 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/13 02:07:52 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/13 02:07:52 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*ptr;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*s3;
 	size_t	i;
+	size_t	j;
 
-	if (!s1 && !s2)
+	if (!s1 || !s2)
 		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ptr = (char *)malloc((s1_len + s2_len + 1) * sizeof(char));
-	if (ptr == NULL)
+	s3 = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!s3)
 		return (NULL);
-	i = -1;
-	while (++i < s1_len)
-		ptr[i] = s1[i];
-	i = -1;
-	while (++i < s2_len)
-		ptr[s1_len + i] = s2[i];
-	ptr[s1_len + s2_len] = '\0';
-	return (ptr);
+	i = 0;
+	while (s1[i])
+	{
+		s3[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		s3[i] = s2[j];
+		i++;
+		j++;
+	}
+	s3[i] = '\0';
+	return (s3);
 }

@@ -6,10 +6,9 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/06/29 17:14:54 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/06/29 17:41:14 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 RED     = \033[1;31m
 GREEN   = \033[1;32m
@@ -25,7 +24,6 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_FLAGS = -L$(LIBFT_DIR) -lft
 INCLUDES = -I$(LIBFT_DIR) -Iincludes
 
 SRC_DIR = src
@@ -36,9 +34,9 @@ SRCS = minishell.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-all: libft $(NAME)
+all: $(LIBFT) $(NAME)
 
-libft:
+$(LIBFT):
 	@make -C $(LIBFT_DIR) --no-print-directory
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(HEADER)
@@ -47,7 +45,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(HEADER)
 
 $(NAME): $(LIBFT) $(OBJ) Makefile
 	@echo "$(YELLOW)Compilando $@...$(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -o $(NAME)
 	@echo "$(GREEN)Hecho$(RESET)"
 
 clean:

@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/24 19:27:26 by mvillavi          #+#    #+#             */
-/*   Updated: 2024/12/24 21:22:35 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/06 02:48:24 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/06 02:48:24 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Memset, rellena un bloque de memoria con un valor especifico; recibe un 
-puntero, int a ASCII, y cantidad de bytes a recorrer, con el valor de int, 
-a partir de la direcion asignara el valor a cada BYTE de esa memoria hasta el 
-numero de bytes a llenar.*/
-
 #include "libft.h"
 
-void	*ft_memset(void *ptr, int c, size_t n)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned char	*p;
+	size_t			i;
+	unsigned char	*ptr;
 
-	p = (unsigned char *)ptr;
-	while (n --)
-		*p++ = c;
-	return (ptr);
+	i = 0;
+	ptr = (unsigned char *)s;
+	while (i < n)
+	{
+		ptr[i] = (unsigned char)c;
+		i++;
+	}
+	return (s);
 }

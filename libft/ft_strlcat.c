@@ -3,32 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/26 19:28:40 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/11 16:16:58 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/04 19:42:39 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/04 19:42:39 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Esta funcion a diferencia de strncat, que concatena el numero de caracteres
-pasas el size de buffer dest, una manera de que siempre se ponga el nulo, y el
-y el valor de retorno es la suma de caracteres, de ambas str.*/
-
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	len_dest;
-	size_t	len_src;
-	size_t	i;
+	size_t		i;
+	size_t		j;
+	size_t		srclen;
+	size_t		dstlen;
 
-	len_dest = ft_strlen(dest);
-	len_src = ft_strlen(src);
-	if (dstsize <= len_dest)
-		return (dstsize + len_src);
-	i = len_dest;
-	while (i < dstsize - 1 && *src)
-		dest[i++] = *src++;
-	dest[i] = '\0';
-	return (len_dest + len_src);
+	srclen = ft_strlen(src);
+	dstlen = ft_strlen(dst);
+	if (size <= dstlen)
+		return (srclen + size);
+	i = dstlen;
+	j = 0;
+	while (i < size - 1 && src[j])
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	dst[i] = '\0';
+	return (srclen + dstlen);
 }

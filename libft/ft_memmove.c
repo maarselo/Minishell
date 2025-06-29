@@ -3,26 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 20:12:25 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/05 15:29:43 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/12 15:43:11 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/12 15:43:11 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+void	ft_add(unsigned char *d, const unsigned char *s, size_t n)
+{
+	size_t	i;
+
+	i = n;
+	while (i > 0)
+	{
+		i--;
+		d[i] = s[i];
+	}
+}
+
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*d;
-	unsigned char	*s;
+	size_t				i;
+	unsigned char		*d;
+	const unsigned char	*s;
 
+	if (!dest && !src && n > 0)
+		return (NULL);
 	d = (unsigned char *)dest;
-	s = (unsigned char *)src;
-	if (d > s)
-		while (n--)
-			d[n] = s[n];
+	s = (const unsigned char *)src;
+	if (s < d && s + n > d)
+		ft_add(d, s, n);
 	else
-		ft_memcpy(dest, src, n);
+	{
+		i = 0;
+		while (i < n)
+		{
+			d[i] = s[i];
+			i++;
+		}
+	}
 	return (dest);
 }

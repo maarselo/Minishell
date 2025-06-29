@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 13:59:48 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/05 14:16:48 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/15 20:04:30 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/15 20:04:30 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

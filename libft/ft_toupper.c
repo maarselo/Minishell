@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 21:14:03 by mvillavi          #+#    #+#             */
-/*   Updated: 2024/12/30 21:14:06 by mvillavi         ###   ########.fr       */
+/*   Created: 2024/12/27 20:52:48 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2024/12/27 20:52:48 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//Los valores como char o int, pueden ser tomados como ASCII.
 
 #include "libft.h"
 
 int	ft_toupper(int c)
 {
 	if (c >= 97 && c <= 122)
-		return (c - 32);
+		return (c - ('a' - 'A'));
 	return (c);
 }

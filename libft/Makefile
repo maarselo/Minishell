@@ -3,56 +3,69 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+         #
+#    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/05 16:51:09 by mvillavi          #+#    #+#              #
-#    Updated: 2025/01/12 20:20:41 by mvillavi         ###   ########.fr        #
+#    Created: 2025/01/05 18:23:58 by fbanzo-s          #+#    #+#              #
+#    Updated: 2025/01/05 18:23:58 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+RED     = \033[1;31m
+GREEN   = \033[1;32m
+YELLOW  = \033[1;33m
+RESET   = \033[0m
+
 NAME = libft.a
-
-HEADER = libft.h
-
-SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
-       ft_isspace.c ft_toupper.c ft_tolower.c ft_atoi.c ft_memcmp.c ft_strncmp.c \
-       ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_itoa.c ft_strchr.c \
-       ft_strdup.c ft_strrchr.c ft_calloc.c ft_strjoin.c ft_memmove.c \
-       ft_strtrim.c ft_substr.c ft_strmapi.c ft_strnstr.c ft_putnbr_fd.c \
-       ft_bzero.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_memset.c \
-       ft_memchr.c ft_striteri.c ft_memcpy.c ft_split.c get_next_line.c get_next_line_bonus.c \
-	   printf_utils.c printf.c
-
-OBJS = $(SRCS:.c=.o)
-
-BSRCS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
-	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
-
-BOBJS = $(BSRCS:.c=.o)
-
 CC = cc
-CC_LIB = ar -rcs
-CFLAGS = -Wall -Werror -Wextra
-RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror
+
+SRC = ft_atoi.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_calloc.c \
+ft_isdigit.c ft_isprint.c ft_strchr.c ft_strdup.c ft_strlcat.c \
+ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
+ft_tolower.c ft_toupper.c ft_memset.c ft_bzero.c ft_memchr.c \
+ft_memcpy.c ft_memcmp.c ft_memmove.c ft_substr.c ft_strjoin.c \
+ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
+ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
+
+SRC_GNL = get_next_line.c get_next_line_utils.c
+
+SRC_PRINTF = ft_printf.c ft_putchar_p.c ft_putstr_p.c ft_putnbr_p.c \
+ft_puthex_fd.c ft_putptr_fd.c
+
+BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstadd_back.c ft_lstsize.c \
+ft_lstlast.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+
+OBJ_DIR = obj
+
+SRC_OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o)) $(addprefix $(OBJ_DIR)/,$(SRC_PRINTF:.c=.o)) $(addprefix $(OBJ_DIR)/,$(SRC_GNL:.c=.o))
+BONUS_OBJ = $(addprefix $(OBJ_DIR)/,$(BONUS:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(HEADER) Makefile
-	$(CC_LIB) $(NAME) $(OBJS)
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
-bonus: $(OBJS) $(BOBJS)
-	$(CC_LIB) $(NAME) $(BOBJS)
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-%.o:%.c $(HEADER) Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(SRC_OBJ) Makefile
+	@echo "$(YELLOW)Compilando libft...$(RESET)"
+	ar rcs $(NAME) $(SRC_OBJ)
+	@echo "$(GREEN)Hecho$(RESET)"
 
-clean :
-	$(RM) $(OBJS) $(BOBJS)
+bonus: $(SRC_OBJ) $(BONUS_OBJ)
+	@echo "$(YELLOW)Compilando libft bonus...$(RESET)"
+	ar rcs $(NAME) $(BONUS_OBJ)
+	@echo "$(GREEN)Hecho$(RESET)"
+
+clean:
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	@echo "$(RED)Limpiando libft...$(RESET)"
+	@rm -f $(NAME)
+	@echo "$(GREEN)Hecho$(RESET)"
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
-
+.PHONY: all clean fclean re

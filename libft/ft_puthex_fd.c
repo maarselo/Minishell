@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_puthex_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/28 23:06:32 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2024/12/28 23:06:32 by fbanzo-s         ###   ########.fr       */
+/*   Created: 2025/01/24 19:59:05 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/24 19:59:05 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_puthex_fd(unsigned long nbr, int fd, int *count, char *base)
 {
-	while (*s)
+	unsigned long	baselen;
+
+	baselen = ft_strlen(base);
+	if (nbr >= baselen)
 	{
-		if (*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
+		ft_puthex_fd((nbr / baselen), fd, count, base);
+		ft_putchar_p(base[nbr % baselen], fd, count);
 	}
-	if ((unsigned char)c == '\0')
-		return ((char *)s);
-	return (NULL);
+	else
+	{
+		ft_putchar_p(base[nbr], fd, count);
+	}
 }

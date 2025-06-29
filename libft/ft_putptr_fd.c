@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putptr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/28 23:06:32 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2024/12/28 23:06:32 by fbanzo-s         ###   ########.fr       */
+/*   Created: 2025/01/24 19:21:12 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/24 19:21:12 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strchr(const char *s, int c)
+void	ft_putptr_fd(void *ptr, int fd, int *count)
 {
-	while (*s)
+	if (!ptr)
 	{
-		if (*s == (unsigned char)c)
-			return ((char *)s);
-		s++;
+		ft_putstr_p("(nil)", fd, count);
+		return ;
 	}
-	if ((unsigned char)c == '\0')
-		return ((char *)s);
-	return (NULL);
+	ft_putstr_p("0x", fd, count);
+	ft_puthex_fd((unsigned long)ptr, fd, count, HEX_LOW_BASE);
 }

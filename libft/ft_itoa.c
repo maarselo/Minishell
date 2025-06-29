@@ -3,60 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 17:43:57 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/05 17:34:07 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/15 14:55:55 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/15 14:55:55 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/** = buscar esa palabra hacia delante y n y N hacia atras o delante osi 
-no bucar con / y la paabra y enter y moverte*/
 #include "libft.h"
 
-static int	ft_count(int n)
+size_t	ft_getlen(int n)
 {
-	int	count;
+	size_t	len;
+	long	tmp;
 
-	if (n == 0)
-		return (1);
-	count = 0;
-	if (n < 0)
+	len = 0;
+	tmp = n;
+	if (tmp <= 0)
+		len++;
+	while (tmp)
 	{
-		count++;
-		n *= -1;
+		tmp /= 10;
+		len++;
 	}
-	while (n > 0)
+	return (len);
+}
+
+void	ft_getnum(long tmp, size_t len, char *num)
+{
+	while (tmp)
 	{
-		count++;
-		n /= 10;
+		num[len - 1] = (tmp % 10) + '0';
+		tmp /= 10;
+		len--;
 	}
-	return (count);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*ptr;
-	int		digits;
+	int		sign;
+	size_t	len;
+	char	*num;
+	long	tmp;
 
-	if (n == INT_MIN)
-		return (ft_strdup("-2147483648"));
-	digits = ft_count(n);
-	ptr = (char *)malloc((digits + 1) * sizeof(char));
-	if (ptr == NULL)
-		return (NULL);
-	ptr[digits] = '\0';
+	sign = 1;
+	tmp = n;
+	len = ft_getlen(n);
 	if (n < 0)
 	{
-		ptr[0] = '-';
-		n *= -1;
+		tmp *= -1;
+		sign = -1;
 	}
-	while (--digits >= 0)
-	{
-		if (ptr[digits] == '-')
-			break ;
-		ptr[digits] = ('0' + (n % 10));
-		n /= 10;
-	}
-	return (ptr);
+	num = malloc((len + 1) * sizeof(char));
+	if (!num)
+		return (NULL);
+	num[len] = '\0';
+	if (tmp == 0)
+		num[len - 1] = '0';
+	else
+		ft_getnum(tmp, len, num);
+	if (sign < 0)
+		num[0] = '-';
+	return (num);
 }

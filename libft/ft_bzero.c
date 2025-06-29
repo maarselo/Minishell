@@ -3,21 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/24 21:24:33 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/01/11 14:02:43 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/01/10 22:26:16 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/01/10 22:26:16 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//Como calloc
 #include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*ptr;
+	size_t			i;
 
 	ptr = (unsigned char *)s;
-	while (n--)
-		*ptr++ = '\0';
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = 0;
+		i++;
+	}
 }
