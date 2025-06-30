@@ -6,11 +6,13 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/06/30 20:49:19 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:53:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
 
 int	main(void)
 {
