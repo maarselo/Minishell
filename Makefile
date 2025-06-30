@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/06/29 17:51:52 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/06/30 18:45:33 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+LIB_FLAGS = -lreadline -lft
 # -fsanitize=address
 RM = rm -rf
 
@@ -58,7 +59,7 @@ $(LIBFT):
 	@make -sC $(LIBFT_DIR) bonus
 
 $(NAME): $(OBJS) $(LIBFT) $(HEADER) Makefile
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Compilación completada!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
