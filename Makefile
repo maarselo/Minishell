@@ -36,6 +36,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+LIB_FLAGS = -lreadline -lft 
 # -fsanitize=address
 RM = rm -rf
 
@@ -58,7 +59,7 @@ $(LIBFT):
 	@make -sC $(LIBFT_DIR) bonus
 
 $(NAME): $(OBJS) $(LIBFT) $(HEADER) Makefile
-	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Compilación completada!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
