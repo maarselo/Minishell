@@ -49,22 +49,16 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJ) Makefile
-	@echo "$(YELLOW)Compilando libft...$(RESET)"
 	ar rcs $(NAME) $(SRC_OBJ)
-	@echo "$(GREEN)Hecho$(RESET)"
 
 bonus: $(SRC_OBJ) $(BONUS_OBJ)
-	@echo "$(YELLOW)Compilando libft bonus...$(RESET)"
 	ar rcs $(NAME) $(BONUS_OBJ)
-	@echo "$(GREEN)Hecho$(RESET)"
 
 clean:
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "$(RED)Limpiando libft...$(RESET)"
 	@rm -f $(NAME)
-	@echo "$(GREEN)Hecho$(RESET)"
 
 re: fclean all
 
