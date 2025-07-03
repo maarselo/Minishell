@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/03 18:15:01 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:57:50 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_sigint_handler(int sig)
 int	main(void)
 {
 	char	*input;
-	
+
 	signal(SIGINT, ft_sigint_handler);
 	while (1)
 	{
@@ -46,6 +46,7 @@ int	main(void)
 			free(input);
 			break ;
 		}
+		ft_get_tokens(input);
 		free(input);
 	}
 	return (0);
