@@ -53,9 +53,9 @@ char	*ft_getword(char const *s, size_t start, size_t len)
 
 char	**ft_split(char const *s, char c)
 {
-	char	**s2;
 	size_t	i;
 	size_t	j;
+	char	**s2;
 	size_t	start;
 
 	s2 = malloc((ft_countc(s, c) + 1) * sizeof(char *));
