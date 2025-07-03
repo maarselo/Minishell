@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 19:41:56 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/03 21:21:11 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:22:14 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ t_token	**ft_get_tokens(char *input)
 {
 	t_token	**tokens;
 
-	tokens = NULL;
 	tokens = malloc((ft_count_tokens(input) + 1) * sizeof(t_token *));
 	return (tokens);
 }
