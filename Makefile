@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/07/03 19:58:17 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/07/04 00:38:04 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBFT_DIR = ./Libft
 HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
-SRCS_FILES = minishell.c parse.c
+SRCS_FILES = minishell.c parser.c parser_utils.c token.c
 #BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))
