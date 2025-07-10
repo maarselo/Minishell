@@ -24,6 +24,14 @@ static t_token_type ft_get_token_type(char *token)
 		return (T_REDIR_APPEND);
 	else if (!ft_strncmp(token, "<<", ft_strlen(token)))
 		return (T_HEREDOC);
+	else if (!ft_strncmp(token, "&&", ft_strlen(token)))
+		return (T_AND);
+	else if (!ft_strncmp(token, "||", ft_strlen(token)))
+		return (T_OR);
+	else if (!ft_strncmp(token, "(", ft_strlen(token)))
+		return (T_PAREN_OPEN);
+	else if (!ft_strncmp(token, ")", ft_strlen(token)))
+		return(T_PAREN_CLOSE);
 	else
 		return (T_WORD);
 }
