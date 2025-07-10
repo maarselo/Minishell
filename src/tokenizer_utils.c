@@ -19,5 +19,5 @@ int	ft_is_quote(char c)
 
 int	ft_is_operator(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '(' || c ==')');
+	return (c == '|' || c == '<' || c == '>' || c == '(' || c ==')' || c == '&');
 }
