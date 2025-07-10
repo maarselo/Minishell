@@ -10,22 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	ft_input_loop(char **envp)
 {
-	char	*rl;
-	
-	if (ac != 1)
-		return (0);
-	while (1)
+	(void)envp;
+	char *input;
+	//t_token	*token_list;
+
+	ft_set_signal_prompt_mode();
+	while (true)
 	{
-		rl = readline("minishell$ ");
-		if (ft_strncmp(rl, "exit", ft_strlen(rl)) == 0)
+		input = readline("\033[1;32mminishell $\033[0m ");
+		if (!input || !ft_strncmp(input, "exit", ft_strlen(input)))
+			ft_exit_free_prompt(input);
+		if (ft_strlen(input) == 0)
 		{
-			printf("%s\n", rl);
-			break ;
+			free(input);
+			continue ;
+		}
+		if (*input)
+		{
+			add_history(input);
+			ft_tokenizer(input);
+			free(input);
 		}
 	}
-	return (0);
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argv;
+
+	if (argc != 1)
+		return (0);
+	ft_print_banner();
+	ft_input_loop(envp);
+}
+
