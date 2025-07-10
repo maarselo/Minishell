@@ -23,7 +23,8 @@ LIBFT_DIR = ./Libft
 HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
-SRCS_FILES = minishell.c banner.c signal.c init_token.c tokenizer.c tokenizer_utils.c exit.c
+SRCS_FILES = minishell.c banner.c signal.c init_token.c tokenizer.c tokenizer_utils.c \
+				parser.c parser_utils.c exit.c
 #BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))

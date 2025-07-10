@@ -62,6 +62,13 @@ char *ft_extract_token(char *input, int *i);
 
 t_token	*ft_tokenizer(char *input);
 
+
+//parser utils/parser
+int	ft_count_command(t_token *token_list);
+
+void	ft_parser(t_token *token);
+
+
 //exits
 void	ft_exit_free_prompt(char *input);//Ctrl + D, type exit
 
