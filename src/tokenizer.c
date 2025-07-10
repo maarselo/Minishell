@@ -99,7 +99,7 @@ t_token	*ft_tokenizer(char *input)
 		while(ft_isspace(input[i]))
 			i++;
 		if (!input[i])
-			return (NULL);
+			break ;
 		str_token = ft_extract_token(input, &i);
 		if (!str_token)
 			return (NULL);
