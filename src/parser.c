@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parser.c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,39 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_input_loop(char **envp)
+void	ft_parser(t_token *token)
 {
-	(void)envp;
-	char *input;
-	//t_token	*token_list;
-
-	ft_set_signal_prompt_mode();
-	while (true)
-	{
-		input = readline("\033[1;32mminishell $\033[0m ");
-		if (!input || !ft_strncmp(input, "exit", ft_strlen(input)))
-			ft_exit_free_prompt(input);
-		if (ft_strlen(input) == 0)
-		{
-			free(input);
-			continue ;
-		}
-		if (*input)
-		{
-			add_history(input);
-			ft_parser(ft_tokenizer(input));
-			free(input);
-		}
-	}
+	printf("%d", ft_count_command(token));	
 }
-
-int	main(int argc, char **argv, char **envp)
-{
-	(void)argv;
-
-	if (argc != 1)
-		return (0);
-	ft_print_banner();
-	ft_input_loop(envp);
-}
-
