@@ -16,7 +16,7 @@ void	ft_input_loop(char **envp)
 {
 	(void)envp;
 	char *input;
-	//t_token	*token_list;
+	t_token	*token_list;
 
 	ft_set_signal_prompt_mode();
 	while (true)
@@ -32,7 +32,9 @@ void	ft_input_loop(char **envp)
 		if (*input)
 		{
 			add_history(input);
-			ft_parser(ft_tokenizer(input));
+			token_list = ft_tokenizer(input);
+			ft_parser(token_list);
+			//free(token_list);
 			free(input);
 		}
 	}

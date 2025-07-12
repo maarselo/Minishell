@@ -34,6 +34,16 @@ typedef enum e_token_type
 	T_PAREN_CLOSE,
 }			t_token_type;
 
+typedef struct s_cmd
+{
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	bool	append;
+	bool	heredoc;
+	char	*delimiter;
+}			t_cmd;
+
 typedef struct s_token
 {
 	char			*content;
@@ -64,7 +74,10 @@ t_token	*ft_tokenizer(char *input);
 
 
 //parser utils/parser
-int	ft_count_command(t_token *token_list);
+int		ft_count_command(t_token *token_list);
+int		ft_check_start_end_types(t_token *token);
+int		ft_check_delimiters(t_token *token);
+int		ft_check_redirects(t_token *token);
 
 void	ft_parser(t_token *token);
 
@@ -72,9 +85,6 @@ void	ft_parser(t_token *token);
 //exits
 void	ft_exit_free_prompt(char *input);//Ctrl + D, type exit
 
-
-//int	ft_find_char(int c, char *input);//for find "" and '' to see if there are peers
-//int	ft_check_quotes(char *input);
-
-
+//testing
+void	ft_print_tokens(t_token	*token);
 #endif
