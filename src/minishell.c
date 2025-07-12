@@ -34,6 +34,7 @@ void	ft_input_loop(char **envp)
 			add_history(input);
 			token_list = ft_tokenizer(input);
 			ft_parser(token_list);
+			//free(token_list)
 			free(input);
 		}
 	}
