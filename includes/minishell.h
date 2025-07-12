@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 23:06:14 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:48:30 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,23 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-
 // banner.c
 void		ft_print_banner(void);
-
 // signals.c
 void		ft_set_signal_prompt_mode(void);
-
-//minishell.c
-void		ft_input_loop(char **envp);//to print all time minshell and get the input
-
+// minishell.c
+// to print all time minshell and get the input
+void		ft_input_loop(char **envp);
 // token.c
 t_token		*ft_init_token(char *content);
-
+void		ft_free_token(t_token *token);
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
-char 		*ft_extract_token(char *input, int *i);
+char		*ft_extract_token(char *input, int *i);
 // tokenizer.c
 void		ft_print_tokens(t_token	*token);
 t_token		*ft_tokenizer(char *input);
-
 // parser_utils.c
 int			ft_check_start_end_types(t_token *token);
 int			ft_check_delimiters(t_token *token);
@@ -80,9 +76,7 @@ int			ft_check_redirects(t_token *token);
 //int		ft_count_command(t_token *token_list);
 // parser.c
 void		ft_parser(t_token *token);
-
 // exit.c
 void		ft_exit_free_prompt(char *input);
-
 
 #endif

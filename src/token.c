@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:49:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:47:30 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,20 @@ t_token	*ft_init_token(char *content)
 	token->is_quoted = ft_token_is_quoted(content);
 	token->next = NULL;
 	return (token);
+}
+
+void	ft_free_token(t_token *token_list)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = token_list;
+	while (current != NULL)
+	{
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
+	}
 }

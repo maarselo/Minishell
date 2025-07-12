@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:50:11 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 00:08:51 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,21 @@ void	ft_input_loop(char **envp)
 	while (true)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
-		if (!input || !ft_strncmp(input, "exit", ft_strlen(input)))
+		if (!input)
 			ft_exit_free_prompt(input);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
+		if (!ft_strncmp(input, "exit", ft_strlen(input)))
+			ft_exit_free_prompt(input);
 		if (*input)
 		{
 			add_history(input);
 			token_list = ft_tokenizer(input);
 			ft_parser(token_list);
-			//free(token_list)
+			ft_free_token(token_list);
 			free(input);
 		}
 	}
