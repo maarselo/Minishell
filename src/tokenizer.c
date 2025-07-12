@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/06/30 18:55:47 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/12 22:47:47 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*ft_extract_word(char *str, int	*i)
 	return (ft_substr(str, start, *i - start));
 }
 
-char *ft_extract_token(char *input, int *i)
+char	*ft_extract_token(char *input, int *i)
 {
 	if (ft_is_quote(input[*i]))
 		return (ft_extract_quotes(input, i));
@@ -83,20 +83,21 @@ char *ft_extract_token(char *input, int *i)
 	else
 		return (ft_extract_word(input, i));
 }
+
 t_token	*ft_tokenizer(char *input)
 {
 	int		i;
 	char	*str_token;
 	t_token	*new_token;
-	t_token *top;
-	t_token *bottom;
+	t_token	*top;
+	t_token	*bottom;
 
 	i = 0;
 	top = NULL;
 	bottom = NULL;
 	while (input[i])
 	{
-		while(ft_isspace(input[i]))
+		while (ft_isspace(input[i]))
 			i++;
 		if (!input[i])
 			break ;
@@ -110,7 +111,7 @@ t_token	*ft_tokenizer(char *input)
 			top = new_token;
 		else
 			bottom->next = new_token;
-		bottom = new_token; 
+		bottom = new_token;
 	}
 	return (top);
 }

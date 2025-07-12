@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/06/30 18:55:47 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/12 22:49:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token_type ft_get_token_type(char *token)
+static t_token_type	ft_get_token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", ft_strlen(token)))
 		return (T_PIPE);
@@ -31,7 +31,7 @@ static t_token_type ft_get_token_type(char *token)
 	else if (!ft_strncmp(token, "(", ft_strlen(token)))
 		return (T_PAREN_OPEN);
 	else if (!ft_strncmp(token, ")", ft_strlen(token)))
-		return(T_PAREN_CLOSE);
+		return (T_PAREN_CLOSE);
 	else
 		return (T_WORD);
 }
@@ -45,8 +45,8 @@ static bool	ft_token_is_quoted(char *content)
 	len = ft_strlen(content);
 	if (len < 2)
 		return (false);
-	return ((content[0] == '\'' && content[len - 1] == '\'') ||
-			(content[0] == '"' && content[len - 1] == '"'));
+	return ((content[0] == '\'' && content[len - 1] == '\'')
+		|| (content[0] == '"' && content[len - 1] == '"'));
 }
 
 t_token	*ft_init_token(char *content)
@@ -55,10 +55,10 @@ t_token	*ft_init_token(char *content)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
-		return(NULL);
+		return (NULL);
 	token->content = content;
 	token->type = ft_get_token_type(content);
 	token->is_quoted = ft_token_is_quoted(content);
 	token->next = NULL;
-	return(token);
+	return (token);
 }
