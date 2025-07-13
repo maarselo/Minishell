@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 23:47:30 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:31:48 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token	*ft_init_token(char *content)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);
+		return (perror("Error allocating memory\n"), exit(8), NULL);
 	token->content = content;
 	token->type = ft_get_token_type(content);
 	token->is_quoted = ft_token_is_quoted(content);

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 19:58:09 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:53:18 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,14 @@ t_env	*ft_get_env(char **envp)
 
 void	ft_expand(t_cmd *cmd, t_env *env_list, int status)
 {
+	int	i;
+
 	while (cmd)
 	{
-
+		i = 0;
+		while (cmd->argv && cmd->argv[i])
+		{
+			i++;
+		}
 	}
 }
