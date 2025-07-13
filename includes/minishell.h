@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 04:14:25 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:57:12 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ typedef enum e_token_type
 
 typedef struct s_cmd
 {
-	char	**argv;
-	char	*infile;
-	char	*outfile;
-	bool	append;
-	bool	heredoc;
-	char	*delimiter;
+	char			**argv;
+	char			*infile;
+	char			*outfile;
+	bool			append;
+	bool			heredoc;
+	char			*delimiter;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_token
@@ -51,6 +52,13 @@ typedef struct s_token
 	bool			is_quoted;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 // banner.c
 void		ft_print_banner(void);
@@ -77,7 +85,10 @@ int			ft_check_redirects(t_token *token);
 // parser.c
 t_cmd		*ft_parser(t_token *token);
 // expander.c
-void		ft_expand(t_cmd *cmd, char **envp, int status);
+void		ft_expand(t_cmd *cmd, t_env *env_list, int status);
+t_env		*ft_get_env(char **envp);
+// env.c
+t_env		*ft_init_env(char *env_var);
 // exit.c
 void		ft_exit_free_prompt(char *input);
 

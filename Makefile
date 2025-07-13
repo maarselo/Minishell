@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/07/12 22:58:46 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/07/13 19:02:45 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
 SRCS_FILES = minishell.c banner.c signals.c token.c tokenizer.c tokenizer_utils.c \
-				parser.c parser_utils.c exit.c
+				parser.c parser_utils.c exit.c expander.c env.c
 #BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))
@@ -36,7 +36,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+#CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 LIB_FLAGS = -lreadline -lft 
 # -fsanitize=address
 RM = rm -rf

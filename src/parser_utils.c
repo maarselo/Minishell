@@ -6,12 +6,12 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/06/30 18:29:13 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:59:02 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
-
+/*
 int	ft_count_command(t_token *token_list)
 {
 	int	count;
@@ -92,4 +92,4 @@ int	ft_check_redirects(t_token *token)
 		tmp = tmp->next;
 	}
 	return (0);
-}
+}*/
