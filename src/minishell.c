@@ -22,18 +22,20 @@ void	ft_input_loop(char **envp)
 	while (true)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
-		if (!input || !ft_strncmp(input, "exit", ft_strlen(input)))
+		if (!input)
 			ft_exit_free_prompt(input);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
+		if (!ft_strncmp(input, "exit", ft_strlen(input)))
+            ft_exit_free_prompt(input);
 		if (*input)
 		{
 			add_history(input);
 			token_list = ft_tokenizer(input);
-			ft_parser(token_list);
+			ft_syntax(token_list);
 			//free(token_list)
 			free(input);
 		}
