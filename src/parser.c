@@ -21,7 +21,7 @@ bool validate_tokens(t_token *token_list)
 		token = token->next;
 	}
 }*/
-void	ft_parser(t_token *token)
+t_cmd	*ft_parser(t_token *token)
 {
 	if (ft_check_start_end_types(token))
 		return (printf("minishell: syntax error near unexpected operator\n"));
@@ -29,6 +29,4 @@ void	ft_parser(t_token *token)
 		return (printf("minishell: syntax error unmatched delimiter\n"));
 	if (ft_check_redirects(token))
 		return (printf("minishell: syntax error expected word after redirection\n"));
-	
-	
 }

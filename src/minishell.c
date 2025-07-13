@@ -6,11 +6,25 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 00:08:51 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:13:30 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_process_input(char *input, t_token *token_list, char **envp)
+{
+	t_cmd	*cmd_list;
+	int		status;
+
+	status = 0;
+	add_history(input);
+	token_list = ft_tokenizer(input);
+	cmd_list = ft_parser(token_list);
+	ft_expand(cmd_list, envp, status);
+	ft_free_token(token_list);
+	free(input);
+}
 
 void	ft_input_loop(char **envp)
 {
@@ -32,13 +46,7 @@ void	ft_input_loop(char **envp)
 		if (!ft_strncmp(input, "exit", ft_strlen(input)))
 			ft_exit_free_prompt(input);
 		if (*input)
-		{
-			add_history(input);
-			token_list = ft_tokenizer(input);
-			ft_parser(token_list);
-			ft_free_token(token_list);
-			free(input);
-		}
+			ft_process_input(input, token_list, envp);
 	}
 }
 

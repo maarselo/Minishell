@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 03:29:14 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:14:25 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ int			ft_check_delimiters(t_token *token);
 int			ft_check_redirects(t_token *token);
 //int		ft_count_command(t_token *token_list);
 // parser.c
-void		ft_parser(t_token *token);
+t_cmd		*ft_parser(t_token *token);
+// expander.c
+void		ft_expand(t_cmd *cmd, char **envp, int status);
 // exit.c
 void		ft_exit_free_prompt(char *input);
 
