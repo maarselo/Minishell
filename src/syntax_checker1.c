@@ -12,20 +12,6 @@
 
 #include "minishell.h" 
 
-int	ft_count_command(t_token *token_list)
-{
-	int	count;
-
-	count = 1;
-	while (token_list)
-	{
-		if (token_list->type == 1)
-			count++;
-		token_list = token_list->next;
-	}
-	return (count);
-}
-
 int	ft_check_start_end_types(t_token *token)// | || &&
 {
 	t_token	*tmp;
@@ -40,56 +26,61 @@ int	ft_check_start_end_types(t_token *token)// | || &&
 	return (0);
 }
 
-static int	ft_check_content_delimiters(char *input)
-{
-	int	i;
-	char delimiter_type;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '"' || input[i] == '(')
-		{
-			if (input[i] == '(')
-				delimiter_type = ')';
-			else
-				delimiter_type = input[i];
-			i++;
-			while (input[i] && input[i] != delimiter_type)
-				i++;
-			if (input[i] != delimiter_type)
-				return (1); 
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	ft_check_delimiters(t_token *token) //'"(
+int	ft_check_quotes(t_token *token) //'"
 {
 	t_token	*tmp;
 
 	tmp = token;
 	while (tmp)
 	{
-		if (ft_check_content_delimiters(tmp->content))
+		if (ft_check_content_quotes(tmp->content))
 			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	ft_check_redirects(t_token *token)
+int	ft_check_parenthesis(t_token *token) // () correct close
+{
+	int	paren_count;
+	t_token *tmp;
+
+	paren_count = 0;
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->type == T_PAREN_OPEN)
+			paren_count++;
+		else if (tmp->type == T_PAREN_CLOSE)
+		{
+			paren_count--;
+			if (paren_count < 0)
+				return (1);
+		}
+		tmp = tmp->next;
+	}
+	if (paren_count != 0)
+		return (1);
+	return (0);
+}
+
+int	ft_check_redirects(t_token *token)// > t_word
 {
 	t_token	*tmp;
 	
 	tmp = token;
 	while(tmp)
 	{
-		if (((tmp->type == 2 || tmp->type == 3 || tmp->type == 4
-				|| tmp->type == 5)) && (!tmp->next || tmp->next->type != 0))
-			return (1);
+		if (tmp->type == T_REDIR_IN || tmp->type == T_REDIR_OUT
+			|| tmp->type == T_REDIR_APPEND || tmp->type == T_HEREDOC)
+		{
+			if (!tmp->next || tmp->next->type != T_WORD)
+				return (1); 
+			if (tmp->next->is_quoted && ft_strlen(tmp->next->content) == 2)
+				return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
 }
+
