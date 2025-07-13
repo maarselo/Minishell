@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 23:48:30 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/13 03:29:14 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_token_type
 	T_OR,
 	T_PAREN_OPEN,
 	T_PAREN_CLOSE,
-}			t_token_type;
+}	t_token_type;
 
 typedef struct s_cmd
 {
@@ -42,7 +42,7 @@ typedef struct s_cmd
 	bool	append;
 	bool	heredoc;
 	char	*delimiter;
-}			t_cmd;
+}	t_cmd;
 
 typedef struct s_token
 {
