@@ -64,7 +64,6 @@ void		ft_input_loop(char **envp);//to print all time minshell and get the input
 
 // token.c
 t_token		*ft_init_token(char *content);
-
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
@@ -73,13 +72,24 @@ char 		*ft_extract_token(char *input, int *i);
 void		ft_print_tokens(t_token	*token);
 t_token		*ft_tokenizer(char *input);
 
-// parser_utils.c
+// syntax_checker_utils.c
+int			ft_check_content_quotes(char *input);
+// sytax_checker
 int			ft_check_start_end_types(t_token *token);
-int			ft_check_delimiters(t_token *token);
+int			ft_check_quotes(t_token *token);
+int			ft_check_parenthesis(t_token *token);
 int			ft_check_redirects(t_token *token);
-//int		ft_count_command(t_token *token_list);
+int			ft_check_between_operator(t_token *token);
+int			ft_check_open_parenthesis(t_token *token);
+int			ft_check_close_parenthesis(t_token *token);
+
+
+// syntax.c
+void	*ft_syntax(t_token *token);
+
 // parser.c
-void		ft_parser(t_token *token);
+//int		ft_count_command(t_token *token_list);
+
 
 // exit.c
 void		ft_exit_free_prompt(char *input);
