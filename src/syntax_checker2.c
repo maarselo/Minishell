@@ -82,7 +82,7 @@ int	ft_check_close_parenthesis(t_token *token)
 					|| (previous->type == T_OR) || (previous->type == T_PAREN_OPEN))
 					return (1);
 			}
-			if ((tmp->next->type == T_WORD) || (tmp->next->type == T_PAREN_OPEN))
+			if ((tmp->next) && ((tmp->next->type == T_WORD) || (tmp->next->type == T_PAREN_OPEN)))
 				return (1);
 		}
 		previous = tmp;
