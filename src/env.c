@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 19:02:03 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 19:46:04 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:32:24 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,23 @@ t_env	*ft_init_env(char *env_var)
 		var->value = ft_get_value_env(env_var);
 	}
 	var->next = NULL;
+	return (var);
+}
+
+t_env	*ft_get_env(char **envp)
+{
+	t_env	*var;
+	t_env	*next_var;
+	int		i;
+
+	var = ft_init_env(envp[0]);
+	next_var = var;
+	i = 1;
+	while (envp[i])
+	{
+		next_var->next = ft_init_env(envp[i]);
+		next_var = next_var->next;
+		i++;
+	}
 	return (var);
 }

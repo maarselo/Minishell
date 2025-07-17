@@ -6,31 +6,53 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 21:53:18 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:41:53 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_get_env(char **envp)
+char	*ft_expand_var()
 {
-	t_env	*var;
-	t_env	*next_var;
-	int		i;
-
-	var = ft_init_env(envp[0]);
-	next_var = var;
-	i = 1;
-	while (envp[i])
-	{
-		next_var->next = ft_init_env(envp[i]);
-		next_var = next_var->next;
-		i++;
-	}
-	return (var);
+	
 }
 
-void	ft_expand(t_cmd *cmd, t_env *env_list, int status)
+char	*ft_expand_variables(char *str, t_env *env_list, int exit_status)
+{
+	int		i;
+	char	*tmp;
+	char	*result;
+
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			tmp = ft_expand_var();
+			result = ;
+			free(tmp);
+		}
+		else
+			result = ;
+	}
+	return (result);
+}
+
+char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
+{
+	int	l;
+
+	if (!str)
+		return (NULL);
+	l = ft_strlen(str);
+	if (l >= 2 && str[0] == '\'' && str[l - 1] == '\'')
+		return (ft_strndup(str + 1, l - 2));
+	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
+		return (ft_expand_variables(ft_strndup(str + 1, l - 2), env_list,
+				exit_status));
+	return (ft_expand_variables(str, env_list, exit_status));
+}
+
+void	ft_expand(t_cmd *cmd, t_env *env_list, int exit_status)
 {
 	int	i;
 
@@ -39,7 +61,10 @@ void	ft_expand(t_cmd *cmd, t_env *env_list, int status)
 		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
+			cmd->argv[i] = ft_execute_expander(cmd->argv[i], env_list,
+					exit_status);
 			i++;
 		}
+		cmd = cmd->next;
 	}
 }
