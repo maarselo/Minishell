@@ -34,15 +34,13 @@ typedef enum e_token_type
 	T_PAREN_CLOSE,
 }			t_token_type;
 
-typedef struct s_cmd
+typedef enum e_node_type
 {
-	char	**argv;
-	char	*infile;
-	char	*outfile;
-	bool	append;
-	bool	heredoc;
-	char	*delimiter;
-}			t_cmd;
+	NODE_CMD;
+	NODE_AND;
+	
+
+}			t_node_type;
 
 typedef struct s_token
 {
@@ -51,6 +49,20 @@ typedef struct s_token
 	bool			is_quoted;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_redirect
+{
+	char	*infile;
+	char	*outfile;
+	bool	append;
+	bool	heredoc;
+	char	*delimiter;
+}			t_redirect;
+
+typedef struct s_command
+{
+
+}			t_commands;
 
 
 // banner.c
