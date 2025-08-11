@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/06 13:52:29 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:05:01 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static void	ft_sigint_handler_prompt_mode(int signal)
 {
 	(void)signal;
-	g_global.exit_status = 130;
+	ft_set_global_exit_status(T_SIGINT);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
