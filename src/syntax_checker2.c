@@ -90,3 +90,17 @@ int	ft_check_close_parenthesis(t_token *token)
 	}
 	return (0);
 }
+
+int	ft_check_if_have_parenthesis(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp ->type == T_PAREN_OPEN || tmp->type == T_PAREN_CLOSE)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
