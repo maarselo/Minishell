@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:50:11 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:01:30 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_global	g_status;
 
 void	ft_input_loop(char **envp)
 {
@@ -35,9 +37,14 @@ void	ft_input_loop(char **envp)
 		{
 			add_history(input);
 			token_list = ft_tokenizer(input);
-			ft_syntax(token_list);
-			//free(token_list)
-			free(input);
+			if (ft_syntax(token_list))
+			{
+				ft_free_token_and_input(input, token_list);
+				ft_set_global_exit_status(T_SYNTAX);
+				continue ;
+			}
+			//ft_tokens_to_command_struct(token_list);
+			ft_free_token_and_input(input, token_list);
 		}
 	}
 }
