@@ -24,7 +24,8 @@ HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
 SRCS_FILES = minishell.c banner.c signals.c token.c tokenizer.c tokenizer_utils.c \
-				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c exit.c
+				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c \
+				parser.c free.c exit.c
 #BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))
