@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/11 15:04:53 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:14:59 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,11 +147,8 @@ bool	ft_syntax(t_token *token);
 
 //parser.c
 
-
-
-// parser.c
+// parser_utils.c
 //int		ft_count_command(t_token *token_list);
-
 
 // exit.c
 void		ft_exit_free_prompt(char *input);
