@@ -33,17 +33,3 @@ int	ft_check_content_quotes(char *input)
 	}
 	return (0);
 }
-
-//int	ft_count_command(t_token *token_list)
-//{
-//	int	count;
-//
-//	count = 1;
-//	while (token_list)
-//	{
-//		if (token_list->type == 1)
-//			count++;
-//		token_list = token_list->next;
-//	}
-//	return (count);
-//}
