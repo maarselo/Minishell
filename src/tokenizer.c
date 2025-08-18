@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:47:47 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:05:10 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*ft_extract_word(char *str, int	*i)
 	return (ft_substr(str, start, *i - start));
 }
 
-char	*ft_extract_token(char *input, int *i)
+static char	*ft_extract_token(char *input, int *i)
 {
 	if (ft_is_quote(input[*i]))
 		return (ft_extract_quotes(input, i));
