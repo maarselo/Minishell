@@ -6,21 +6,11 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/31 00:00:01 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/19 21:14:09 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_join_str_var(char *str, char c)
-{
-	char	tmp[2];
-
-	tmp[0] = c;
-	tmp[1] = '\0';
-	free(str);
-	return (ft_strjoin(str, tmp));
-}
 
 char	*ft_expand_var(char *str, int *i, t_env *env_list, int exit_status)
 {
@@ -48,6 +38,8 @@ char	*ft_expand_variables(char *str, t_env *env_list, int exit_status)
 	char	*tmp;
 	char	*result;
 
+	result = ft_strdup("");
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -58,7 +50,7 @@ char	*ft_expand_variables(char *str, t_env *env_list, int exit_status)
 		}
 		else
 		{
-			result = ft_join_str_var(result, str[i]);
+			result = ft_join_char_var(result, str[i]);
 			i++;
 		}
 	}
@@ -73,7 +65,7 @@ char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
 		return (NULL);
 	l = ft_strlen(str);
 	if (l >= 2 && str[0] == '\'' && str[l - 1] == '\'')
-		return (ft_strndup(str + 1, l 	- 2));
+		return (ft_strndup(str + 1, l - 2));
 	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
 		return (ft_expand_variables(ft_strndup(str + 1, l - 2), env_list,
 				exit_status));
@@ -82,16 +74,33 @@ char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
 
 void	ft_expand(t_cmd *cmd, t_env *env_list, int exit_status)
 {
-	int	i;
+	int		i;
+	char	*expanded;
 
 	while (cmd)
 	{
 		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
-			cmd->argv[i] = ft_execute_expander(cmd->argv[i], env_list,
+			expanded = ft_execute_expander(cmd->argv[i], env_list,
 					exit_status);
+			free(cmd->argv[i]);
+			cmd->argv[i] = expanded;
 			i++;
+		}
+		if (cmd->infile)
+		{
+			expanded = ft_execute_expander(cmd->infile, env_list,
+					exit_status);
+			free(cmd->infile);
+			cmd->infile = expanded;
+		}
+		if (cmd->outfile)
+		{
+			expanded = ft_execute_expander(cmd->outfile, env_list,
+					exit_status);
+			free(cmd->outfile);
+			cmd->outfile = expanded;
 		}
 		cmd = cmd->next;
 	}

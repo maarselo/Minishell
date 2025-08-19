@@ -6,13 +6,70 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 19:55:36 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/19 21:12:08 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	ft_process_input(char *input, t_env *env_list)
+{
+	t_cmd	*cmd_list;
+	t_token	*token_list;
+	int		status;
+	int j;
+
+	status = 0;
+	add_history(input);
+
+	// Tokenización
+	token_list = ft_tokenizer(input);
+
+	// Aquí normalmente harías:
+	// cmd_list = ft_parser(token_list);
+	// Pero como el parser no está hecho, vamos a hacer un comando fake:
+	cmd_list = malloc(sizeof(t_cmd));
+	if (!cmd_list)
+		return ;
+	cmd_list->argv = (char *[]){
+		ft_strdup("echo"),
+		ft_strdup("Hola,"),
+		ft_strdup("$USER"),
+		ft_strdup("\"y tu \"nombre\" es $USER\""),
+		ft_strdup("\'$HOME\'"),
+		NULL
+	};
+	cmd_list->infile = ft_strdup("$HOME/input.txt");
+	cmd_list->outfile = ft_strdup("$HOME/output.txt");
+	cmd_list->append = false;
+	cmd_list->heredoc = true;
+	cmd_list->delimiter = ft_strdup("$USER");
+	cmd_list->next = NULL;
+
+	// Expansión de variables en todos los comandos de la lista
+	ft_expand(cmd_list, env_list, status);
+while (cmd_list)
+	{
+		j = 0;
+		printf("Comando:\n");
+		while (cmd_list->argv && cmd_list->argv[j])
+		{
+			printf("  argv[%d] = %s\n", j, cmd_list->argv[j]);
+			j++;
+		}
+		if (cmd_list->infile)
+			printf("  infile: %s\n", cmd_list->infile);
+		if (cmd_list->outfile)
+			printf("  outfile: %s\n", cmd_list->outfile);
+		if (cmd_list->delimiter)
+			printf("  delimiter: %s\n", cmd_list->delimiter);
+		printf("  append: %d, heredoc: %d\n", cmd_list->append, cmd_list->heredoc);
+		cmd_list = cmd_list->next;
+	}
+	// --- FIN DEBUG ---
+}
+
+/*void	ft_process_input(char *input, t_env *env_list)
 {
 	t_cmd	*cmd_list;
 	t_token	*token_list;
@@ -25,7 +82,7 @@ void	ft_process_input(char *input, t_env *env_list)
 	ft_expand(cmd_list, env_list, status);
 	ft_free_token(token_list);
 	free(input);
-}
+}*/
 
 void	ft_input_loop(char **envp)
 {

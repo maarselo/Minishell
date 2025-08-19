@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/13 19:57:12 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/19 21:03:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ t_cmd		*ft_parser(t_token *token);
 // expander.c
 void		ft_expand(t_cmd *cmd, t_env *env_list, int status);
 t_env		*ft_get_env(char **envp);
+// expander_utils.c
+char		*ft_join_char_var(char *str, char c);
+char		*ft_join_str_var(char *str, char *to_append);
 // env.c
 t_env		*ft_init_env(char *env_var);
 // exit.c
