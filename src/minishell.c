@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/19 21:12:08 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/19 21:18:12 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_process_input(char *input, t_env *env_list)
 	cmd_list->argv = (char *[]){
 		ft_strdup("echo"),
 		ft_strdup("Hola,"),
-		ft_strdup("$USER"),
+		ft_strdup("$?"),
 		ft_strdup("\"y tu \"nombre\" es $USER\""),
 		ft_strdup("\'$HOME\'"),
 		NULL
