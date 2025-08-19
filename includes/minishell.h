@@ -147,7 +147,11 @@ t_redirect	*ft_create_redirection_struct(void);
 t_command	*ft_create_command_struct(void);
 char		**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end);
 //parser_redirection_utils
-int	ft_have_any_redirection(t_token *start, t_token *end);
+int		ft_have_any_redirection(t_token *start, t_token *end);
+void	ft_set_redirect_infile(t_token *redir_token, t_redirect *redirections);
+void	ft_set_redirect_heredoc(t_token *redir_token, t_redirect *redirections);
+void	ft_set_redirect_outfile(t_token *redir_token, t_redirect *redirections);
+void	ft_set_redirect_append(t_token *redir_token, t_redirect *redirections);
 // parser_utils.c
 int		ft_count_command(t_token *token_list);
 int		ft_check_if_end_command(t_token *token);
