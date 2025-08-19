@@ -15,55 +15,25 @@
 static t_redirect	*ft_fill_redirecction(t_token *start, t_token *end)
 {
 	t_token	*tmp;
-	t_redirect	*redirection;
+	t_redirect	*redirections;
 
 	if (!ft_have_any_redirection(start, end))
 		return (NULL);
 	tmp = start;
-	redirection = ft_create_redirection_struct();
+	redirections = ft_create_redirection_struct();
 	while (tmp && tmp != end)
 	{
 		if (tmp->type == T_REDIR_IN)
-		{
-			if (redirection->infile)
-				free(redirection->infile);
-			if (redirection->delimiter)
-			{
-				free(redirection->delimiter);
-				redirection->delimiter = NULL;
-			}
-			redirection->heredoc = false;
-			redirection->infile = ft_strdup(tmp->next->content);
-		}
+			ft_set_redirect_infile(tmp, redirections);
 		else if (tmp->type == T_HEREDOC)
-		{
-			if (redirection->delimiter)
-				free(redirection->delimiter);
-			if (redirection->infile)
-			{
-				free(redirection->infile);
-				redirection->infile = NULL;
-			}
-			redirection->heredoc = true;
-			redirection->delimiter = ft_strdup(tmp->next->content);
-		}
+			ft_set_redirect_heredoc(tmp, redirections);
 		else if (tmp->type == T_REDIR_OUT)
-		{
-			if (redirection->outfile)
-				free(redirection->outfile);
-			redirection->append = false;
-			redirection->outfile = ft_strdup(tmp->next->content);
-		}
+			ft_set_redirect_outfile(tmp, redirections);
 		else if (tmp->type == T_REDIR_APPEND)
-		{
-			if (redirection->outfile)
-				free(redirection->outfile);
-			redirection->append = true;
-			redirection->outfile = ft_strdup(tmp->next->content);
-		}
+			ft_set_redirect_append(tmp, redirections);
 		tmp = tmp->next;
 	}
-	return (redirection);
+	return (redirections);
 }
 
 static char	**ft_fill_argv_command(t_token *start, t_token *end)
