@@ -26,3 +26,45 @@ int	ft_have_any_redirection(t_token *start, t_token *end)
 	}
 	return (0);
 }
+
+void	ft_set_redirect_infile(t_token *redir_token, t_redirect *redirections)
+{
+	if (redirections->infile)
+		free(redirections->infile);
+	if (redirections->delimiter)
+	{
+		free(redirections->delimiter);
+		redirections->delimiter = NULL;
+	}
+	redirections->heredoc = false;
+	redirections->infile = ft_strdup(redir_token->next->content);
+}
+
+void	ft_set_redirect_heredoc(t_token *redir_token, t_redirect *redirections)
+{
+	if (redirections->delimiter)
+		free(redirections->delimiter);
+	if (redirections->infile)
+	{
+		free(redirections->infile);
+		redirections->infile = NULL;
+	}
+	redirections->heredoc = true;
+	redirections->delimiter = ft_strdup(redir_token->next->content);
+}
+
+void	ft_set_redirect_outfile(t_token *redir_token, t_redirect *redirections)
+{
+	if (redirections->outfile)
+		free(redirections->outfile);
+	redirections->append = false;
+	redirections->outfile = ft_strdup(redir_token->next->content);
+}
+
+void	ft_set_redirect_append(t_token *redir_token, t_redirect *redirections)
+{
+	if (redirections->outfile)
+				free(redirections->outfile);
+	redirections->append = true;
+	redirections->outfile = ft_strdup(redir_token->next->content);
+}
