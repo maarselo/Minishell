@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/19 21:18:12 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:09:25 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_process_input(char *input, t_env *env_list)
 		ft_strdup("echo"),
 		ft_strdup("Hola,"),
 		ft_strdup("$?"),
-		ft_strdup("\"y tu \"nombre\" es $USER\""),
+		ft_strdup("y tu \'nombre es $USER ~/test \'"),
 		ft_strdup("\'$HOME\'"),
 		NULL
 	};
@@ -43,7 +43,7 @@ void	ft_process_input(char *input, t_env *env_list)
 	cmd_list->outfile = ft_strdup("$HOME/output.txt");
 	cmd_list->append = false;
 	cmd_list->heredoc = true;
-	cmd_list->delimiter = ft_strdup("$USER");
+	cmd_list->delimiter = ft_strdup("$SJDFAS");
 	cmd_list->next = NULL;
 
 	// Expansión de variables en todos los comandos de la lista

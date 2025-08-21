@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/19 21:14:09 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:08:20 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,38 @@ char	*ft_expand_variables(char *str, t_env *env_list, int exit_status)
 	return (result);
 }
 
+char	*ft_expand_variables_no_quotes(char *str, t_env *env_list, int exit_status)
+{
+	int		i;
+	char	*tmp;
+	char	*result;
+
+	result = ft_strdup("");
+	i = 0;
+	while (str[i])
+	{
+		if (i > 0 && str[i] == '~' && str[i - 1] == ' ' &&
+			(ft_isspace(str[i + 1]) || str[i + 1] == '/'))
+		{
+			tmp = getenv("HOME");
+			result = ft_join_str_var(result, tmp);
+			i++;
+		}
+		if (str[i] == '$')
+		{
+			tmp = ft_expand_var(str, &i, env_list, exit_status);
+			result = ft_join_str_var(result, tmp);
+			free(tmp);
+		}
+		else
+		{
+			result = ft_join_char_var(result, str[i]);
+			i++;
+		}
+	}
+	return (result);
+}
+
 char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
 {
 	int	l;
@@ -69,7 +101,7 @@ char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
 	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
 		return (ft_expand_variables(ft_strndup(str + 1, l - 2), env_list,
 				exit_status));
-	return (ft_expand_variables(str, env_list, exit_status));
+	return (ft_expand_variables_no_quotes(str, env_list, exit_status));
 }
 
 void	ft_expand(t_cmd *cmd, t_env *env_list, int exit_status)
