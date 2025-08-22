@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 15:11:56 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:18:53 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_process_input(char *input)
     current->next = create_test_command(duplicate_argv((const char **)argv2));
     current = current->next;
     // --- TEST CASE 3: Mixed quotes and variable expansion
-    char *argv3[] = {"echo", "\"y tu 'nombre' es $USER ~ \"", NULL};
+    char *argv3[] = {"echo", "\"y tu 'nombre' es $USER ~ asdfas\"", NULL};
     current->next = create_test_command(duplicate_argv((const char **)argv3));
     current = current->next;
     // --- TEST CASE 4: The exit status variable '$?' ---
@@ -80,7 +80,7 @@ void	ft_process_input(char *input)
     current->next = create_test_command(duplicate_argv((const char **)argv4));
     current = current->next;
     // --- TEST CASE 5: Tilde expansion with a path
-    char *argv5[] = {"echo", "~/Documents", NULL};
+    char *argv5[] = {"echo", " ~/fas ", NULL};
     current->next = create_test_command(duplicate_argv((const char **)argv5));
     current = current->next;
     // --- TEST CASE 6: Tilde in the middle of a word

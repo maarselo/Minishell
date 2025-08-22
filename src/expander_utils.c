@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 15:33:45 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:15:58 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*ft_join_str_var(char *str, char *to_append)
 {
 	char	*joined;
 
+	if (!to_append)
+		to_append = "";
 	joined = ft_strjoin(str, to_append);
 	free(str);
 	return (joined);

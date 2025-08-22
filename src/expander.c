@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 15:34:04 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:17:31 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ char	*ft_expand_var_no_quotes(char *str, int exit_status)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '~' && (ft_isspace(str[i + 1]) || str[i + 1] == '/'))
+		if (str[i] == '~' && (str[i + 1] == '\0'
+				|| str[i + 1] == '/' || ft_isspace(str[i + 1])))
 		{
 			result = ft_expand_tilde(result);
 			i++;
+			continue ;
 		}
 		result = ft_handle_expansion(result, str, &i, exit_status);
 	}
