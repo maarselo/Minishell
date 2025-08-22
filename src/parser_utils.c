@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 09:07:41 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/08/17 13:37:21 by mvillavi         ###   ########.fr       */
+/*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
+/*   Updated: 2025/06/30 18:55:47 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

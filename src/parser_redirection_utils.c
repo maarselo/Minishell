@@ -17,7 +17,6 @@ int	ft_have_any_redirection(t_token *start, t_token *end)
 	t_token	*tmp;
 
 	tmp = start;
-
 	while (tmp && tmp != end)
 	{
 		if (ft_get_if_its_redirection_type(tmp))
@@ -64,7 +63,7 @@ void	ft_set_redirect_outfile(t_token *redir_token, t_redirect *redirections)
 void	ft_set_redirect_append(t_token *redir_token, t_redirect *redirections)
 {
 	if (redirections->outfile)
-				free(redirections->outfile);
+		free(redirections->outfile);
 	redirections->append = true;
 	redirections->outfile = ft_strdup(redir_token->next->content);
 }
