@@ -45,7 +45,7 @@ static char	**ft_fill_argv_command(t_token *start, t_token *end)
 
 	i = 0;
 	tmp = start;
-	argv_command = ft_alloc_argv_according_correct_t_words(start, end);
+	argv_command = ft_alloc_argv_according_words(start, end);
 	if (!argv_command)
 		return (NULL);
 	while (tmp && tmp != end)
@@ -113,7 +113,7 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 		if (!top_command_list)
 			top_command_list = command;
 		else
-			ft_add_command_to_linked_list(command, top_command_list);
+			ft_add_command_into_list(command, top_command_list);
 		total_commands--;
 	}
 	return (top_command_list);

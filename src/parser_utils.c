@@ -35,12 +35,12 @@ int	ft_check_if_end_command(t_token *token)
 	return (0);
 }
 
-t_token	*ft_get_previos_token(bool is_first, t_token *start, t_token *to_find)
+t_token	*ft_get_previos_token(bool first, t_token *start, t_token *to_find)
 {
 	t_token	*tmp;
 	t_token	*previous;
 
-	if (is_first == true)
+	if (first == true)
 		return (NULL);
 	tmp = start;
 	previous = start;
