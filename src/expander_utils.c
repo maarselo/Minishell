@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-char	*ft_handle_expansion(char *result, char *str, int *i, int exit_status)
+char	*ft_handle_expansion(char *result, char *str, int *i, int exit_st)
 {
 	char	*tmp;
 
 	if (str[*i] == '$')
 	{
-		tmp = ft_expand_var(str, i, exit_status);
+		tmp = ft_expand_var(str, i, exit_st);
 		result = ft_join_str_var(result, tmp);
 		free(tmp);
 	}

@@ -157,7 +157,7 @@ char		*ft_expand_var(char *str, int *i, int exit_status);
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
-char		*ft_handle_expansion(char *result, char *str, int *i, int exit_status);
+char		*ft_handle_expansion(char *result, char *str, int *i, int exit_st);
 // exit.c
 void		ft_exit_free_prompt(char *input);
 // free.c
