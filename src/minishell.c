@@ -29,10 +29,9 @@ void	ft_process_input(char *input)
 	else
 	{
 		command_list = ft_tokens_to_command_struct(token_list);
-		//ft_print_command_list(command_list);
 		ft_free_token_and_input(input, token_list);
+		ft_expand(command_list);
 	}
-	ft_expand(command_list, g_status.exit_status);
 }
 
 void	ft_input_loop(char **envp)
@@ -51,7 +50,7 @@ void	ft_input_loop(char **envp)
 			free(input);
 			continue ;
 		}
-		if (!ft_strncmp(input, "exit", ft_strlen(input)))
+		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
 			ft_exit_free_prompt(input);
 		if (*input)
 			ft_process_input(input);
@@ -63,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc != 1)
 		return (0);
+	ft_set_global_exit_status(0);
 	ft_print_banner();
 	ft_input_loop(envp);
 }
