@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 16:42:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 19:35:25 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	ft_process_input(char *input)
 
 	add_history(input);
 	token_list = ft_tokenizer(input);
+	if (!token_list)
+	{
+		ft_free_token_and_input(input, token_list);
+		return ;
+	}
 	if (ft_syntax(token_list))
 	{
 		ft_free_token_and_input(input, token_list);
