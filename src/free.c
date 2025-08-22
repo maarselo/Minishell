@@ -29,3 +29,22 @@ void    ft_free_token_and_input(char *input, t_token *token_list)
         current = next;
     }
 }
+
+
+void    ft_free_command(t_command *command_list)
+{
+    t_command   *tmp;
+    t_command   *next;
+
+    tmp = command_list;
+    while (tmp != NULL)
+    {
+        next = tmp->next;
+        if (tmp->command)
+            ft_free_argv_command(tmp->command);
+        if (tmp->redirection)
+            ft_free_redirections_command(tmp->redirection);
+        free(tmp);
+        tmp = next;
+    }
+}

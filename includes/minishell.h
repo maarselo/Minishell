@@ -166,7 +166,10 @@ void		ft_exit_free_prompt(char *input);
 
 //free.c
 void    ft_free_token_and_input(char *input, t_token *token_list);
-
+void    ft_free_command(t_command *command_list);
+//free.utils.c
+void	ft_free_argv_command(char **argv_command);
+void	ft_free_redirections_command(t_redirect *redirections);
 
 //testinf
 void		ft_print_tokens(t_token	*token);
