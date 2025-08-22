@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 02:49:29 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:11:56 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**duplicate_argv(const char **argv)
     return (new_argv);
 }
 
-void	ft_process_input(char *input, t_env *env_list)
+void	ft_process_input(char *input)
 {
     (void)input;
     t_command *cmd_list = NULL;
@@ -87,7 +87,7 @@ void	ft_process_input(char *input, t_env *env_list)
     char *argv6[] = {"echo", "A~B", NULL};
     current->next = create_test_command(duplicate_argv((const char **)argv6));
     current = current->next;
-    ft_expand(cmd_list, env_list, status);
+    ft_expand(cmd_list, status);
     t_command *temp_cmd;
     while (cmd_list)
     {
@@ -108,11 +108,9 @@ void	ft_process_input(char *input, t_env *env_list)
 void	ft_input_loop(char **envp)
 {
 	char	*input;
-	t_env	*env_list;
 
 	(void)envp;
 	ft_set_signal_prompt_mode();
-	env_list = ft_get_env(envp);
 	while (true)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
@@ -126,7 +124,7 @@ void	ft_input_loop(char **envp)
 		if (!ft_strncmp(input, "exit", ft_strlen(input)))
 			ft_exit_free_prompt(input);
 		if (*input)
-			ft_process_input(input, env_list);
+			ft_process_input(input);
 	}
 }
 
