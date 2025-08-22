@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 15:34:04 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:36:02 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*ft_expand_var(char *str, int *i, int exit_status)
 char	*ft_expand_variables(char *str, int exit_status)
 {
 	int		i;
-	char	*tmp;
 	char	*result;
 
 	result = ft_strdup("");
@@ -52,7 +51,6 @@ char	*ft_expand_variables(char *str, int exit_status)
 char	*ft_expand_var_no_quotes(char *str, int exit_status)
 {
 	int		i;
-	char	*tmp;
 	char	*result;
 
 	result = ft_strdup("");

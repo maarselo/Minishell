@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/18 14:01:29 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:18:08 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 	minishell.h
 	Extern global to manipulate exit status from the last command
 */
-
 typedef enum exit_codes
 {
 	T_SUCCESS = 0,
@@ -107,16 +106,12 @@ typedef struct s_command
 
 // banner.c
 void		ft_print_banner(void);
-
 // signals.c
 void		ft_set_signal_prompt_mode(void);
-
-//global.c
+// global.c
 void		ft_set_global_exit_status(int new_exit_code);
-
-//minishell.c
+// minishell.c
 void		ft_input_loop(char **envp);
-
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
@@ -124,7 +119,6 @@ int			ft_is_operator(char c);
 t_token		*ft_init_token(char *content);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
-
 // syntax_checker_utils.c
 int			ft_check_content_quotes(char *input);
 // sytax_checker
@@ -138,12 +132,11 @@ int			ft_check_close_parenthesis(t_token *token);
 int			ft_check_if_have_parenthesis(t_token *token);
 // syntax.c
 bool		ft_syntax(t_token *token);
-
-//init_parser_struct.c
+// init_parser_struct.c
 t_redirect	*ft_create_redirection_struct(void);
 t_command	*ft_create_command_struct(void);
 char		**ft_alloc_argv_according_words(t_token *start, t_token *end);
-//parser_redirection_utils
+// parser_redirection_utils
 int			ft_have_any_redirection(t_token *start, t_token *end);
 void		ft_set_redirect_infile(t_token *token, t_redirect *redirections);
 void		ft_set_redirect_heredoc(t_token *token, t_redirect *redirections);
@@ -155,23 +148,25 @@ int			ft_check_if_end_command(t_token *token);
 t_token		*ft_get_previos_token(bool first, t_token *start, t_token *to_find);
 int			ft_get_if_its_redirection_type(t_token *t);
 void		ft_add_command_into_list(t_command *new_command, t_command *top);
-//parser.c
+// parser.c
 t_command	*ft_tokens_to_command_struct(t_token *token_list);
-
-//expansor.c
-void		ft_expansor_codigo_mierda_fran(char **mierdon);
-
+// expander.c
+void		ft_expand(t_command *cmd, int status);
+char		*ft_expand_var(char *str, int *i, int exit_status);
+// expander_utils.c
+char		*ft_join_char_var(char *str, char c);
+char		*ft_join_str_var(char *str, char *to_append);
+char		*ft_expand_tilde(char *result);
+char		*ft_handle_expansion(char *result, char *str, int *i, int exit_status);
 // exit.c
 void		ft_exit_free_prompt(char *input);
-
-//free.c
+// free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_command(t_command *command_list);
-//free.utils.c
+// free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
-
-//testinf
+// testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);
 

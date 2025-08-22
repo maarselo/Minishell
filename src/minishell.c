@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/17 21:22:33 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:42:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,30 @@
 
 t_global	g_status;
 
+void	ft_process_input(char *input)
+{
+	t_command	*command_list;
+	t_token		*token_list;
+
+	add_history(input);
+	token_list = ft_tokenizer(input);
+	if (ft_syntax(token_list))
+	{
+		ft_free_token_and_input(input, token_list);
+		ft_set_global_exit_status(T_SYNTAX);
+	}
+	else
+	{
+		command_list = ft_tokens_to_command_struct(token_list);
+		//ft_print_command_list(command_list);
+		ft_free_token_and_input(input, token_list);
+	}
+	ft_expand(command_list, g_status.exit_status);
+}
+
 void	ft_input_loop(char **envp)
 {
 	char	*input;
-	t_token	*token_list;
-	t_command	*command_list;
 
 	(void)envp;
 	ft_set_signal_prompt_mode();
@@ -33,21 +52,9 @@ void	ft_input_loop(char **envp)
 			continue ;
 		}
 		if (!ft_strncmp(input, "exit", ft_strlen(input)))
-            ft_exit_free_prompt(input);
+			ft_exit_free_prompt(input);
 		if (*input)
-		{
-			add_history(input);
-			token_list = ft_tokenizer(input);
-			if (ft_syntax(token_list))
-			{
-				ft_free_token_and_input(input, token_list);
-				ft_set_global_exit_status(T_SYNTAX);
-				continue ;
-			}
-			command_list = ft_tokens_to_command_struct(token_list);
-			ft_print_command_list(command_list);
-			ft_free_token_and_input(input, token_list);
-		}
+			ft_process_input(input);
 	}
 }
 
