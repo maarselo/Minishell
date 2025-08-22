@@ -62,7 +62,7 @@ int	ft_get_if_its_redirection_type(t_token *t)
 		|| t->type == T_REDIR_APPEND || t->type == T_HEREDOC);
 }
 
-void	ft_add_command_to_linked_list(t_command *new_command, t_command *top)
+void	ft_add_command_into_list(t_command *new_command, t_command *top)
 {
 	t_command	*tmp;
 
