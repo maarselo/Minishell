@@ -148,13 +148,16 @@ void    ft_print_command_list(t_command *list)
         if (list->redirection)
         {
             printf("\tinfile: %s\n",
-                list->redirection->infile ? list->redirection->infile : "(NULL)");
+                list->redirection->infile ? /////////////
+				list->redirection->infile : "(NULL)");
             printf("\toutfile: %s\n",
-                list->redirection->outfile ? list->redirection->outfile : "(NULL)");
+                list->redirection->outfile ? ////////////
+				list->redirection->outfile : "(NULL)");
             printf("\tappend: %d\n", list->redirection->append);
             printf("\theredoc: %d\n", list->redirection->heredoc);
             printf("\tdelimiter: %s\n",
-                list->redirection->delimiter ? list->redirection->delimiter : "(NULL)");
+                list->redirection->delimiter ? //////////////
+				list->redirection->delimiter : "(NULL)");
         }
         else
             printf("\t(NULL)\n");
