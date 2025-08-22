@@ -6,19 +6,19 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 15:33:45 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:15:58 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_handle_expansion(char *result, char *str, int *i, int exit_st)
+char	*ft_handle_expansion(char *result, char *str, int *i, int exit_status)
 {
 	char	*tmp;
 
 	if (str[*i] == '$')
 	{
-		tmp = ft_expand_var(str, i, exit_st);
+		tmp = ft_expand_var(str, i, exit_status);
 		result = ft_join_str_var(result, tmp);
 		free(tmp);
 	}
@@ -57,6 +57,8 @@ char	*ft_join_str_var(char *str, char *to_append)
 {
 	char	*joined;
 
+	if (!to_append)
+		to_append = "";
 	joined = ft_strjoin(str, to_append);
 	free(str);
 	return (joined);
