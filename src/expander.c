@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*ft_expand_var(char *str, int *i, int exit_status)
+char	*ft_expand_var(char *str, int *i)
 {
 	char	*value;
 	char	*var;
@@ -22,7 +22,7 @@ char	*ft_expand_var(char *str, int *i, int exit_status)
 	if (str[*i] == '?')
 	{
 		(*i)++;
-		return (ft_itoa(exit_status));
+		return (ft_itoa(g_status.exit_status));
 	}
 	start = *i;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
@@ -34,7 +34,7 @@ char	*ft_expand_var(char *str, int *i, int exit_status)
 	return (ft_strdup(""));
 }
 
-char	*ft_expand_variables(char *str, int exit_status)
+char	*ft_expand_variables(char *str)
 {
 	int		i;
 	char	*result;
@@ -43,12 +43,12 @@ char	*ft_expand_variables(char *str, int exit_status)
 	i = 0;
 	while (str[i])
 	{
-		result = ft_handle_expansion(result, str, &i, exit_status);
+		result = ft_handle_expansion(result, str, &i);
 	}
 	return (result);
 }
 
-char	*ft_expand_var_no_quotes(char *str, int exit_status)
+char	*ft_expand_var_no_quotes(char *str)
 {
 	int		i;
 	char	*result;
@@ -64,12 +64,12 @@ char	*ft_expand_var_no_quotes(char *str, int exit_status)
 			i++;
 			continue ;
 		}
-		result = ft_handle_expansion(result, str, &i, exit_status);
+		result = ft_handle_expansion(result, str, &i);
 	}
 	return (result);
 }
 
-char	*ft_execute_expander(char *str, int exit_status)
+char	*ft_execute_expander(char *str)
 {
 	int	l;
 
@@ -79,12 +79,11 @@ char	*ft_execute_expander(char *str, int exit_status)
 	if (l >= 2 && str[0] == '\'' && str[l - 1] == '\'')
 		return (ft_strndup(str + 1, l - 2));
 	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
-		return (ft_expand_variables(ft_strndup(str + 1, l - 2),
-				exit_status));
-	return (ft_expand_var_no_quotes(str, exit_status));
+		return (ft_expand_variables(ft_strndup(str + 1, l - 2)));
+	return (ft_expand_var_no_quotes(str));
 }
 
-void	ft_expand(t_command *cmd, int exit_status)
+void	ft_expand(t_command *cmd)
 {
 	int		i;
 	char	*expanded;
@@ -94,8 +93,7 @@ void	ft_expand(t_command *cmd, int exit_status)
 		i = 0;
 		while (cmd->command && cmd->command[i])
 		{
-			expanded = ft_execute_expander(cmd->command[i],
-					exit_status);
+			expanded = ft_execute_expander(cmd->command[i]);
 			free(cmd->command[i]);
 			cmd->command[i] = expanded;
 			i++;

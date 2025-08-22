@@ -151,13 +151,13 @@ void		ft_add_command_into_list(t_command *new_command, t_command *top);
 // parser.c
 t_command	*ft_tokens_to_command_struct(t_token *token_list);
 // expander.c
-void		ft_expand(t_command *cmd, int status);
-char		*ft_expand_var(char *str, int *i, int exit_status);
+void		ft_expand(t_command *cmd);
+char		*ft_expand_var(char *str, int *i);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
-char		*ft_handle_expansion(char *result, char *str, int *i, int exit_st);
+char		*ft_handle_expansion(char *result, char *str, int *i);
 // exit.c
 void		ft_exit_free_prompt(char *input);
 // free.c
