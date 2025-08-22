@@ -63,7 +63,7 @@ static char	*ft_extract_word(char *str, int	*i)
 	return (ft_substr(str, start, *i - start));
 }
 
-char	*ft_extract_token(char *input, int *i)
+static char	*ft_extract_token(char *input, int *i)
 {
 	if (ft_is_quote(input[*i]))
 		return (ft_extract_quotes(input, i));
