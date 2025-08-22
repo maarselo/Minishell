@@ -97,11 +97,15 @@ t_token	*ft_tokenizer(char *input)
 	bottom = NULL;
 	while (input[i])
 	{
-		while (ft_isspace(input[i]) && ++i)
-			continue ;
+		while (ft_isspace(input[i]))
+			i++;
+		if (!input[i])
+			break ;
 		str_token = ft_extract_token(input, &i);
+		if (!str_token)
+			return (NULL);
 		new_token = ft_init_token(str_token);
-		if (!str_token || !new_token)
+		if (!new_token)
 			return (NULL);
 		if (!top)
 			top = new_token;
