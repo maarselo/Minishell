@@ -118,7 +118,7 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	}
 	return (top_command_list);
 }
-
+/*
 void    ft_print_command_list(t_command *list)
 {
     int i;
@@ -136,6 +136,7 @@ void    ft_print_command_list(t_command *list)
             while (list->command[i])
             {
                 printf("\t[%d] -> %s\n", i, list->command[i]);
+				printf("len: %ld", ft_strlen(list->command[i]));
                 i++;
             }
         }
@@ -165,4 +166,4 @@ void    ft_print_command_list(t_command *list)
         list = list->next;
         cmd_index++;
     }
-}
+}*/
