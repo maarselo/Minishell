@@ -37,7 +37,6 @@ char	*ft_expand_var(char *str, int *i, int exit_status)
 char	*ft_expand_variables(char *str, int exit_status)
 {
 	int		i;
-	char	*tmp;
 	char	*result;
 
 	result = ft_strdup("");
@@ -52,7 +51,6 @@ char	*ft_expand_variables(char *str, int exit_status)
 char	*ft_expand_var_no_quotes(char *str, int exit_status)
 {
 	int		i;
-	char	*tmp;
 	char	*result;
 
 	result = ft_strdup("");
