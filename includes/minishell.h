@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 16:18:08 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 20:06:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int			ft_is_quote(char c);
 int			ft_is_operator(char c);
 // token.c
 t_token		*ft_init_token(char *content);
+void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
 // syntax_checker_utils.c

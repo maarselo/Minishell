@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 18:39:18 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 20:06:56 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ t_token	*ft_tokenizer(char *input)
 		if (!input[i])
 			break ;
 		new_token = ft_init_token(ft_extract_token(input, &i));
-		if (!new_token)
-			return (NULL);
+		ft_check_new_token(new_token, input, top);
 		if (!top)
 			top = new_token;
 		else
