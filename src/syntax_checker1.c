@@ -12,21 +12,21 @@
 
 #include "minishell.h" 
 
-int	ft_check_start_end_types(t_token *token)// | || &&
+int	ft_check_start_end_types(t_token *token)
 {
 	t_token	*tmp;
-	
+
 	tmp = token;
-	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)//check the first was, pipe, ||, &&
+	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)
 		return (1);
 	while (tmp->next)
 		tmp = tmp->next;
-	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)//check the last command
+	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)
 		return (1);
 	return (0);
 }
 
-int	ft_check_quotes(t_token *token) //'"
+int	ft_check_quotes(t_token *token)
 {
 	t_token	*tmp;
 
@@ -40,10 +40,10 @@ int	ft_check_quotes(t_token *token) //'"
 	return (0);
 }
 
-int	ft_check_parenthesis(t_token *token) // () correct close
+int	ft_check_parenthesis(t_token *token)
 {
-	int	paren_count;
-	t_token *tmp;
+	int		paren_count;
+	t_token	*tmp;
 
 	paren_count = 0;
 	tmp = token;
@@ -64,18 +64,18 @@ int	ft_check_parenthesis(t_token *token) // () correct close
 	return (0);
 }
 
-int	ft_check_redirects(t_token *token)// > t_word
+int	ft_check_redirects(t_token *token)
 {
 	t_token	*tmp;
-	
+
 	tmp = token;
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->type == T_REDIR_IN || tmp->type == T_REDIR_OUT
 			|| tmp->type == T_REDIR_APPEND || tmp->type == T_HEREDOC)
 		{
 			if (!tmp->next || tmp->next->type != T_WORD)
-				return (1); 
+				return (1);
 			if (tmp->next->is_quoted && ft_strlen(tmp->next->content) == 2)
 				return (1);
 		}
@@ -83,4 +83,3 @@ int	ft_check_redirects(t_token *token)// > t_word
 	}
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/18 14:01:29 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/22 16:18:08 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 	minishell.h
 	Extern global to manipulate exit status from the last command
 */
-
-typedef enum	exit_codes
+typedef enum exit_codes
 {
 	T_SUCCESS = 0,
 	T_GENERAL_ERROR = 1,
@@ -39,13 +38,12 @@ typedef enum	exit_codes
 	T_SIGINT = 130,
 }			t_exit_types;
 
-typedef struct	s_global
+typedef struct s_global
 {
-	int exit_status;
+	int	exit_status;
 }				t_global;
 
 extern t_global	g_status;
-
 
 /*
 	tokenizer.h
@@ -87,7 +85,6 @@ typedef enum e_connector_type
 	PIPE_CONNECTOR = 1,
 	AND_CONNECTOR = 2,
 	OR_CONNECTOR = 3,
-
 }			t_connector_type;
 
 typedef struct s_redirect
@@ -101,25 +98,20 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
-	char		**command;
-	t_redirect	*redirection;
+	char				**command;
+	t_redirect			*redirection;
 	t_connector_type	connector;
 	struct s_command	*next;
 }			t_command;
 
-
 // banner.c
 void		ft_print_banner(void);
-
 // signals.c
 void		ft_set_signal_prompt_mode(void);
-
-//global.c
+// global.c
 void		ft_set_global_exit_status(int new_exit_code);
-
-//minishell.c
-void		ft_input_loop(char **envp);//to print all time minshell and get the input
-
+// minishell.c
+void		ft_input_loop(char **envp);
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
@@ -127,7 +119,6 @@ int			ft_is_operator(char c);
 t_token		*ft_init_token(char *content);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
-
 // syntax_checker_utils.c
 int			ft_check_content_quotes(char *input);
 // sytax_checker
@@ -141,37 +132,41 @@ int			ft_check_close_parenthesis(t_token *token);
 int			ft_check_if_have_parenthesis(t_token *token);
 // syntax.c
 bool		ft_syntax(t_token *token);
-
-//init_parser_struct.c
+// init_parser_struct.c
 t_redirect	*ft_create_redirection_struct(void);
 t_command	*ft_create_command_struct(void);
-char		**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end);
-//parser_redirection_utils
-int		ft_have_any_redirection(t_token *start, t_token *end);
-void	ft_set_redirect_infile(t_token *redir_token, t_redirect *redirections);
-void	ft_set_redirect_heredoc(t_token *redir_token, t_redirect *redirections);
-void	ft_set_redirect_outfile(t_token *redir_token, t_redirect *redirections);
-void	ft_set_redirect_append(t_token *redir_token, t_redirect *redirections);
+char		**ft_alloc_argv_according_words(t_token *start, t_token *end);
+// parser_redirection_utils
+int			ft_have_any_redirection(t_token *start, t_token *end);
+void		ft_set_redirect_infile(t_token *token, t_redirect *redirections);
+void		ft_set_redirect_heredoc(t_token *token, t_redirect *redirections);
+void		ft_set_redirect_outfile(t_token *token, t_redirect *redirections);
+void		ft_set_redirect_append(t_token *token, t_redirect *redirections);
 // parser_utils.c
-int		ft_count_command(t_token *token_list);
-int		ft_check_if_end_command(t_token *token);
-t_token	*ft_get_previos_token(bool is_first, t_token *start, t_token *to_find);
-int		ft_get_if_its_redirection_type(t_token * t);
-void	ft_add_command_to_linked_list(t_command *new_command, t_command *top);
-//parser.c
+int			ft_count_command(t_token *token_list);
+int			ft_check_if_end_command(t_token *token);
+t_token		*ft_get_previos_token(bool first, t_token *start, t_token *to_find);
+int			ft_get_if_its_redirection_type(t_token *t);
+void		ft_add_command_into_list(t_command *new_command, t_command *top);
+// parser.c
 t_command	*ft_tokens_to_command_struct(t_token *token_list);
-
+// expander.c
+void		ft_expand(t_command *cmd);
+char		*ft_expand_var(char *str, int *i);
+// expander_utils.c
+char		*ft_join_char_var(char *str, char c);
+char		*ft_join_str_var(char *str, char *to_append);
+char		*ft_expand_tilde(char *result);
+char		*ft_handle_expansion(char *result, char *str, int *i);
 // exit.c
 void		ft_exit_free_prompt(char *input);
-
-//free.c
-void    ft_free_token_and_input(char *input, t_token *token_list);
-void    ft_free_command(t_command *command_list);
-//free.utils.c
-void	ft_free_argv_command(char **argv_command);
-void	ft_free_redirections_command(t_redirect *redirections);
-
-//testinf
+// free.c
+void		ft_free_token_and_input(char *input, t_token *token_list);
+void		ft_free_command_list(t_command *command_list);
+// free.utils.c
+void		ft_free_argv_command(char **argv_command);
+void		ft_free_redirections_command(t_redirect *redirections);
+// testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);
 

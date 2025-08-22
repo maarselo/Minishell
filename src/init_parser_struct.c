@@ -32,7 +32,7 @@ t_command	*ft_create_command_struct(void)
 	return (command);
 }
 
-char	**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end)
+char	**ft_alloc_argv_according_words(t_token *start, t_token *end)
 {
 	int		total_twords;
 	t_token	*tmp;
@@ -57,8 +57,6 @@ char	**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end)
 	if (total_twords == 0)
 		return (NULL);
 	argv_command = (char **)malloc(sizeof(char *) * (total_twords + 1));
-	if (!argv_command)
-		return (NULL);
 	argv_command[total_twords] = NULL;
 	return (argv_command);
 }

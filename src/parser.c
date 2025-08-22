@@ -14,7 +14,7 @@
 
 static t_redirect	*ft_fill_redirecction(t_token *start, t_token *end)
 {
-	t_token	*tmp;
+	t_token		*tmp;
 	t_redirect	*redirections;
 
 	if (!ft_have_any_redirection(start, end))
@@ -42,10 +42,10 @@ static char	**ft_fill_argv_command(t_token *start, t_token *end)
 	char	**argv_command;
 	t_token	*tmp;
 	t_token	*previous;
-	
-	i  = 0;
+
+	i = 0;
 	tmp = start;
-	argv_command = ft_alloc_argv_according_correct_t_words(start, end);
+	argv_command = ft_alloc_argv_according_words(start, end);
 	if (!argv_command)
 		return (NULL);
 	while (tmp && tmp != end)
@@ -77,15 +77,13 @@ static t_connector_type	ft_fill_connector_type(t_token *end)
 	return (0);
 }
 
-static t_command	*ft_analyze_command_to_struct(t_token **init,  t_token **end)
+static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end)
 {
 	t_command	*command;
 
 	command = ft_create_command_struct();
 	command->command = ft_fill_argv_command(*init, *end);
 	command->redirection = ft_fill_redirecction(*init, *end);
-	if (!command->redirection)
-		printf("No hay nada e redirection");
 	command->connector = ft_fill_connector_type(*end);
 	if (*end)
 	{
@@ -97,7 +95,7 @@ static t_command	*ft_analyze_command_to_struct(t_token **init,  t_token **end)
 
 t_command	*ft_tokens_to_command_struct(t_token *token_list)
 {
-	int 		total_commands;
+	int			total_commands;
 	t_token		*start;
 	t_token		*end;
 	t_command	*top_command_list;
@@ -115,14 +113,12 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 		if (!top_command_list)
 			top_command_list = command;
 		else
-			ft_add_command_to_linked_list(command, top_command_list);
+			ft_add_command_into_list(command, top_command_list);
 		total_commands--;
 	}
 	return (top_command_list);
 }
-
-#include <stdio.h>
-
+/*
 void    ft_print_command_list(t_command *list)
 {
     int i;
@@ -140,6 +136,7 @@ void    ft_print_command_list(t_command *list)
             while (list->command[i])
             {
                 printf("\t[%d] -> %s\n", i, list->command[i]);
+				printf("len: %ld", ft_strlen(list->command[i]));
                 i++;
             }
         }
@@ -169,4 +166,4 @@ void    ft_print_command_list(t_command *list)
         list = list->next;
         cmd_index++;
     }
-}
+}*/
