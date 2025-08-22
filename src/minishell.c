@@ -31,6 +31,7 @@ void	ft_process_input(char *input)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_and_input(input, token_list);
 		ft_expand(command_list);
+		ft_free_command_list(command_list);
 	}
 }
 

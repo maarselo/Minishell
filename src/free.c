@@ -30,7 +30,7 @@ void	ft_free_token_and_input(char *input, t_token *token_list)
 	}
 }
 
-void	ft_free_command(t_command *command_list)
+void	ft_free_command_list(t_command *command_list)
 {
 	t_command	*tmp;
 	t_command	*next;
