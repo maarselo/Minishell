@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/21 22:08:20 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:35:35 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_expand_variables(char *str, t_env *env_list, int exit_status)
 	return (result);
 }
 
-char	*ft_expand_variables_no_quotes(char *str, t_env *env_list, int exit_status)
+char	*ft_expand_var_no_quotes(char *str, t_env *env_list, int exit_status)
 {
 	int		i;
 	char	*tmp;
@@ -65,15 +65,10 @@ char	*ft_expand_variables_no_quotes(char *str, t_env *env_list, int exit_status)
 
 	result = ft_strdup("");
 	i = 0;
+	if (str[i] == '~' && (ft_isspace(str[i + 1]) || str[i + 1] == '/'))
+		ft_expand_tilde(result);
 	while (str[i])
 	{
-		if (i > 0 && str[i] == '~' && str[i - 1] == ' ' &&
-			(ft_isspace(str[i + 1]) || str[i + 1] == '/'))
-		{
-			tmp = getenv("HOME");
-			result = ft_join_str_var(result, tmp);
-			i++;
-		}
 		if (str[i] == '$')
 		{
 			tmp = ft_expand_var(str, &i, env_list, exit_status);
@@ -101,10 +96,10 @@ char	*ft_execute_expander(char *str, t_env *env_list, int exit_status)
 	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
 		return (ft_expand_variables(ft_strndup(str + 1, l - 2), env_list,
 				exit_status));
-	return (ft_expand_variables_no_quotes(str, env_list, exit_status));
+	return (ft_expand_var_no_quotes(str, env_list, exit_status));
 }
 
-void	ft_expand(t_cmd *cmd, t_env *env_list, int exit_status)
+void	ft_expand(t_command *cmd, t_env *env_list, int exit_status)
 {
 	int		i;
 	char	*expanded;
@@ -112,27 +107,13 @@ void	ft_expand(t_cmd *cmd, t_env *env_list, int exit_status)
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->argv && cmd->argv[i])
+		while (cmd->command && cmd->command[i])
 		{
-			expanded = ft_execute_expander(cmd->argv[i], env_list,
+			expanded = ft_execute_expander(cmd->command[i], env_list,
 					exit_status);
-			free(cmd->argv[i]);
-			cmd->argv[i] = expanded;
+			free(cmd->command[i]);
+			cmd->command[i] = expanded;
 			i++;
-		}
-		if (cmd->infile)
-		{
-			expanded = ft_execute_expander(cmd->infile, env_list,
-					exit_status);
-			free(cmd->infile);
-			cmd->infile = expanded;
-		}
-		if (cmd->outfile)
-		{
-			expanded = ft_execute_expander(cmd->outfile, env_list,
-					exit_status);
-			free(cmd->outfile);
-			cmd->outfile = expanded;
 		}
 		cmd = cmd->next;
 	}

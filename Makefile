@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/08/19 21:01:49 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/08/22 02:44:38 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
 SRCS_FILES = minishell.c banner.c signals.c token.c tokenizer.c tokenizer_utils.c \
-				parser.c parser_utils.c exit.c expander.c env.c expander_utils.c
+				exit.c expander.c env.c expander_utils.c
 #BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))

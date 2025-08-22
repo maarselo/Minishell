@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/19 21:03:15 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 02:38:52 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,6 @@ typedef enum e_token_type
 	T_PAREN_CLOSE,
 }	t_token_type;
 
-typedef struct s_cmd
-{
-	char			**argv;
-	char			*infile;
-	char			*outfile;
-	bool			append;
-	bool			heredoc;
-	char			*delimiter;
-	struct s_cmd	*next;
-}	t_cmd;
-
 typedef struct s_token
 {
 	char			*content;
@@ -52,6 +41,31 @@ typedef struct s_token
 	bool			is_quoted;
 	struct s_token	*next;
 }	t_token;
+
+typedef enum e_connector_type
+{
+	PIPE_CONNECTOR = 1,
+	AND_CONNECTOR = 2,
+	OR_CONNECTOR = 3,
+
+}	t_connector_type;
+
+typedef struct s_redirect
+{
+	char	*infile;
+	char	*outfile;
+	bool	append;
+	bool	heredoc;
+	char	*delimiter;
+}	t_redirect;
+
+typedef struct s_command
+{
+	char				**command;
+	t_redirect			*redirection;
+	t_connector_type	connector;
+	struct s_command	*next;
+}	t_command;
 
 typedef struct s_env
 {
@@ -65,7 +79,6 @@ void		ft_print_banner(void);
 // signals.c
 void		ft_set_signal_prompt_mode(void);
 // minishell.c
-// to print all time minshell and get the input
 void		ft_input_loop(char **envp);
 // token.c
 t_token		*ft_init_token(char *content);
@@ -77,15 +90,8 @@ char		*ft_extract_token(char *input, int *i);
 // tokenizer.c
 void		ft_print_tokens(t_token	*token);
 t_token		*ft_tokenizer(char *input);
-// parser_utils.c
-int			ft_check_start_end_types(t_token *token);
-int			ft_check_delimiters(t_token *token);
-int			ft_check_redirects(t_token *token);
-//int		ft_count_command(t_token *token_list);
-// parser.c
-t_cmd		*ft_parser(t_token *token);
 // expander.c
-void		ft_expand(t_cmd *cmd, t_env *env_list, int status);
+void		ft_expand(t_command *cmd, t_env *env_list, int status);
 t_env		*ft_get_env(char **envp);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);

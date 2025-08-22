@@ -6,11 +6,20 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/12 20:20:59 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:34:57 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_expand_tilde(char *result)
+{
+	char	*tmp;
+
+	tmp = getenv("HOME");
+	result = ft_join_str_var(result, tmp);
+	return (result);
+}
 
 char	*ft_join_char_var(char *str, char c)
 {
