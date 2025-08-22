@@ -84,8 +84,6 @@ static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end)
 	command = ft_create_command_struct();
 	command->command = ft_fill_argv_command(*init, *end);
 	command->redirection = ft_fill_redirecction(*init, *end);
-	if (!command->redirection)
-		printf("No hay nada e redirection");
 	command->connector = ft_fill_connector_type(*end);
 	if (*end)
 	{
