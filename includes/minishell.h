@@ -163,6 +163,7 @@ char		*ft_handle_expansion(char *result, char *str, int *i);
 void		ft_exit_free_prompt(char *input);
 // free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
+void		ft_free_token_list(t_token *token_list);
 void		ft_free_command_list(t_command *command_list);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
