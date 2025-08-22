@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 02:38:52 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:15:31 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_env		*ft_get_env(char **envp);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
+char		*ft_expand_tilde(char *result);
 // env.c
 t_env		*ft_init_env(char *env_var);
 // exit.c
