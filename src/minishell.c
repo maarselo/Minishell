@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/11 15:01:30 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/17 21:22:33 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_input_loop(char **envp)
 {
 	char	*input;
 	t_token	*token_list;
+	t_command	*command_list;
 
 	(void)envp;
 	ft_set_signal_prompt_mode();
@@ -43,7 +44,8 @@ void	ft_input_loop(char **envp)
 				ft_set_global_exit_status(T_SYNTAX);
 				continue ;
 			}
-			//ft_tokens_to_command_struct(token_list);
+			command_list = ft_tokens_to_command_struct(token_list);
+			ft_print_command_list(command_list);
 			ft_free_token_and_input(input, token_list);
 		}
 	}
