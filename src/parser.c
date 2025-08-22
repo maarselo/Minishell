@@ -120,7 +120,6 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	}
 	return (top_command_list);
 }
-	
 
 #include <stdio.h>
 
@@ -171,4 +170,3 @@ void    ft_print_command_list(t_command *list)
         cmd_index++;
     }
 }
-

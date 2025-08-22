@@ -19,7 +19,7 @@ int	ft_count_command(t_token *token_list)
 	count = 1;
 	while (token_list)
 	{
-		if (token_list->type == T_PIPE || token_list->type == T_OR 
+		if (token_list->type == T_PIPE || token_list->type == T_OR
 			|| token_list->type == T_AND)
 			count++;
 		token_list = token_list->next;
@@ -29,7 +29,7 @@ int	ft_count_command(t_token *token_list)
 
 int	ft_check_if_end_command(t_token *token)
 {
-	if (!token || token->type == T_PIPE || token->type == T_AND 
+	if (!token || token->type == T_PIPE || token->type == T_AND
 		|| token->type == T_OR)
 		return (1);
 	return (0);
@@ -39,7 +39,7 @@ t_token	*ft_get_previos_token(bool is_first, t_token *start, t_token *to_find)
 {
 	t_token	*tmp;
 	t_token	*previous;
-	
+
 	if (is_first == true)
 		return (NULL);
 	tmp = start;

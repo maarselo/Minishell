@@ -15,7 +15,7 @@
 t_redirect	*ft_create_redirection_struct(void)
 {
 	t_redirect	*redirections;
-	
+
 	redirections = (t_redirect *)ft_calloc(1, sizeof(t_redirect));
 	if (!redirections)
 		return (NULL);
@@ -30,7 +30,7 @@ t_command	*ft_create_command_struct(void)
 	if (!command)
 		return (NULL);
 	return (command);
-}	
+}
 
 char	**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end)
 {
@@ -38,7 +38,7 @@ char	**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end)
 	t_token	*tmp;
 	t_token	*previous;
 	char	**argv_command;
-	
+
 	tmp = start;
 	total_twords = 0;
 	while (tmp && tmp != end)
@@ -50,7 +50,7 @@ char	**ft_alloc_argv_according_correct_t_words(t_token *start, t_token *end)
 			else
 				previous = ft_get_previos_token(false, start, tmp);
 			if (!ft_get_if_its_redirection_type(previous))
-				total_twords++;			
+				total_twords++;
 		}
 		tmp = tmp->next;
 	}
