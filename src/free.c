@@ -30,6 +30,22 @@ void	ft_free_token_and_input(char *input, t_token *token_list)
 	}
 }
 
+void	ft_free_token_list(t_token *token_list)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = token_list;
+	while (current != NULL)
+	{
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
+	}
+}
+
 void	ft_free_command_list(t_command *command_list)
 {
 	t_command	*tmp;
