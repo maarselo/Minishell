@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/06/30 18:29:13 by fbanzo-s         ###   ########.fr       */
+/*   Created: 2025/08/13 09:07:41 by mvillavi          #+#    #+#             */
+/*   Updated: 2025/08/17 13:37:21 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include "minishell.h"
 
 int	ft_count_command(t_token *token_list)
 {
@@ -19,77 +19,55 @@ int	ft_count_command(t_token *token_list)
 	count = 1;
 	while (token_list)
 	{
-		if (token_list->type == 1)
+		if (token_list->type == T_PIPE || token_list->type == T_OR
+			|| token_list->type == T_AND)
 			count++;
 		token_list = token_list->next;
 	}
 	return (count);
 }
 
-int	ft_check_start_end_types(t_token *token)// | || &&
+int	ft_check_if_end_command(t_token *token)
 {
-	t_token	*tmp;
-	
-	tmp = token;
-	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)//check the first was, pipe, ||, &&
-		return (1);
-	while (tmp->next)
-		tmp = tmp->next;
-	if (tmp->type == 1 || tmp->type == 6 || tmp->type == 7)//check the last command
+	if (!token || token->type == T_PIPE || token->type == T_AND
+		|| token->type == T_OR)
 		return (1);
 	return (0);
 }
 
-static int	ft_check_content_delimiters(char *input)
-{
-	int	i;
-	char delimiter_type;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '"' || input[i] == '(')
-		{
-			if (input[i] == '(')
-				delimiter_type = ')';
-			else
-				delimiter_type = input[i];
-			i++;
-			while (input[i] && input[i] != delimiter_type)
-				i++;
-			if (input[i] != delimiter_type)
-				return (1); 
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	ft_check_delimiters(t_token *token) //'"(
+t_token	*ft_get_previos_token(bool is_first, t_token *start, t_token *to_find)
 {
 	t_token	*tmp;
+	t_token	*previous;
 
-	tmp = token;
+	if (is_first == true)
+		return (NULL);
+	tmp = start;
+	previous = start;
 	while (tmp)
 	{
-		if (ft_check_content_delimiters(tmp->content))
-			return (1);
+		if (tmp == to_find)
+			return (previous);
+		previous = tmp;
 		tmp = tmp->next;
 	}
-	return (0);
+	return (NULL);
 }
 
-int	ft_check_redirects(t_token *token)
+int	ft_get_if_its_redirection_type(t_token *t)
 {
-	t_token	*tmp;
-	
-	tmp = token;
-	while(tmp)
-	{
-		if (((tmp->type == 2 || tmp->type == 3 || tmp->type == 4
-				|| tmp->type == 5)) && (!tmp->next || tmp->next->type != 0))
-			return (1);
+	if (!t)
+		return (0);
+	return (t->type == T_REDIR_IN || t->type == T_REDIR_OUT
+		|| t->type == T_REDIR_APPEND || t->type == T_HEREDOC);
+}
+
+void	ft_add_command_to_linked_list(t_command *new_command, t_command *top)
+{
+	t_command	*tmp;
+
+	tmp = top;
+	while (tmp->next)
 		tmp = tmp->next;
-	}
-	return (0);
+	tmp->next = new_command;
 }
