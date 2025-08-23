@@ -33,8 +33,9 @@ void	ft_process_input(char *input)
 	}
 	else
 	{
+		free(input);
 		command_list = ft_tokens_to_command_struct(token_list);
-		ft_free_token_and_input(input, token_list);
+		ft_free_token_list(token_list);
 		ft_expand(command_list);
 		ft_free_command_list(command_list);
 	}
@@ -50,14 +51,14 @@ void	ft_input_loop(char **envp)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
 		if (!input)
-			ft_exit_free_prompt(input);
+			ft_exit_free_input(input);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
 		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
-			ft_exit_free_prompt(input);
+			ft_exit_free_input(input);
 		if (*input)
 			ft_process_input(input);
 	}
