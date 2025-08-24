@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static t_redirect	*ft_fill_redirecction(t_token *start, t_token *end)
+static t_redirect	*ft_fill_redirecction(int *malloc_error, t_token *start,
+					t_token *end)
 {
 	t_token		*tmp;
 	t_redirect	*redirections;
@@ -20,23 +21,26 @@ static t_redirect	*ft_fill_redirecction(t_token *start, t_token *end)
 	if (!ft_have_any_redirection(start, end))
 		return (NULL);
 	tmp = start;
-	redirections = ft_create_redirection_struct();
+	redirections = ft_create_redirection_struct(malloc_error);
+	if (!redirections)
+		return (NULL);
 	while (tmp && tmp != end)
 	{
 		if (tmp->type == T_REDIR_IN)
-			ft_set_redirect_infile(tmp, redirections);
+			ft_set_redirect_infile(malloc_error, tmp, redirections);
 		else if (tmp->type == T_HEREDOC)
-			ft_set_redirect_heredoc(tmp, redirections);
+			ft_set_redirect_heredoc(malloc_error, tmp, redirections);
 		else if (tmp->type == T_REDIR_OUT)
-			ft_set_redirect_outfile(tmp, redirections);
+			ft_set_redirect_outfile(malloc_error, tmp, redirections);
 		else if (tmp->type == T_REDIR_APPEND)
-			ft_set_redirect_append(tmp, redirections);
+			ft_set_redirect_append(malloc_error, tmp, redirections);
 		tmp = tmp->next;
 	}
 	return (redirections);
 }
 
-static char	**ft_fill_argv_command(t_token *start, t_token *end)
+static char	**ft_fill_argv_command(int *malloc_error, t_token *start,
+			t_token *end)
 {
 	int		i;
 	char	**argv_command;
@@ -45,7 +49,7 @@ static char	**ft_fill_argv_command(t_token *start, t_token *end)
 
 	i = 0;
 	tmp = start;
-	argv_command = ft_alloc_argv_according_words(start, end);
+	argv_command = ft_alloc_argv_according_words(malloc_error, start, end);
 	if (!argv_command)
 		return (NULL);
 	while (tmp && tmp != end)
@@ -57,7 +61,8 @@ static char	**ft_fill_argv_command(t_token *start, t_token *end)
 			else
 				previous = ft_get_previos_token(false, start, tmp);
 			if (!ft_get_if_its_redirection_type(previous))
-				argv_command[i++] = ft_strdup(tmp->content);
+				argv_command[i++] = ft_strdup_with_flag(malloc_error,
+						tmp->content);
 		}
 		tmp = tmp->next;
 	}
@@ -77,13 +82,22 @@ static t_connector_type	ft_fill_connector_type(t_token *end)
 	return (0);
 }
 
-static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end)
+static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end,
+			t_command *command_list, t_token *token_list)
 {
+	int			malloc_error;
 	t_command	*command;
 
+	malloc_error = 0;
 	command = ft_create_command_struct();
-	command->command = ft_fill_argv_command(*init, *end);
-	command->redirection = ft_fill_redirecction(*init, *end);
+	if (!command)
+		ft_clean_parser_memory_exit(NULL, command_list, token_list);
+	command->command = ft_fill_argv_command(&malloc_error, *init, *end);
+	if (malloc_error)
+		ft_clean_parser_memory_exit(command, command_list, token_list);
+	command->redirection = ft_fill_redirecction(&malloc_error, *init, *end);
+	if (malloc_error)
+		ft_clean_parser_memory_exit(command, command_list, token_list);
 	command->connector = ft_fill_connector_type(*end);
 	if (*end)
 	{
@@ -109,7 +123,8 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	{
 		while (!ft_check_if_end_command(end))
 			end = end->next;
-		command = ft_analyze_command_to_struct(&start, &end);
+		command = ft_analyze_command_to_struct(&start, &end,
+				top_command_list, token_list);
 		if (!top_command_list)
 			top_command_list = command;
 		else
@@ -118,6 +133,7 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	}
 	return (top_command_list);
 }
+
 /*
 void    ft_print_command_list(t_command *list)
 {
@@ -148,15 +164,15 @@ void    ft_print_command_list(t_command *list)
         if (list->redirection)
         {
             printf("\tinfile: %s\n",
-                list->redirection->infile ? /////////////
+                list->redirection->infile ? ////
 				list->redirection->infile : "(NULL)");
             printf("\toutfile: %s\n",
-                list->redirection->outfile ? ////////////
+                list->redirection->outfile ? ///
 				list->redirection->outfile : "(NULL)");
             printf("\tappend: %d\n", list->redirection->append);
             printf("\theredoc: %d\n", list->redirection->heredoc);
             printf("\tdelimiter: %s\n",
-                list->redirection->delimiter ? //////////////
+                list->redirection->delimiter ? ////
 				list->redirection->delimiter : "(NULL)");
         }
         else

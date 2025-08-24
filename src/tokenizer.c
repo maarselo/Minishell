@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/17 22:05:10 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/22 20:06:56 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static char	*ft_extract_token(char *input, int *i)
 t_token	*ft_tokenizer(char *input)
 {
 	int		i;
-	char	*str_token;
 	t_token	*new_token;
 	t_token	*top;
 	t_token	*bottom;
@@ -101,12 +100,8 @@ t_token	*ft_tokenizer(char *input)
 			i++;
 		if (!input[i])
 			break ;
-		str_token = ft_extract_token(input, &i);
-		if (!str_token)
-			return (NULL);
-		new_token = ft_init_token(str_token);
-		if (!new_token)
-			return (NULL);
+		new_token = ft_init_token(ft_extract_token(input, &i));
+		ft_check_new_token(new_token, input, top);
 		if (!top)
 			top = new_token;
 		else

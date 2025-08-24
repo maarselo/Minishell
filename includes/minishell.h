@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 16:18:08 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 20:06:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int			ft_is_quote(char c);
 int			ft_is_operator(char c);
 // token.c
 t_token		*ft_init_token(char *content);
+void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
 // syntax_checker_utils.c
@@ -133,15 +134,21 @@ int			ft_check_if_have_parenthesis(t_token *token);
 // syntax.c
 bool		ft_syntax(t_token *token);
 // init_parser_struct.c
-t_redirect	*ft_create_redirection_struct(void);
 t_command	*ft_create_command_struct(void);
-char		**ft_alloc_argv_according_words(t_token *start, t_token *end);
+t_redirect	*ft_create_redirection_struct(int *malloc_eror);
+char		*ft_strdup_with_flag(int *malloc_error, const char *s);
+char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
+				t_token *end);
 // parser_redirection_utils
 int			ft_have_any_redirection(t_token *start, t_token *end);
-void		ft_set_redirect_infile(t_token *token, t_redirect *redirections);
-void		ft_set_redirect_heredoc(t_token *token, t_redirect *redirections);
-void		ft_set_redirect_outfile(t_token *token, t_redirect *redirections);
-void		ft_set_redirect_append(t_token *token, t_redirect *redirections);
+void		ft_set_redirect_infile(int *malloc_error, t_token *token,
+				t_redirect *redirections);
+void		ft_set_redirect_heredoc(int *malloc_error, t_token *token,
+				t_redirect *redirections);
+void		ft_set_redirect_outfile(int *malloc_error, t_token *token,
+				t_redirect *redirections);
+void		ft_set_redirect_append(int *malloc_error, t_token *token,
+				t_redirect *redirections);
 // parser_utils.c
 int			ft_count_command(t_token *token_list);
 int			ft_check_if_end_command(t_token *token);
@@ -159,9 +166,12 @@ char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
 // exit.c
-void		ft_exit_free_prompt(char *input);
+void		ft_exit_free_input(char *input);
+void		ft_clean_parser_memory_exit(t_command *command,
+				t_command *command_list, t_token *token_list);
 // free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
+void		ft_free_token_list(t_token *token_list);
 void		ft_free_command_list(t_command *command_list);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);

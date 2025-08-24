@@ -6,11 +6,21 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:49:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/22 20:10:32 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_check_new_token(t_token *new_token, char *input, t_token *top)
+{
+	if (!new_token)
+	{
+		ft_free_token_and_input(input, top);
+		perror("minishell");
+		exit(EXIT_FAILURE);
+	}
+}
 
 static t_token_type	ft_get_token_type(char *token)
 {
@@ -53,6 +63,8 @@ t_token	*ft_init_token(char *content)
 {
 	t_token	*token;
 
+	if (!content)
+		return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);

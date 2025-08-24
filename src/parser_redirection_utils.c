@@ -26,7 +26,8 @@ int	ft_have_any_redirection(t_token *start, t_token *end)
 	return (0);
 }
 
-void	ft_set_redirect_infile(t_token *token, t_redirect *redirections)
+void	ft_set_redirect_infile(int *malloc_error, t_token *token,
+		t_redirect *redirections)
 {
 	if (redirections->infile)
 		free(redirections->infile);
@@ -36,10 +37,12 @@ void	ft_set_redirect_infile(t_token *token, t_redirect *redirections)
 		redirections->delimiter = NULL;
 	}
 	redirections->heredoc = false;
-	redirections->infile = ft_strdup(token->next->content);
+	redirections->infile = ft_strdup_with_flag(malloc_error,
+			token->next->content);
 }
 
-void	ft_set_redirect_heredoc(t_token *token, t_redirect *redirections)
+void	ft_set_redirect_heredoc(int *malloc_error, t_token *token,
+		t_redirect *redirections)
 {
 	if (redirections->delimiter)
 		free(redirections->delimiter);
@@ -49,21 +52,26 @@ void	ft_set_redirect_heredoc(t_token *token, t_redirect *redirections)
 		redirections->infile = NULL;
 	}
 	redirections->heredoc = true;
-	redirections->delimiter = ft_strdup(token->next->content);
+	redirections->delimiter = ft_strdup_with_flag(malloc_error,
+			token->next->content);
 }
 
-void	ft_set_redirect_outfile(t_token *token, t_redirect *redirections)
+void	ft_set_redirect_outfile(int *malloc_error, t_token *token,
+		t_redirect *redirections)
 {
 	if (redirections->outfile)
 		free(redirections->outfile);
 	redirections->append = false;
-	redirections->outfile = ft_strdup(token->next->content);
+	redirections->outfile = ft_strdup_with_flag(malloc_error,
+			token->next->content);
 }
 
-void	ft_set_redirect_append(t_token *token, t_redirect *redirections)
+void	ft_set_redirect_append(int *malloc_error, t_token *token,
+		t_redirect *redirections)
 {
 	if (redirections->outfile)
 		free(redirections->outfile);
 	redirections->append = true;
-	redirections->outfile = ft_strdup(token->next->content);
+	redirections->outfile = ft_strdup_with_flag(malloc_error,
+			token->next->content);
 }
