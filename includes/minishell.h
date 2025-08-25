@@ -107,7 +107,7 @@ typedef struct s_command
 // banner.c
 void		ft_print_banner(void);
 // signals.c
-void		ft_set_signal_prompt_mode(void);
+void		ft_set_signals_prompt_mode(void);
 // global.c
 void		ft_set_global_exit_status(int new_exit_code);
 // minishell.c
@@ -165,6 +165,9 @@ char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
+// executor.c
+void	ft_executor(t_command *command_list);
+
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
