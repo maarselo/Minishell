@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 17:17:31 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/25 20:26:23 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,29 @@ void	ft_expand(t_command *cmd)
 {
 	int		i;
 	char	*expanded;
+	bool	quotes;
+	char	**wc_expanded;
 
+	quotes = false;
 	while (cmd)
 	{
 		i = 0;
 		while (cmd->command && cmd->command[i])
 		{
+			if (ft_strchr(cmd->command[i], '\'') || ft_strchr(cmd->command[i], '"'))
+				quotes = true;
 			expanded = ft_execute_expander(cmd->command[i]);
 			free(cmd->command[i]);
 			cmd->command[i] = expanded;
-			i++;
+			if (quotes == false && ft_strchr(cmd->command[i], '*'))
+			{
+				wc_expanded = ft_expand_wildcards(cmd->command[i]);
+				cmd->command = ft_join_wildcards(cmd->command, i, wc_expanded);
+				i += ft_array_len(wc_expanded);
+				ft_free_cmd(wc_expanded);
+			}
+			else
+				i++;
 		}
 		cmd = cmd->next;
 	}

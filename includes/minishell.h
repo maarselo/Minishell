@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 20:06:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:28:48 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <dirent.h>
 
 /*
 	minishell.h
@@ -165,6 +166,12 @@ char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
+// wildcards.c
+char		**ft_expand_wildcard(char *str);
+// wildcards_utils.c
+char		**ft_empty_matches(char	*str);
+int			ft_array_len(char **array);
+void		ft_free_cmd(char **array);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
