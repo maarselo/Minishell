@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/25 19:28:48 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/25 20:35:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
+char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
 // wildcards_utils.c
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);

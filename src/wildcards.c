@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/25 20:25:59 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/27 00:01:53 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	**ft_realloc_array(char **array, int size)
 	new = malloc(sizeof(char *) * (size + 1));
 	if (!new)
 		return (NULL);
+	i = 0;
 	if (array)
 	{
 		while (array[i])
@@ -78,6 +79,7 @@ char	**ft_expand_wildcard(char *str)
 	char			**matches;
 	int				i;
 
+	matches = NULL;
 	dir = opendir(".");
 	if (dir == NULL)
 		return (ft_empty_matches(str));
@@ -85,6 +87,7 @@ char	**ft_expand_wildcard(char *str)
 	entry = readdir(dir);
 	while (entry)
 	{
+		if (entry->d_name[0] == '.' && str)
 		if (ft_match(str, entry->d_name))
 		{
 			matches = ft_realloc_array(matches, i + 1);
@@ -96,47 +99,47 @@ char	**ft_expand_wildcard(char *str)
 	closedir(dir);
 	if (i == 0)
 		return (ft_empty_matches(str));
-	matches = ft_realloc_str_array(matches, i + 1);
+	matches = ft_realloc_array(matches, i + 1);
 	if (!matches)
 		return (NULL);
 	matches[i] = NULL;
 	return (matches);
 }
 
-char	**ft_join_wildcards(char **argv, int index, char **wc_expanded)
+char	**ft_join_wildcards(char **cmd, int index, char **wc_expanded)
 {
-	char	**new_argv;
+	char	**new_cmd;
 	int		j;
 	int		i;
 	int		k;
 	int		wc_len;
 
 	wc_len = ft_array_len(wc_expanded);
-	new_argv = malloc(sizeof(char *) * (wc_len + ft_array_len(argv)));
-	if (!new_argv)
+	new_cmd = malloc(sizeof(char *) * (wc_len + ft_array_len(cmd)));
+	if (!new_cmd)
 		return (NULL);
 	i = 0;
-	j = 0;
 	k = 0;
 	while (i < index)
 	{
-		new_argv[k] = ft_strdup(argv[i]);
+		new_cmd[k] = ft_strdup(cmd[i]);
 		i++;
 		k++;
 	}
+	j = 0;
 	while (j < wc_len)
 	{
-		new_argv[k] = ft_strdup(wc_expanded[j]);
+		new_cmd[k] = ft_strdup(wc_expanded[j]);
 		j++;
 		k++;
 	}
-	while (argv[i])
+	i++;
+	while (cmd[i])
 	{
-		new_argv[k] = ft_strdup(argv[i]);
+		new_cmd[k] = ft_strdup(cmd[i]);
 		i++;
 		k++;
 	}
-	new_argv[k] = NULL;
-	ft_free_cmd(argv);
-	return (new_argv);
+	new_cmd[k] = NULL;
+	return (new_cmd);
 }

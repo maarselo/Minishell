@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 09:00:23 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/08/18 14:04:30 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/08/25 20:41:26 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	return (top_command_list);
 }
 
-/*
+
 void    ft_print_command_list(t_command *list)
 {
     int i;
@@ -185,4 +185,4 @@ void    ft_print_command_list(t_command *list)
         list = list->next;
         cmd_index++;
     }
-}*/
+}

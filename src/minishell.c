@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 19:35:25 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/08/26 23:52:39 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_process_input(char *input)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
+		ft_print_command_list(command_list);
 		ft_free_command_list(command_list);
 	}
 }
