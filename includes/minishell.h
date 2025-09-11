@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/25 20:35:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/11 20:16:00 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ typedef enum exit_codes
 	T_EXECUTABLE_PERMITS = 126,
 	T_COMMAND_NOT_FOUND = 127,
 	T_SIGINT = 130,
-}			t_exit_types;
+}	t_exit_types;
 
 typedef struct s_global
 {
 	int	exit_status;
-}				t_global;
+}	t_global;
 
 extern t_global	g_status;
 
@@ -86,7 +86,7 @@ typedef enum e_connector_type
 	PIPE_CONNECTOR = 1,
 	AND_CONNECTOR = 2,
 	OR_CONNECTOR = 3,
-}			t_connector_type;
+}	t_connector_type;
 
 typedef struct s_redirect
 {
@@ -95,7 +95,7 @@ typedef struct s_redirect
 	bool	append;
 	bool	heredoc;
 	char	*delimiter;
-}			t_redirect;
+}	t_redirect;
 
 typedef struct s_command
 {
@@ -103,7 +103,14 @@ typedef struct s_command
 	t_redirect			*redirection;
 	t_connector_type	connector;
 	struct s_command	*next;
-}			t_command;
+}	t_command;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 // banner.c
 void		ft_print_banner(void);
@@ -173,6 +180,11 @@ char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
+// builtins.c
+int			ft_isbuiltin(char *cmd);
+void		ft_execute_builtin(t_command *cmd);
+// env.c
+t_env		*ft_get_env(char **envp);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
