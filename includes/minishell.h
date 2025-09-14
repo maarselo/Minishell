@@ -20,6 +20,10 @@
 # include <stdbool.h>
 # include <signal.h>
 
+# define MODE_READ "r"
+# define MODE_WRITE "w"
+# define MODE_APPEND "a"
+
 /*
 	minishell.h
 	Extern global to manipulate exit status from the last command
@@ -165,8 +169,14 @@ char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
+//executor_utils.c
+void		ft_manage_redirection(int *fd[2], t_command *current_command,
+				t_command *command_list);
+t_command	*ft_get_previous_command(t_command *command);
 // executor.c
-void	ft_executor(t_command *command_list);
+void		ft_executor(t_command *command_list);
+//executor--redurections.c
+void		ft_heredoc(char *delimiter, int *pipefd);
 
 // exit.c
 void		ft_exit_free_input(char *input);
@@ -179,6 +189,9 @@ void		ft_free_command_list(t_command *command_list);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
+//error
+void		ft_error_creating_pipe(t_command *command_list);
+
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);

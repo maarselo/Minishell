@@ -37,6 +37,8 @@ void	ft_process_input(char *input)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
+		ft_print_command_list(command_list);
+		//ft_executor(command_list);
 		ft_free_command_list(command_list);
 	}
 }
@@ -46,7 +48,7 @@ void	ft_input_loop(char **envp)
 	char	*input;
 
 	(void)envp;
-	ft_set_signal_prompt_mode();
+	ft_set_signals_prompt_mode();
 	while (true)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
