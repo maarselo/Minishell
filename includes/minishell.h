@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 20:06:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:03:07 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,18 @@ typedef struct s_command
 	struct s_command	*next;
 }			t_command;
 
+/*
+	env.c
+	Struct to manage env in the executor...
+*/
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 // banner.c
 void		ft_print_banner(void);
 // signals.c
@@ -169,6 +181,15 @@ char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
+// wildcards.c
+char		**ft_expand_wildcard(char *str);
+char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
+// wildcards_utils.c
+char		**ft_empty_matches(char	*str);
+int			ft_array_len(char **array);
+void		ft_free_cmd(char **array);
+// env.c
+t_env		*ft_get_env(char **envp);
 // executor.c
 void		ft_executor(char ** envp, t_command *command_list);
 //executor_redirections.c
@@ -177,7 +198,7 @@ int		ft_manage_pipes(int *prev_pipe, t_command *current_command,
 int			ft_manage_redirections(t_command *current_command,
 				t_command *command_list, char **envp);
 void		ft_heredoc(char *delimiter, int *pipefd);
-//command_utils.c
+//executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
 // exit.c
