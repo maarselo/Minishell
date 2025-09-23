@@ -108,6 +108,11 @@ typedef struct s_command
 	struct s_command	*next;
 }			t_command;
 
+/*
+	env.c
+	Struct to manage env in the executor...
+*/
+
 typedef struct s_env
 {
 	char			*name;
@@ -186,7 +191,7 @@ int		ft_manage_pipes(int *prev_pipe, t_command *current_command,
 int			ft_manage_redirections(t_command *current_command,
 				t_command *command_list, char **envp);
 void		ft_heredoc(char *delimiter, int *pipefd);
-//command_utils.c
+//executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
 // exit.c
