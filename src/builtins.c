@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/11 20:38:03 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:24:19 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,6 @@ void	ft_execute_builtin(t_command *cmd, t_env *env_list)
 		ft_echo(cmd->command);
 	if (ft_strcmp(cmd, "cd") == 0)
 		ft_cd(cmd->command, env_list);
-}
-
-void	ft_cd(char **args, t_env *env_list)
-{
-	char	**path;
-
-	if (!args[1])
-	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			g_status.exit_status = 1;
-			return ;
-		}
-	}
-	else
-		path = args[1];
-	if (chdir(path) != 0)
-	{
-		perror("minishell: cd");
-		g_status.exit_status = 1;
-	}
-	else
-	{
-		ft_update_pwd(path);
-        g_status.exit_status = 0;
-	}
 }
 
 void	ft_echo(char **args)

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/26 23:52:39 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:20:55 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_global	g_status;
 
-void	ft_process_input(char *input)
+void	ft_process_input(char *input, t_env *env_list)
 {
 	t_command	*command_list;
 	t_token		*token_list;
@@ -37,7 +37,6 @@ void	ft_process_input(char *input)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
-		ft_print_command_list(command_list);
 		ft_free_command_list(command_list);
 	}
 }
@@ -45,8 +44,9 @@ void	ft_process_input(char *input)
 void	ft_input_loop(char **envp)
 {
 	char	*input;
+	t_env	*env_list;
 
-	(void)envp;
+	env_list = ft_get_env(envp);
 	ft_set_signal_prompt_mode();
 	while (true)
 	{
@@ -61,7 +61,7 @@ void	ft_input_loop(char **envp)
 		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
 			ft_exit_free_input(input);
 		if (*input)
-			ft_process_input(input);
+			ft_process_input(input, env_list);
 	}
 }
 

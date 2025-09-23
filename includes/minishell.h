@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/11 20:16:00 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:25:16 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,9 @@ int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
 // builtins.c
 int			ft_isbuiltin(char *cmd);
-void		ft_execute_builtin(t_command *cmd);
+void		ft_execute_builtin(t_command *cmd, t_env *env_list);
+// cd.c
+void		ft_cd(char **args, t_env *env_list);
 // env.c
 t_env		*ft_get_env(char **envp);
 // exit.c
