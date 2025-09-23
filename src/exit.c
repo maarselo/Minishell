@@ -19,6 +19,7 @@ void	ft_exit_free_input(char *input)
 	exit(0);
 }
 
+//Pasar a error y es error malloc in struct commando
 void	ft_clean_parser_memory_exit(t_command *command, t_command *command_list,
 	t_token *token_list)
 {

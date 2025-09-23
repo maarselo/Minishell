@@ -27,7 +27,7 @@ static void	ft_sigint_handler_prompt_mode(int signal)
 	rl_redisplay();
 }
 
-void	ft_set_signal_prompt_mode(void)
+void	ft_set_signals_prompt_mode(void)
 {
 	signal(SIGINT, ft_sigint_handler_prompt_mode);
 	signal(SIGQUIT, SIG_IGN);

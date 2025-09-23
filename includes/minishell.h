@@ -20,6 +20,10 @@
 # include <stdbool.h>
 # include <signal.h>
 
+# define MODE_READ "r"
+# define MODE_WRITE "w"
+# define MODE_APPEND "a"
+
 /*
 	minishell.h
 	Extern global to manipulate exit status from the last command
@@ -28,14 +32,14 @@ typedef enum exit_codes
 {
 	T_SUCCESS = 0,
 	T_GENERAL_ERROR = 1,
-	T_NON_EXISTENT_FILE = 1,
-	T_FILE_PERMITS = 1,
+	T_FILES = 1,
 	T_SYNTAX = 2,
 	T_NON_EXISTENT_DIRECTORY = 2,
 	T_DIRECTORY_PERMITS = 2,
 	T_EXECUTABLE_PERMITS = 126,
 	T_COMMAND_NOT_FOUND = 127,
 	T_SIGINT = 130,
+	T_SIGQUIT = 131,
 }			t_exit_types;
 
 typedef struct s_global
@@ -114,7 +118,7 @@ typedef struct s_env
 // banner.c
 void		ft_print_banner(void);
 // signals.c
-void		ft_set_signal_prompt_mode(void);
+void		ft_set_signals_prompt_mode(void);
 // global.c
 void		ft_set_global_exit_status(int new_exit_code);
 // minishell.c
@@ -174,6 +178,17 @@ char		*ft_expand_tilde(char *result);
 char		*ft_handle_expansion(char *result, char *str, int *i);
 // env.c
 t_env		*ft_get_env(char **envp);
+// executor.c
+void		ft_executor(char ** envp, t_command *command_list);
+//executor_redirections.c
+int		ft_manage_pipes(int *prev_pipe, t_command *current_command,
+				t_command *command_list, char **envp);
+int			ft_manage_redirections(t_command *current_command,
+				t_command *command_list, char **envp);
+void		ft_heredoc(char *delimiter, int *pipefd);
+//command_utils.c
+t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
+bool		ft_is_last_command(t_command *command);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
@@ -185,6 +200,9 @@ void		ft_free_command_list(t_command *command_list);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
+//error
+void		ft_error_creating_pipe(int *prev_pipe);
+void		ft_error_opening_files();
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);

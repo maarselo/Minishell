@@ -14,6 +14,7 @@
 
 t_global	g_status;
 
+//Manejar exit difeerentes tipos
 void	ft_process_input(char *input, t_env *env_list)
 {
 	t_command	*command_list;
@@ -37,6 +38,8 @@ void	ft_process_input(char *input, t_env *env_list)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
+		ft_executor(command_list, env_list);
+		//ft_free_envp(envp);
 		ft_free_command_list(command_list);
 	}
 }
