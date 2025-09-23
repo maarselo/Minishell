@@ -6,28 +6,52 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 16:58:26 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:49:06 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_update_pwd(char *path, t_env *env_list)
+void	ft_set_env_var(t_env *env_list, char *name, char *value)
 {
 	t_env	*var;
 
 	var = env_list;
 	while (var)
 	{
-		if (ft_strcmp(var->name, "PWD") == 0)
+		if (ft_strcmp(var->name, name) == 0)
 		{
 			if (var->value)
 				free(var->value);
-			var->value = ft_strdup(path);
+			if (value)
+				var->value = value;
+			else
+				var->value = NULL;
+			return ;
+		}
+		var->next;
+	}
+}
+
+void	ft_update_pwd(char *new_path, t_env *env_list)
+{
+	t_env	*var;
+	char	*old_path;
+
+	var = env_list;
+	while (var)
+	{
+		if (ft_strcmp(var->name, "PWD") == 0)
+		{
+			old_path = ft_strdup(var->value);
 			break ;
 		}
 		var = var->next;
 	}
+	ft_set_env_var(env_list, "OLDPWD", old_path);
+	ft_set_env_var(env_list, "PWD", new_path);
+	if (old_path)
+		free(old_path);
 }
 
 void	ft_cd(char **args, t_env *env_list)

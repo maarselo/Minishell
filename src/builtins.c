@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 16:24:19 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:10:54 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_execute_builtin(t_command *cmd, t_env *env_list)
 		ft_echo(cmd->command);
 	if (ft_strcmp(cmd, "cd") == 0)
 		ft_cd(cmd->command, env_list);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		ft_pwd(cmd->command);
 }
 
 void	ft_echo(char **args)
@@ -48,7 +50,7 @@ void	ft_echo(char **args)
 
 	i = 0;
 	flag_n = false;
-	if (args[1] && ft_strcmp(args[1], "-n"))
+	if (args[1] && ft_strcmp(args[1], "-n") == 0)
 	{
 		flag_n = true;
 		i++;
@@ -63,4 +65,23 @@ void	ft_echo(char **args)
 	if (flag_n == false)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	g_status.exit_status = 0;
+}
+
+void	ft_pwd(char **args)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd != NULL)
+	{
+		ft_putstr_fd(cwd, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		free(cwd);
+		g_status.exit_status = 0;
+	}
+	else
+	{
+		perror("minishell: pwd");
+		g_status.exit_status = 1;
+	}
 }
