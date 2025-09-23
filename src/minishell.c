@@ -17,7 +17,7 @@ t_global	g_status;
 //Manejar exit difeerentes tipos
 void	ft_process_input(char *input, t_env *env_list)
 {
-	char		**envp;
+	(void)env_list;
 	t_command	*command_list;
 	t_token		*token_list;
 
@@ -40,7 +40,6 @@ void	ft_process_input(char *input, t_env *env_list)
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
 		ft_executor(command_list, env_list);
-		//ft_free_envp(envp);
 		ft_free_command_list(command_list);
 	}
 }
@@ -67,6 +66,7 @@ void	ft_input_loop(char **envp)
 		if (*input)
 			ft_process_input(input, env_list);
 	}
+	//ft_free_envp(env_list);
 }
 
 int	main(int argc, char **argv, char **envp)

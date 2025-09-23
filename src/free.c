@@ -46,6 +46,24 @@ void	ft_free_token_list(t_token *token_list)
 	}
 }
 
+void	ft_free_envp(t_env *envp)
+{
+	t_env 	*tmp;
+	t_env	*next;
+
+	tmp = envp;
+	while (tmp)
+	{	
+		next = tmp->next;
+		if (tmp->name)
+			free(tmp->name);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+		tmp = next;
+	}
+}
+
 void	ft_free_command_list(t_command *command_list)
 {
 	t_command	*tmp;

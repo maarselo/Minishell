@@ -20,8 +20,10 @@ void	ft_set_signals_child_mode(void)
 
 //void	ft_execute_command(current_command)
 
-void	ft_executor(char **envp, t_command *command_list)
+//no pasar liberrar aca evnp y command list
+void	ft_executor(t_command *command_list, t_env *env)
 {
+	(void)env;
 	int			prev_pipe;
 	t_command	*current_command;
 
@@ -29,10 +31,10 @@ void	ft_executor(char **envp, t_command *command_list)
 	current_command = command_list;
 	while (current_command)
 	{
-		if (ft_manage_pipes(&prev_pipe, current_command, command_list, envp)
-			|| ft_manage_redirections(current_command, command_list, envp))
+		if (ft_manage_pipes(&prev_pipe, current_command, command_list)
+			|| ft_manage_redirections(current_command))
 			return ;//IDK if i need to kill all process
-		ft_execute_command(current_command);
+		//ft_execute_command(current_command);
 		current_command = current_command->next;
 	}
 }

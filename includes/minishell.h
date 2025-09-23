@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <dirent.h>
 
 # define MODE_READ "r"
 # define MODE_WRITE "w"
@@ -112,7 +113,6 @@ typedef struct s_command
 	env.c
 	Struct to manage env in the executor...
 */
-
 typedef struct s_env
 {
 	char			*name;
@@ -191,12 +191,11 @@ void		ft_free_cmd(char **array);
 // env.c
 t_env		*ft_get_env(char **envp);
 // executor.c
-void		ft_executor(char ** envp, t_command *command_list);
+void		ft_executor(t_command *command_list, t_env *env);
 //executor_redirections.c
-int		ft_manage_pipes(int *prev_pipe, t_command *current_command,
-				t_command *command_list, char **envp);
-int			ft_manage_redirections(t_command *current_command,
-				t_command *command_list, char **envp);
+int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
+				t_command *command_list);
+int			ft_manage_redirections(t_command *current_command);
 void		ft_heredoc(char *delimiter, int *pipefd);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
@@ -208,6 +207,7 @@ void		ft_clean_parser_memory_exit(t_command *command,
 // free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
+void		ft_free_envp(t_env *envp);
 void		ft_free_command_list(t_command *command_list);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
