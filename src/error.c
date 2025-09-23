@@ -12,9 +12,16 @@
 
 #include "minishell.h"
 
-void	ft_error_creating_pipe(t_command *command_list)
+//change to his struct y cerrar fd????
+void	ft_error_creating_pipe(int *prev_pipe)
 {
-	printf("minishell: Error creating pipes.");
-	ft_free_command_list(command_list);
-	exit(EXIT_FAILURE);
+	if (*prev_pipe != 1)
+		close(*prev_pipe);
+	printf("minishell: Error while creating pipes.");
+}
+
+void	ft_error_opening_files()
+{
+	ft_set_global_exit_status(T_FILES);
+	perror("minishell");
 }

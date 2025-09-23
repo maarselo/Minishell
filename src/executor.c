@@ -11,22 +11,27 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+// La barra imprime un quit corr dumped
 void	ft_set_signals_child_mode(void)
 {
 	signal(SIGINT, SIG_DFL);   // Ctrl+C mata al hijo
 	signal(SIGQUIT, SIG_DFL);  // Ctrl+\ mata al hijo
 }
 
-void	ft_executor(t_command *command_list)
+//void	ft_execute_command(current_command)
+
+void	ft_executor(char **envp, t_command *command_list)
 {
-	int			fd[2];
+	int			prev_pipe;
 	t_command	*current_command;
 
+	prev_pipe = -1;
 	current_command = command_list;
 	while (current_command)
 	{
-		ft_manage_redirections(&fd, current_command, command_list);
+		if (ft_manage_pipes(&prev_pipe, current_command, command_list, envp)
+			|| ft_manage_redirections(current_command, command_list, envp))
+			return ;//IDK if i need to kill all process
 		ft_execute_command(current_command);
 		current_command = current_command->next;
 	}
