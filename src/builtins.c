@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 18:10:54 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/09/25 18:44:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ft_echo(char **args)
 		flag_n = true;
 		i++;
 	}
+	while (args[i] && ft_strcmp(args[i], "-n"))
+		i++;
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
