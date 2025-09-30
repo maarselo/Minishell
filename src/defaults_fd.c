@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   defaults_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,32 @@
 
 #include "minishell.h"
 
-//change to his struct y cerrar fd????
-void	ft_error_creating_pipe(int *prev_pipe)
+t_saved_fd ft_store_defaults_fd()
 {
-	if (prev_pipe)
+	t_saved_fd saved_fd;
+
+	saved_fd.saved_stdin = dup(STDIN_FILENO);
+	saved_fd.saved_stdout = dup(STDOUT_FILENO);
+	if (saved_fd.saved_stdin == -1 || saved_fd.saved_stdout == -1)
 	{
-		if (*prev_pipe != 1)
-			close(*prev_pipe);
+		perror("minishell");
+		ft_set_global_exit_status(1);
 	}
-	printf("minishell: Error while creating pipes.");
+	return (saved_fd);
 }
 
-void	ft_error_opening_files()
+void	ft_close_defaults_fd(t_saved_fd *saved_fd)
 {
-	ft_set_global_exit_status(T_FILES);
-	perror("minishell");
+	if (saved_fd->saved_stdin != -1)
+		close(saved_fd->saved_stdin);
+	if (saved_fd->saved_stdout != -1)
+		close(saved_fd->saved_stdout);
+}
+
+void	ft_resturare_defaults_fd(t_saved_fd saved_fd)
+{
+	if (saved_fd.saved_stdin != -1)
+		dup2(saved_fd.saved_stdin, STDIN_FILENO);
+	if (saved_fd.saved_stdout != -1)
+		dup2(saved_fd.saved_stdout, STDOUT_FILENO);
 }

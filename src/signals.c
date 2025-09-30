@@ -32,3 +32,17 @@ void	ft_set_signals_prompt_mode(void)
 	signal(SIGINT, ft_sigint_handler_prompt_mode);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+static void	ft_sigint_hadler_heredoc_mode(int signal)
+{
+	(void)signal;
+
+	ft_set_global_exit_status(T_SIGINT);
+	ft_set_global_heredoc_status(1);//Lets finish th while
+}
+
+void	ft_set_signals_heredoc_mode(void)
+{
+	signal(SIGINT, 	ft_sigint_hadler_heredoc_mode);
+	signal(SIGQUIT, SIG_IGN);
+}

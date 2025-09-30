@@ -16,3 +16,8 @@ void	ft_set_global_exit_status(int new_exit_code)
 {
 	g_status.exit_status = new_exit_code;
 }
+
+void	ft_set_global_heredoc_status(int heredoc_status)
+{
+	g_status.heredoc_status = heredoc_status;
+}

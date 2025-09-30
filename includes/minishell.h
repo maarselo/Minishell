@@ -35,17 +35,24 @@ typedef enum exit_codes
 	T_GENERAL_ERROR = 1,
 	T_FILES = 1,
 	T_SYNTAX = 2,
-	T_NON_EXISTENT_DIRECTORY = 2,
-	T_DIRECTORY_PERMITS = 2,
+	T_NON_EXISTENT_DIRECTORY = 2,//cd
+	T_DIRECTORY_PERMITS = 2,//cd
 	T_EXECUTABLE_PERMITS = 126,
 	T_COMMAND_NOT_FOUND = 127,
 	T_SIGINT = 130,
 	T_SIGQUIT = 131,
 }			t_exit_types;
 
+/*
+sig_atomic_t → asegura que la lectura/escritura sea atómica
+				(no se corta en medio).
+volatile → asegura que cada vez que el programa use la variable,
+				 lea/escriba desde memoria, no desde registro cacheado.
+*/
 typedef struct s_global
 {
-	int	exit_status;
+	volatile sig_atomic_t	exit_status;
+	volatile sig_atomic_t	heredoc_status;
 }				t_global;
 
 extern t_global	g_status;
@@ -120,12 +127,29 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+
+/*
+	executor.c
+	Struct to save the real terminal fd, and the real stdout
+*/
+typedef struct s_saved_fd
+{
+	int			saved_stdin;
+	int			saved_stdout;
+}				t_saved_fd;
+
 // banner.c
 void		ft_print_banner(void);
 // signals.c
 void		ft_set_signals_prompt_mode(void);
+void		ft_set_signals_heredoc_mode(void);
 // global.c
 void		ft_set_global_exit_status(int new_exit_code);
+void		ft_set_global_heredoc_status(int heredoc_status);
+//default_fd.c
+t_saved_fd ft_store_defaults_fd();
+void		ft_close_defaults_fd(t_saved_fd *saved_fd);
+void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
 // minishell.c
 void		ft_input_loop(char **envp);
 // tokenizer_utils.c
@@ -191,12 +215,11 @@ void		ft_free_cmd(char **array);
 // env.c
 t_env		*ft_get_env(char **envp);
 // executor.c
-void		ft_executor(t_command *command_list, t_env *env);
+void		ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env);
 //executor_redirections.c
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 int			ft_manage_redirections(t_command *current_command);
-void		ft_heredoc(char *delimiter, int *pipefd);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
