@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 01:16:46 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:38:34 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,10 @@ void		ft_cd(char **args, t_env *env_list);
 void		ft_unset(char **args, t_env *env_list);
 // env.c
 t_env		*ft_get_env(char **envp);
+// env_utils.c
+int			ft_get_value_length(char *env_var, int i);
+t_env		*ft_create_env_node(char *name, char *value);
+void		ft_add_env_var(t_env **env_list, char *name, char *value);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 04:13:07 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:10:05 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,33 @@ void	ft_execute_builtin(t_command *cmd, t_env **env_list)
 		ft_pwd(cmd->command);
 	if (ft_strcmp(cmd, "unset") == 0)
 		ft_unset(cmd->command, env_list);
+	if (ft_strcmp(cmd, "env") == 0)
+		ft_env(cmd->command, *env_list);
+}
+
+void	ft_env(char **args, t_env *env_list)
+{
+	t_env	*current;
+
+	if (args[1])
+	{
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
+		g_status.exit_status = 127;
+		return ;
+	}
+	current = env_list;
+	while (current)
+	{
+		if (current->value)
+		{
+			ft_putstr_fd(current->name, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putstr_fd(current->value, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		current = current->next;
+	}
+	g_status.exit_status = 0;
 }
 
 void	ft_echo(char **args)
