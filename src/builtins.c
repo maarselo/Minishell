@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/25 18:44:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 04:13:07 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ int	ft_isbuiltin(char *cmd)
 	return (0);
 }
 
-void	ft_execute_builtin(t_command *cmd, t_env *env_list)
+void	ft_execute_builtin(t_command *cmd, t_env **env_list)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
 		ft_echo(cmd->command);
 	if (ft_strcmp(cmd, "cd") == 0)
-		ft_cd(cmd->command, env_list);
+		ft_cd(cmd->command, *env_list);
 	if (ft_strcmp(cmd, "pwd") == 0)
 		ft_pwd(cmd->command);
+	if (ft_strcmp(cmd, "unset") == 0)
+		ft_unset(cmd->command, env_list);
 }
 
 void	ft_echo(char **args)

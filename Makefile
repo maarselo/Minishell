@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/09/10 21:11:56 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/10/02 01:16:36 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS_FILES = minishell.c banner.c global.c signals.c \
 				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c \
 				parser.c parser_utils.c parser_redirection_utils.c init_parser_struct.c \
 				expander.c expander_utils.c wildcards.c wildcards_utils.c \
-				builtins.c \
+				env.c builtins.c builtins_cd.c builtins_unset.c\
 				free.c free_utils.c exit.c 
 #BONUS_FILES = 
 
