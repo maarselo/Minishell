@@ -95,7 +95,7 @@ void	ft_echo(char **args)
 	}
 	if (flag_n == false)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	g_status.exit_status = 0;
+	ft_set_global_exit_status(T_SUCCESS);
 }
 
 void	ft_pwd(char **args)
@@ -108,11 +108,11 @@ void	ft_pwd(char **args)
 		ft_putstr_fd(cwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		free(cwd);
-		g_status.exit_status = 0;
+		ft_set_global_exit_status(T_SUCCESS);
 	}
 	else
 	{
 		perror("minishell: pwd");
-		g_status.exit_status = 1;
+		ft_set_global_exit_status(T_GENERAL_ERROR);
 	}
 }

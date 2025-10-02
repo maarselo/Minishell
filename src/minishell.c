@@ -16,6 +16,7 @@ t_global	g_status;
 
 void	ft_process_input(char *input, t_env *env_list)
 {
+	(void)env_list;
 	t_command	*command_list;
 	t_token		*token_list;
 
@@ -36,8 +37,9 @@ void	ft_process_input(char *input, t_env *env_list)
 		free(input);
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
-		ft_expand(command_list);
-		ft_free_command_list(command_list);
+		ft_print_command_list(command_list);
+		//ft_expand(command_list);
+		//ft_free_command_list(command_list);
 	}
 }
 
@@ -58,10 +60,10 @@ void	ft_input_loop(char **envp)
 			free(input);
 			continue ;
 		}
-		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
-			ft_exit_free_input(input);
-		if (*input)
-			ft_process_input(input, &env_list);
+		if (!ft_strcmp(input, "exit")  || !ft_strncmp(input, "exit ", 5))
+			ft_exit_handler(input);
+		else if (*input)
+			ft_process_input(input, env_list);
 	}
 }
 

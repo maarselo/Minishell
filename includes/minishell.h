@@ -21,6 +21,10 @@
 # include <signal.h>
 # include <dirent.h>
 
+# define NO_VALUE "no_value"
+# define NULL_VALUE "null_value"
+# define WITH_VALUE "with_value"
+
 /*
 	minishell.h
 	Extern global to manipulate exit status from the last command
@@ -195,9 +199,11 @@ t_env		*ft_create_env_node(char *name, char *value);
 void		ft_add_env_var(t_env **env_list, char *name, char *value);
 // exit.c
 void		ft_exit_free_input(char *input);
+void		ft_exit_handler(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_command *command_list, t_token *token_list);
 // free.c
+void		ft_free_split(char **split);
 void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_command_list(t_command *command_list);

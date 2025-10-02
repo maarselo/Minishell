@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = -1;
+	while(split[++i])
+		free(split[i]);
+	free(split);
+}
+
 void	ft_free_token_and_input(char *input, t_token *token_list)
 {
 	t_token	*current;

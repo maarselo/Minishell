@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	ft_set_env_var(t_env *env_list, char *name, char *value)
 {
 	t_env	*var;
@@ -32,7 +32,7 @@ void	ft_set_env_var(t_env *env_list, char *name, char *value)
 		var->next;
 	}
 }
-
+//Y sino esya en la de por default
 void	ft_update_pwd(char *new_path, t_env *env_list)
 {
 	t_env	*var;
@@ -64,7 +64,7 @@ void	ft_cd(char **args, t_env *env_list)
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			g_status.exit_status = 1;
+			ft_set_global_exit_status(T_GENERAL_ERROR);
 			return ;
 		}
 	}
@@ -73,11 +73,12 @@ void	ft_cd(char **args, t_env *env_list)
 	if (chdir(path) != 0)
 	{
 		perror("minishell: cd");
-		g_status.exit_status = 1;
+		ft_set_global_exit_status(T_GENERAL_ERROR);
 	}
 	else
 	{
 		ft_update_pwd(path, env_list);
-        g_status.exit_status = 0;
+        ft_set_global_exit_status(T_SUCCESS);
 	}
 }
+/*
