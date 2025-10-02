@@ -27,23 +27,82 @@ void	ft_set_signals_child_mode(void)
 	signal(SIGQUIT, SIG_DFL);  // Ctrl+\ mata al hijo
 }
 */
+int		ft_get_env_size(t_env *env_list)
+{
+	int		i;
+	t_env	*tmp;
 
-void	ft_execute_command(t_command *current_command, t_env *env)
+	i = 0;
+	tmp = env_list;
+	while(tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+char	**ft_convert_list(t_env *env_list)
+{
+	int		i;
+	int		size;
+	char	**env_array;
+	char	*prev_to_free;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env_list;
+	size = ft_get_env_size(env_list);
+	env_array = (char **)ft_calloc(size + 1, sizeof(char *));
+	if (!env_array)
+		return (NULL); 
+	while (tmp)
+	{
+		if (tmp->name && tmp->value)
+		{
+			env_array[i] = ft_strjoin(tmp->name,"=");
+			if (!env_array[i])
+                return (NULL);
+			prev_to_free = env_array[i];
+			env_array[i] = ft_strjoin(env_array[i], tmp->value);
+			free(prev_to_free);
+			if (!env_array[i])
+				return (NULL);
+		}
+		else if (tmp->name)
+		{
+			env_array[i] = ft_strjoin(tmp->name, "=");
+            if (!env_array[i])
+                return (NULL); 
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
+
+void	ft_execute_command(t_command *current_command, t_env *env_list)
 {
 	pid_t	pid;
+	int		status;
+	char	**env;
 
+	env = ft_convert_list(env_list);
 	pid = fork();
-	if (current_command->)
 	if (pid == 0)
 	{
-		ft_set_signals_child_mode();
+		//ft_set_signals_child_mode();
 		ft_execute_command(current_command, env);
 	}
 	else
 	{
 		if (current_command->connector == AND_CONNECTOR)
 		{
-			waitpid()
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status) == 0)
+			
+	
 		}
 	}
 }
