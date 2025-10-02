@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:26:39 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:33:20 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_set_env_var(t_env *env_list, char *name, char *value)
 				var->value = NULL;
 			return ;
 		}
-		var->next;
+		var = var->next;
 	}
 }
 

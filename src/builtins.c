@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:31:51 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:35:55 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int	ft_isbuiltin(char *cmd)
 
 void	ft_execute_builtin(t_command *cmd, t_env **env_list)
 {
-	if (ft_strcmp(cmd, "echo") == 0)
+	if (ft_strcmp(cmd->command[0], "echo") == 0)
 		ft_echo(cmd->command);
-	if (ft_strcmp(cmd, "cd") == 0)
+	if (ft_strcmp(cmd->command[0], "cd") == 0)
 		ft_cd(cmd->command, *env_list);
-	if (ft_strcmp(cmd, "pwd") == 0)
+	if (ft_strcmp(cmd->command[0], "pwd") == 0)
 		ft_pwd(cmd->command);
-	if (ft_strcmp(cmd, "unset") == 0)
+	if (ft_strcmp(cmd->command[0], "unset") == 0)
 		ft_unset(cmd->command, env_list);
-	if (ft_strcmp(cmd, "env") == 0)
+	if (ft_strcmp(cmd->command[0], "env") == 0)
 		ft_env(cmd->command, *env_list);
-	if (ft_strcmp(cmd, "export") == 0)
+	if (ft_strcmp(cmd->command[0], "export") == 0)
 		ft_export(cmd->command, *env_list);
 }
 
@@ -86,7 +86,7 @@ void	ft_echo(char **args)
 		flag_n = true;
 		i++;
 	}
-	while (args[i] && ft_strcmp(args[i], "-n"))
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
 		i++;
 	while (args[i])
 	{
@@ -104,6 +104,12 @@ void	ft_pwd(char **args)
 {
 	char	*cwd;
 
+	if (args[1])
+	{
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
+		ft_set_global_exit_status(T_GENERAL_ERROR);
+		return ;
+	}
 	cwd = getcwd(NULL, 0);
 	if (cwd != NULL)
 	{

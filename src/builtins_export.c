@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:22:25 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:29:03 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:14:56 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_env	*ft_clone_env_list(t_env *env_list)
 			node->name = ft_strdup(tmp->name);
 		if (!node->name)
 			return (ft_free_envp(sorted), ft_free_envp(env_list), free(node->value), free(node), ft_set_global_exit_status(T_GENERAL_ERROR), NULL );
-		ft_insert_env_sorted(node, &sorted);
+		ft_insert_node_sorted(node, &sorted);
 		tmp = tmp->next;
 	}
 	return (sorted);
@@ -145,19 +145,19 @@ void	ft_export(char **command, t_env *env_list)
 		}
 		else if (!ft_strchr(command[i], '=') && ft_is_all_asnum(command[i]))
 		{
-			if (ft_add_var_without_value(command[i], env_list))
+			if (ft_create_and_add_variable(NO_VALUE, command[i], env_list))
 				return ;//malloc error
 			ft_set_global_exit_status(T_SUCCESS);
 		}
 		else if (ft_strchr(command[i], '=') && (command[i][ft_strlen(command[i]) - 1] == '='))
 		{
-			if (ft_add_var_with_null_value(command[i], env_list))
+			if (ft_create_and_add_variable(NULL_VALUE, command[i], env_list))
 				return ;//manage error
 			ft_set_global_exit_status(T_SUCCESS);
 		}
 		else if (ft_strchr(command[i], '=') && (command[i][ft_strlen(command[i]) - 1] != '='))
 		{
-			if (ft_add_var_with_value(command[i], env_list))
+			if (ft_create_and_add_variable(WITH_VALUE, command[i], env_list))
 				return ; //manage error
 			ft_set_global_exit_status(T_SUCCESS);
 		}

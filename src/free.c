@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 23:57:46 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/10/02 19:20:45 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:16:05 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,21 @@ void	ft_free_split(char **split)
 	while(split[++i])
 		free(split[i]);
 	free(split);
+}
+
+void	ft_free_envp(t_env *envp)
+{
+	t_env	*tmp;
+	t_env	*next;
+	tmp = envp;
+	while (tmp)
+	{
+		next = tmp->next;
+		if (tmp->name)
+			free(tmp->name);
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+		tmp = next;
+	}
 }

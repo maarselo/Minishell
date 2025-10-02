@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:29:27 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:26:11 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,11 +186,13 @@ int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
 // builtins.c
 int			ft_isbuiltin(char *cmd);
-void		ft_execute_builtin(t_command *cmd, t_env *env_list);
+void		ft_execute_builtin(t_command *cmd, t_env **env_list);
+void		ft_echo(char **args);
+void		ft_pwd(char **args);
 // builtins_cd.c
 void		ft_cd(char **args, t_env *env_list);
 // builtins_unset.c
-void		ft_unset(char **args, t_env *env_list);
+void		ft_unset(char **args, t_env **env_list);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
 // env.c
@@ -209,6 +211,7 @@ void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_command_list(t_command *command_list);
 void		ft_free_split(char **split);
+void		ft_free_envp(t_env *envp);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);

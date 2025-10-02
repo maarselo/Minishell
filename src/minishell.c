@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:20:01 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:34:35 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	ft_input_loop(char **envp)
 		else if (*input)
 			ft_process_input(input, &env_list);
 	}
+	/*char *test1[] = {"pwd", NULL};
+	char *test2[] = {"cd", "test/", NULL};
+    ft_pwd(test1);
+	ft_cd(test2, env_list);
+	ft_pwd(test1);*/
 }
 
 int	main(int argc, char **argv, char **envp)
