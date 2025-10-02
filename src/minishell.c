@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 04:10:19 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:20:01 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	ft_input_loop(char **envp)
 			free(input);
 			continue ;
 		}
-		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
-			ft_exit_free_input(input);
-		if (*input)
+		if (!ft_strcmp(input, "exit")  || !ft_strncmp(input, "exit ", 5))
+			ft_exit_handler(input);
+		else if (*input)
 			ft_process_input(input, &env_list);
 	}
 }

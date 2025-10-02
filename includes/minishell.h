@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 17:38:34 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:29:27 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <dirent.h>
+
+# define NO_VALUE "no_value"
+# define NULL_VALUE "null_value"
+# define WITH_VALUE "with_value"
 
 /*
 	minishell.h
@@ -187,6 +191,8 @@ void		ft_execute_builtin(t_command *cmd, t_env *env_list);
 void		ft_cd(char **args, t_env *env_list);
 // builtins_unset.c
 void		ft_unset(char **args, t_env *env_list);
+// builtins_export.c
+void		ft_export(char **command, t_env *env_list);
 // env.c
 t_env		*ft_get_env(char **envp);
 // env_utils.c
@@ -197,10 +203,12 @@ void		ft_add_env_var(t_env **env_list, char *name, char *value);
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_command *command_list, t_token *token_list);
+void		ft_exit_handler(char *input);
 // free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_command_list(t_command *command_list);
+void		ft_free_split(char **split);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);

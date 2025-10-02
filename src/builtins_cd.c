@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 17:49:06 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:26:39 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_cd(char **args, t_env *env_list)
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			g_status.exit_status = 1;
+			ft_set_global_exit_status(T_GENERAL_ERROR);
 			return ;
 		}
 	}
@@ -73,11 +73,11 @@ void	ft_cd(char **args, t_env *env_list)
 	if (chdir(path) != 0)
 	{
 		perror("minishell: cd");
-		g_status.exit_status = 1;
+		ft_set_global_exit_status(T_GENERAL_ERROR);
 	}
 	else
 	{
 		ft_update_pwd(path, env_list);
-        g_status.exit_status = 0;
+        ft_set_global_exit_status(T_SUCCESS);
 	}
 }

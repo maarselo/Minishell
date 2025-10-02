@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:46:23 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 18:10:05 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:31:51 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_execute_builtin(t_command *cmd, t_env **env_list)
 		ft_unset(cmd->command, env_list);
 	if (ft_strcmp(cmd, "env") == 0)
 		ft_env(cmd->command, *env_list);
+	if (ft_strcmp(cmd, "export") == 0)
+		ft_export(cmd->command, *env_list);
 }
 
 void	ft_env(char **args, t_env *env_list)
@@ -54,7 +56,7 @@ void	ft_env(char **args, t_env *env_list)
 	if (args[1])
 	{
 		ft_putstr_fd("minishell: env: too many arguments\n", 2);
-		g_status.exit_status = 127;
+		ft_set_global_exit_status(T_GENERAL_ERROR);
 		return ;
 	}
 	current = env_list;
@@ -69,7 +71,7 @@ void	ft_env(char **args, t_env *env_list)
 		}
 		current = current->next;
 	}
-	g_status.exit_status = 0;
+	ft_set_global_exit_status(T_SUCCESS);
 }
 
 void	ft_echo(char **args)
@@ -95,7 +97,7 @@ void	ft_echo(char **args)
 	}
 	if (flag_n == false)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	g_status.exit_status = 0;
+	ft_set_global_exit_status(T_SUCCESS);
 }
 
 void	ft_pwd(char **args)
@@ -108,11 +110,11 @@ void	ft_pwd(char **args)
 		ft_putstr_fd(cwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		free(cwd);
-		g_status.exit_status = 0;
+		ft_set_global_exit_status(T_SUCCESS);
 	}
 	else
 	{
 		perror("minishell: pwd");
-		g_status.exit_status = 1;
+		ft_set_global_exit_status(T_GENERAL_ERROR);
 	}
 }
