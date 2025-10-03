@@ -30,7 +30,7 @@ void	ft_insert_node_sorted(t_env *node, t_env **sorted)
 		previous = current;
 		current = current->next;
 	}
-	previous->next;
+	previous->next = node;
 	node->next = current;
 }
 
@@ -91,7 +91,7 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 {
 	t_env	*env;
 
-	env = (char *)ft_calloc(sizeof(t_env *), 1);
+	env = (t_env *)ft_calloc(sizeof(t_env *), 1);
 
 	if (!ft_strcmp(mode, NO_VALUE))
 	{
@@ -140,7 +140,7 @@ void	ft_export(char **command, t_env *env_list)
 	{
 		if (ft_isdigit(command[i][0]) || command[i][0] == '=' || !ft_contains_metachar(command[i]))
 		{
-			printf("minishell: export: `%s`: not a valid identifier\n");
+			printf("minishell: export: `%s`: not a valid identifier\n", command[0]);
 			ft_set_global_exit_status(T_GENERAL_ERROR);
 		}
 		else if (!ft_strchr(command[i], '=') && ft_is_all_asnum(command[i]))

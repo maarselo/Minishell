@@ -38,6 +38,7 @@ void	ft_update_pwd(char *new_path, t_env *env_list)
 	t_env	*var;
 	char	*old_path;
 
+	old_path = NULL;
 	var = env_list;
 	while (var)
 	{

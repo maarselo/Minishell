@@ -93,20 +93,3 @@ void	ft_free_split(char **split)
 		free(split[i]);
 	free(split);
 }
-
-void	ft_free_envp(t_env *envp)
-{
-	t_env	*tmp;
-	t_env	*next;
-	tmp = envp;
-	while (tmp)
-	{
-		next = tmp->next;
-		if (tmp->name)
-			free(tmp->name);
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
-		tmp = next;
-	}
-}

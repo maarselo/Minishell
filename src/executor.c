@@ -66,11 +66,11 @@ char	**ft_convert_list(t_env *env_list)
 	env_array[i] = NULL;
 	return (env_array);
 }
-
+/*
 int	ft_execute_command(t_command *current_command, t_env *env_list)
 {
 
-}
+}*/
 
 void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
 {
@@ -85,7 +85,7 @@ void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
 		if (ft_manage_pipes(&prev_pipe, current_command, command_list)
 			|| ft_manage_redirections(current_command))
 			return ;//IDK if i need to kill all process
-		ft_execute_command(current_command, env);
+		//ft_execute_command(current_command, env);
 		ft_resturare_defaults_fd(saved_fd);
 		current_command = current_command->next;
 	}
