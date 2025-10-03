@@ -121,13 +121,6 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
 /*
 	env.c
 	Struct to manage env in the executor...
@@ -236,6 +229,7 @@ int			ft_manage_redirections(t_command *current_command);
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
 // builtins.c
+void		ft_env(char **args, t_env *env_list);
 int			ft_isbuiltin(char *cmd);
 void		ft_execute_builtin(t_command *cmd, t_env **env_list);
 void		ft_echo(char **args);
