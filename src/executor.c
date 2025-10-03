@@ -11,22 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-void	ft_sigquit_handler_child_mode(int signal)
-{
-	(void)signal;
-	ft_set_global_exit_status(T_SIGQUIT);
-	printf("Quit (core dumped)\n");
-	kill();
-}
 
-// La barra imprime un quit corr dumped
-void	ft_set_signals_child_mode(void)
-{
-	signal(SIGINT, SIG_DFL);   // Ctrl+C mata al hijo
-	signal(SIGQUIT, SIG_DFL);  // Ctrl+\ mata al hijo
-}
-*/
 int		ft_get_env_size(t_env *env_list)
 {
 	int		i;
@@ -82,29 +67,9 @@ char	**ft_convert_list(t_env *env_list)
 	return (env_array);
 }
 
-void	ft_execute_command(t_command *current_command, t_env *env_list)
+int	ft_execute_command(t_command *current_command, t_env *env_list)
 {
-	pid_t	pid;
-	int		status;
-	char	**env;
 
-	env = ft_convert_list(env_list);
-	pid = fork();
-	if (pid == 0)
-	{
-		//ft_set_signals_child_mode();
-		ft_execute_command(current_command, env);
-	}
-	else
-	{
-		if (current_command->connector == AND_CONNECTOR)
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status) == 0)
-			
-	
-		}
-	}
 }
 
 void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
