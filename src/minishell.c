@@ -74,7 +74,7 @@ void	ft_input_loop(char **envp)
 void	ft_set_init_global_variables(void)
 {
 	ft_set_global_exit_status(T_SUCCESS);
-	ft_set_global_heredoc_status(0);//To init.
+	ft_set_global_heredoc_status(0);
 }
 
 int	main(int argc, char **argv, char **envp)
