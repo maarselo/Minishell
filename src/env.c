@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_get_value_length(char *env_var, int i)
-{
-	int	l;
-
-	l = 0;
-	while (env_var[i])
-	{
-		l++;
-		i++;
-	}
-	return (l);
-}
-
 char	*ft_get_name_env(char *env_var)
 {
 	char	*name;
@@ -96,20 +83,42 @@ t_env	*ft_init_env(char *env_var)
 	return (var);
 }
 
+t_env	*ft_init_min_env()
+{
+	t_env	*env_list;
+	char	*cwd;
+
+	env_list = NULL;
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		ft_add_env_var(&env_list, "PWD", cwd);
+		free(cwd);
+	}
+	ft_add_env_var(&env_list, "SHLVL", "1");
+	ft_add_env_var(&env_list, "OLDPWD", "");
+	return (env_list);
+}
+
 t_env	*ft_get_env(char **envp)
 {
-	t_env	*var;
-	t_env	*next_var;
+	t_env	*head;
+	t_env	*current;
 	int		i;
 
-	var = ft_init_env(envp[0]);
-	next_var = var;
+	if (!envp || !*envp)
+		return (ft_init_min_env());
+	head = ft_init_env(envp[0]);
+	if (!head)
+		return (NULL);
+	current = head;
 	i = 1;
 	while (envp[i])
 	{
-		next_var->next = ft_init_env(envp[i]);
-		next_var = next_var->next;
+		current->next = ft_init_env(envp[i]);
+		current = current->next;
 		i++;
 	}
-	return (var);
+	current->next = NULL;
+	return (head);
 }

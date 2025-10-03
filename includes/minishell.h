@@ -6,7 +6,7 @@
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 17:03:07 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:26:11 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # define MODE_READ "r"
 # define MODE_WRITE "w"
 # define MODE_APPEND "a"
+
+# define NO_VALUE "no_value"
+# define NULL_VALUE "null_value"
+# define WITH_VALUE "with_value"
 
 /*
 	minishell.h
@@ -98,7 +102,7 @@ typedef enum e_connector_type
 	PIPE_CONNECTOR = 1,
 	AND_CONNECTOR = 2,
 	OR_CONNECTOR = 3,
-}			t_connector_type;
+}	t_connector_type;
 
 typedef struct s_redirect
 {
@@ -107,7 +111,7 @@ typedef struct s_redirect
 	bool	append;
 	bool	heredoc;
 	char	*delimiter;
-}			t_redirect;
+}	t_redirect;
 
 typedef struct s_command
 {
@@ -115,7 +119,14 @@ typedef struct s_command
 	t_redirect			*redirection;
 	t_connector_type	connector;
 	struct s_command	*next;
-}			t_command;
+}	t_command;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 /*
 	env.c
@@ -224,15 +235,35 @@ int			ft_manage_redirections(t_command *current_command);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
+// builtins.c
+int			ft_isbuiltin(char *cmd);
+void		ft_execute_builtin(t_command *cmd, t_env **env_list);
+void		ft_echo(char **args);
+void		ft_pwd(char **args);
+// builtins_cd.c
+void		ft_cd(char **args, t_env *env_list);
+// builtins_unset.c
+void		ft_unset(char **args, t_env **env_list);
+// builtins_export.c
+void		ft_export(char **command, t_env *env_list);
+// env.c
+t_env		*ft_get_env(char **envp);
+// env_utils.c
+int			ft_get_value_length(char *env_var, int i);
+t_env		*ft_create_env_node(char *name, char *value);
+void		ft_add_env_var(t_env **env_list, char *name, char *value);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_command *command_list, t_token *token_list);
+void		ft_exit_handler(char *input);
 // free.c
 void		ft_free_token_and_input(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_envp(t_env *envp);
 void		ft_free_command_list(t_command *command_list);
+void		ft_free_split(char **split);
+void		ft_free_envp(t_env *envp);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
