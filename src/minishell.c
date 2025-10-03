@@ -14,7 +14,6 @@
 
 t_global	g_status;
 
-//Manejar exit difeerentes tipos
 void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 {
 	(void)env_list;
