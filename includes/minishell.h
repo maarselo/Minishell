@@ -226,6 +226,7 @@ char		*ft_get_env_value(t_env *env_list, char *name_var);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
+void		ft_execute_wildcards(t_command *cmd, int *i);
 // wildcards_utils.c
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
@@ -260,7 +261,7 @@ void		ft_env(char **args, t_env *env_list);
 
 // executor.c
 void		ft_executor(t_command *command_list, t_saved_fd saved_fd,
-				t_env *env);
+				t_env **env);
 // executor_pipes.c
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
