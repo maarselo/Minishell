@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	ft_set_init_global_variables(void)
+{
+	ft_set_global_exit_status(T_SUCCESS);
+	ft_set_global_heredoc_status(0);
+}
+
 void	ft_set_global_exit_status(int new_exit_code)
 {
 	g_status.exit_status = new_exit_code;

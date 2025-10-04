@@ -16,7 +16,7 @@ t_global	g_status;
 
 void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 {
-	(void)env_list;
+	(void)saved_fd;
 	t_command	*command_list;
 	t_token		*token_list;
 
@@ -38,7 +38,7 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_token_list(token_list);
 		ft_expand(command_list);
-		ft_executor(command_list, saved_fd, env_list);
+		//ft_executor(command_list, saved_fd, env_list);
 		ft_free_command_list(command_list);
 	}
 }
@@ -46,8 +46,8 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 void	ft_input_loop(char **envp)
 {
 	char		*input;
-	t_saved_fd	saved_fd;
 	t_env		*env_list;
+	t_saved_fd	saved_fd;
 
 	env_list = ft_get_env(envp);
 	saved_fd = ft_store_defaults_fd();
@@ -57,13 +57,13 @@ void	ft_input_loop(char **envp)
 		input = readline("\033[1;32mminishell $\033[0m ");
 		if (!input)
 			ft_exit_free_input(input);
-		if (ft_strlen(input) == 0)
+		if (!ft_strlen(input))
 		{
 			free(input);
 			continue ;
 		}
-		if (!ft_strncmp(input, "exit", ft_strlen("exit") + 1))
-			ft_exit_free_input(input);
+		if (!ft_strcmp(input, "exit")  || !ft_strncmp(input, "exit ", 5))
+			ft_exit_handler(input);
 		if (*input)
 			ft_process_input(input, saved_fd, env_list);
 	}
@@ -71,11 +71,6 @@ void	ft_input_loop(char **envp)
 	ft_close_defaults_fd(&saved_fd);
 }
 
-void	ft_set_init_global_variables(void)
-{
-	ft_set_global_exit_status(T_SUCCESS);
-	ft_set_global_heredoc_status(0);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -83,5 +78,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (0);
 	ft_print_banner();
+	ft_set_init_global_variables();
 	ft_input_loop(envp);
 }

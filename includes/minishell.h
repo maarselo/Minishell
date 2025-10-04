@@ -123,7 +123,8 @@ typedef struct s_command
 
 /*
 	env.c
-	Struct to manage env in the executor...
+	Struct to manage transform char ** to linked_list,
+	to manipualte variables.
 */
 typedef struct s_env
 {
@@ -131,7 +132,6 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-
 
 /*
 	executor.c
@@ -143,20 +143,25 @@ typedef struct s_saved_fd
 	int			saved_stdout;
 }				t_saved_fd;
 
-// banner.c
-void		ft_print_banner(void);
 // signals.c
 void		ft_set_signals_prompt_mode(void);
 void		ft_set_signals_heredoc_mode(void);
+
 // global.c
+void		ft_set_init_global_variables(void);
 void		ft_set_global_exit_status(int new_exit_code);
 void		ft_set_global_heredoc_status(int heredoc_status);
+
 //default_fd.c
-t_saved_fd ft_store_defaults_fd();
+t_saved_fd	ft_store_defaults_fd(void);
 void		ft_close_defaults_fd(t_saved_fd *saved_fd);
 void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
+
+// banner.c
+void		ft_print_banner(void);
 // minishell.c
 void		ft_input_loop(char **envp);
+
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
@@ -165,6 +170,7 @@ t_token		*ft_init_token(char *content);
 void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
+
 // syntax_checker_utils.c
 int			ft_check_content_quotes(char *input);
 // sytax_checker
@@ -178,12 +184,7 @@ int			ft_check_close_parenthesis(t_token *token);
 int			ft_check_if_have_parenthesis(t_token *token);
 // syntax.c
 bool		ft_syntax(t_token *token);
-// init_parser_struct.c
-t_command	*ft_create_command_struct(void);
-t_redirect	*ft_create_redirection_struct(int *malloc_eror);
-char		*ft_strdup_with_flag(int *malloc_error, const char *s);
-char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
-				t_token *end);
+
 // parser_redirection_utils
 int			ft_have_any_redirection(t_token *start, t_token *end);
 void		ft_set_redirect_infile(int *malloc_error, t_token *token,
@@ -200,8 +201,16 @@ int			ft_check_if_end_command(t_token *token);
 t_token		*ft_get_previos_token(bool first, t_token *start, t_token *to_find);
 int			ft_get_if_its_redirection_type(t_token *t);
 void		ft_add_command_into_list(t_command *new_command, t_command *top);
+// init_parser_struct.c
+t_command	*ft_create_command_struct(void);
+t_redirect	*ft_create_redirection_struct(int *malloc_eror);
+char		*ft_strdup_with_flag(int *malloc_error, const char *s);
+char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
+				t_token *end);
 // parser.c
 t_command	*ft_tokens_to_command_struct(t_token *token_list);
+
+
 // expander.c
 void		ft_expand(t_command *cmd);
 char		*ft_expand_var(char *str, int *i);
@@ -220,7 +229,8 @@ void		ft_free_cmd(char **array);
 // env.c
 t_env		*ft_get_env(char **envp);
 // executor.c
-void		ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env);
+void		ft_executor(t_command *command_list, t_saved_fd saved_fd,
+				t_env *env);
 //executor_redirections.c
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
@@ -263,7 +273,7 @@ void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
 //error
 void		ft_error_creating_pipe(int *prev_pipe);
-void		ft_error_opening_files();
+void		ft_error_opening_files(void);
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);

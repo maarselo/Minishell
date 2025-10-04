@@ -12,14 +12,10 @@
 
 #include "minishell.h"
 
-/*
-	This two fucntions are used to set the signals the Ctrl+C, start a new line
-	at the prompt and actualice the global exit status from the last command to
-	130
-*/
 static void	ft_sigint_handler_prompt_mode(int signal)
 {
 	(void)signal;
+
 	ft_set_global_exit_status(T_SIGINT);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
@@ -38,7 +34,7 @@ static void	ft_sigint_hadler_heredoc_mode(int signal)
 	(void)signal;
 
 	ft_set_global_exit_status(T_SIGINT);
-	ft_set_global_heredoc_status(1);//Lets finish th while
+	ft_set_global_heredoc_status(1);
 }
 
 void	ft_set_signals_heredoc_mode(void)

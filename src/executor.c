@@ -142,7 +142,7 @@ int	ft_execute_command(t_command *current_command, t_env *env_list)
 		if (current_command->connector = AND)
 	}
 }
-*/
+
 void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
 {
 	(void)env;
@@ -161,3 +161,4 @@ void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
 		current_command = current_command->next;
 	}
 }
+*/

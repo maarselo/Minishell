@@ -125,11 +125,9 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 
 void	ft_export(char **command, t_env *env_list)
 {
-	t_env	*tmp;
 	int		i;
 
 	i = 1;
-	tmp = env_list;
 	if (!ft_strncmp(command[0], "export", ft_strlen("export") && !command[1]))
 	{
 		ft_print_order_variables(env_list);

@@ -37,6 +37,7 @@ void    ft_exit_handler(char *input)
     int        number;
     char    **exit_split;
 
+    printf("exit\n");
     if (!ft_strcmp(input, "exit") || !ft_strcmp(input, "exit "))
     {
         free (input);
