@@ -240,7 +240,7 @@ int			ft_find_env_var_name(t_env *env_list, char *name);
 
 // builtins.c
 int			ft_isbuiltin(char *cmd);
-void		ft_execute_builtin(t_command *cmd, t_env **env_list);
+void		ft_execute_builtin(t_command *cmd, t_env **env_list, t_command*list);
 // bultins_echo.c
 void		ft_echo(char **args);
 // bultins_cd.c

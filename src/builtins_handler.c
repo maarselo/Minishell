@@ -32,8 +32,8 @@ int	ft_isbuiltin(char *cmd)
 		return (1);
 	return (0);
 }
-
-void	ft_execute_builtin(t_command *cmd, t_env **env_list)
+//mange arguemts errors
+void	ft_execute_builtin(t_command *cmd, t_env **env_list, t_command *list)
 {
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
 		ft_echo(cmd->command);
