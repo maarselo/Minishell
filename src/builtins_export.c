@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:22:25 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 15:17:41 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:29:17 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,23 @@ t_env	*ft_clone_env_list(t_env *env_list)
 	{
 		node = (t_env *)ft_calloc(1, sizeof(t_env));
 		if (!node)
-			return (perror("minishell: "), ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
+			return (perror("minishell: "),
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 		if (tmp->value)
 		{
 			node->value = ft_strdup(tmp->value);
 			if (!node->value)
-				return (ft_free_envp(sorted), ft_free_envp(env_list), free(node), ft_set_global_exit_status(T_GENERAL_ERROR), NULL );
+				return (ft_free_envp(sorted), ft_free_envp(env_list),
+					ft_set_global_exit_status(T_GENERAL_ERROR),
+					free(node), NULL);
 		}
 		if (tmp->name)
 		{
 			node->name = ft_strdup(tmp->name);
 			if (!node->name)
-				return (ft_free_envp(sorted), ft_free_envp(env_list), free(node->value), free(node), ft_set_global_exit_status(T_GENERAL_ERROR), NULL );
+				return (ft_free_envp(sorted), ft_free_envp(env_list),
+					free(node->value), free(node),
+					ft_set_global_exit_status(T_GENERAL_ERROR), NULL );
 		}
 		ft_insert_node_sorted(node, &sorted);
 		tmp = tmp->next;
@@ -74,7 +79,6 @@ void	ft_print_order_variables(t_env *list)
 	if (!order_env)
 		return ;
 	tmp = order_env;
-	
 	while (tmp)
 	{
 		if (tmp->value)
@@ -113,7 +117,8 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 	{
 		env->name = ft_strdup(command);
 		if (!env->name)
-			return (perror("minishell :"), ft_set_global_exit_status(T_GENERAL_ERROR), free(env), 1);
+			return (perror("minishell :"), free(env),
+				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
 		ft_add_var_into_list(env, env_list);
 		ft_set_global_exit_status(T_SUCCESS);
 	}
@@ -121,20 +126,25 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 	{
 		env->name = ft_strndup(command, ft_strlen(command) - 1);
 		if (!env->name)
-			return (perror("minishell :"),ft_set_global_exit_status(T_GENERAL_ERROR) ,free(env), 1);
+			return (perror("minishell :"), free(env),
+				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
 		env->value = ft_strdup("");
 		if (!env->value)
-			return (perror("minishell :"),ft_set_global_exit_status(T_GENERAL_ERROR) ,free(env->name), free(env), 1);
+			return (perror("minishell :"), free(env->name), free(env),
+				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
 		ft_add_var_into_list(env, env_list);
 	}
 	else if (!ft_strcmp(mode, WITH_VALUE))
 	{
 		env->name = ft_substr(command, 0, ft_strchr(command, '=') - command);
 		if (!env->name)
-			return (perror("minishell :"),ft_set_global_exit_status(T_GENERAL_ERROR) , free(env), 1);
-		env->value = ft_substr(command, ft_strlen(env->name) + 1, ft_strlen(command)- ft_strlen(env->name) - 1);
+			return (perror("minishell :"), free(env),
+				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+		env->value = ft_substr(command, ft_strlen(env->name) + 1,
+				ft_strlen(command) - ft_strlen(env->name) - 1);
 		if (!env->value)
-			return (perror("minishell: "),ft_set_global_exit_status(T_GENERAL_ERROR) , free(env->name), free(env), 1);
+			return (perror("minishell: "), free(env->name), free(env),
+				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
 		ft_add_var_into_list(env, env_list);
 	}
 	return (0);
@@ -153,9 +163,11 @@ void	ft_export(char **command, t_env *env_list)
 	}
 	while (command[i])
 	{
-		if (ft_isdigit(command[i][0]) || command[i][0] == '=' || ft_contains_metachar(command[i]))
+		if (ft_isdigit(command[i][0]) || command[i][0] == '='
+			|| ft_contains_metachar(command[i]))
 		{
-			printf("minishell: export: `%s`: not a valid identifier\n", command[i]);
+			printf("minishell: export: `%s`: not a valid identifier\n",
+				command[i]);
 			ft_set_global_exit_status(T_GENERAL_ERROR);
 		}
 		else if (!ft_strchr(command[i], '=') && ft_is_all_asnum(command[i]))
@@ -164,16 +176,18 @@ void	ft_export(char **command, t_env *env_list)
 				return ;//malloc error
 			ft_set_global_exit_status(T_SUCCESS);
 		}
-		else if (ft_strchr(command[i], '=') && (command[i][ft_strlen(command[i]) - 1] == '='))
+		else if (ft_strchr(command[i], '=')
+			&& (command[i][ft_strlen(command[i]) - 1] == '='))
 		{
 			if (ft_create_and_add_variable(NULL_VALUE, command[i], env_list))
 				return ;//manage error
 			ft_set_global_exit_status(T_SUCCESS);
 		}
-		else if (ft_strchr(command[i], '=') && (command[i][ft_strlen(command[i]) - 1] != '='))
+		else if (ft_strchr(command[i], '=')
+			&& (command[i][ft_strlen(command[i]) - 1] != '='))
 		{
 			if (ft_create_and_add_variable(WITH_VALUE, command[i], env_list))
-				return ; //manage error
+				return ;//manage error
 			ft_set_global_exit_status(T_SUCCESS);
 		}
 		i++;
