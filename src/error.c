@@ -22,7 +22,7 @@ void	ft_error_creating_pipe(int *prev_pipe)
 	printf("minishell: Error while creating pipes.");
 }
 
-void	ft_error_opening_files()
+void	ft_error_opening_files(void)
 {
 	ft_set_global_exit_status(T_FILES);
 	perror("minishell");
