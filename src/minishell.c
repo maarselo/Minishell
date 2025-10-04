@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/09/23 16:20:55 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:12:54 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_global	g_status;
 
-void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
+void	ft_process_input(char *input, t_saved_fd saved_fd, t_env **env_list)
 {
 	t_command	*command_list;
 	t_token		*token_list;
@@ -31,9 +31,9 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 	{
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_input_token(input, token_list);
-		ft_expand(command_list);
+		ft_expand(command_list, *env_list);
 		ft_executor(command_list, saved_fd, env_list);
-		ft_free_data(env_list, command_list);
+		ft_free_data(*env_list, command_list);
 	}
 }
 
@@ -59,7 +59,7 @@ void	ft_input_loop(char **envp)
 		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
 			ft_exit_handler(input);
 		if (*input)
-			ft_process_input(input, saved_fd, env_list);
+			ft_process_input(input, saved_fd, &env_list);
 	}
 	ft_free_envp(env_list);
 	ft_close_defaults_fd(&saved_fd);

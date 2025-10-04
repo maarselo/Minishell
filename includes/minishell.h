@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 20:26:11 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:35:38 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
 // banner.c
 void		ft_print_banner(void);
 // minishell.c
-void		ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list);
+void		ft_process_input(char *input, t_saved_fd saved_fd,
+				t_env **env_list);
 void		ft_input_loop(char **envp);
 
 // tokenizer_utils.c
@@ -213,13 +214,15 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list);
 
 /////////////////////////////////////////////////////////////////////
 // expander.c
-void		ft_expand(t_command *cmd);
-char		*ft_expand_var(char *str, int *i);
+void		ft_expand(t_command *cmd, t_env *env_list);
+char		*ft_expand_var(char *str, int *i, t_env *env_list);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
-char		*ft_expand_tilde(char *result);
-char		*ft_handle_expansion(char *result, char *str, int *i);
+char		*ft_expand_tilde(char *result, t_env *env_list);
+char		*ft_handle_expansion(char *result, char *str, int *i,
+				t_env *env_list);
+char		*ft_get_env_value(t_env *env_list, char *name_var);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);

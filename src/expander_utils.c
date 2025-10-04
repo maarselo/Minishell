@@ -6,19 +6,19 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 17:15:58 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:30:22 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_handle_expansion(char *result, char *str, int *i)
+char	*ft_handle_expansion(char *result, char *str, int *i, t_env *env_list)
 {
 	char	*tmp;
 
 	if (str[*i] == '$')
 	{
-		tmp = ft_expand_var(str, i);
+		tmp = ft_expand_var(str, i, env_list);
 		result = ft_join_str_var(result, tmp);
 		free(tmp);
 	}
@@ -30,11 +30,11 @@ char	*ft_handle_expansion(char *result, char *str, int *i)
 	return (result);
 }
 
-char	*ft_expand_tilde(char *result)
+char	*ft_expand_tilde(char *result, t_env *env_list)
 {
 	char	*tmp;
 
-	tmp = getenv("HOME");
+	tmp = ft_get_env_value(env_list, "HOME");
 	if (!tmp)
 		return (ft_strdup(result));
 	result = ft_join_str_var(result, tmp + 1);
@@ -62,4 +62,18 @@ char	*ft_join_str_var(char *str, char *to_append)
 	joined = ft_strjoin(str, to_append);
 	free(str);
 	return (joined);
+}
+
+char	*ft_get_env_value(t_env *env_list, char *name_var)
+{
+	t_env	*current;
+
+	current = env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->name, name_var) == 0)
+			break ;
+		current = current->next;
+	}
+	return (ft_strdup(current->value));
 }
