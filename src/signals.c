@@ -15,7 +15,6 @@
 static void	ft_sigint_handler_prompt_mode(int signal)
 {
 	(void)signal;
-
 	ft_set_global_exit_status(T_SIGINT);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
@@ -32,13 +31,12 @@ void	ft_set_signals_prompt_mode(void)
 static void	ft_sigint_hadler_heredoc_mode(int signal)
 {
 	(void)signal;
-
 	ft_set_global_exit_status(T_SIGINT);
 	ft_set_global_heredoc_status(1);
 }
 
 void	ft_set_signals_heredoc_mode(void)
 {
-	signal(SIGINT, 	ft_sigint_hadler_heredoc_mode);
+	signal(SIGINT, ft_sigint_hadler_heredoc_mode);
 	signal(SIGQUIT, SIG_IGN);
 }

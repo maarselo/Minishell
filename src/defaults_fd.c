@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-t_saved_fd ft_store_defaults_fd()
+t_saved_fd	ft_store_defaults_fd(void)
 {
-	t_saved_fd saved_fd;
+	t_saved_fd	saved_fd;
 
 	saved_fd.saved_stdin = dup(STDIN_FILENO);
 	saved_fd.saved_stdout = dup(STDOUT_FILENO);
