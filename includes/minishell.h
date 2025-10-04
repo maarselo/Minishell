@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 20:26:11 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:27:53 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ char		*ft_handle_expansion(char *result, char *str, int *i);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
+char		**ft_realloc_array(char **array, int size);
 // wildcards_utils.c
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
@@ -189,18 +190,24 @@ int			ft_isbuiltin(char *cmd);
 void		ft_execute_builtin(t_command *cmd, t_env **env_list);
 void		ft_echo(char **args);
 void		ft_pwd(char **args);
+void		ft_env(char **args, t_env *env_list);
 // builtins_cd.c
 void		ft_cd(char **args, t_env *env_list);
 // builtins_unset.c
 void		ft_unset(char **args, t_env **env_list);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
+// builtins_export_utils.c
+char		*ft_split_name_var(char *str);
+char		*ft_split_value_var(char *str);
+void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
 // env.c
 t_env		*ft_get_env(char **envp);
 // env_utils.c
 int			ft_get_value_length(char *env_var, int i);
 t_env		*ft_create_env_node(char *name, char *value);
 void		ft_add_env_var(t_env **env_list, char *name, char *value);
+int			ft_find_env_var_name(t_env *env_list, char *name);
 // exit.c
 void		ft_exit_free_input(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
