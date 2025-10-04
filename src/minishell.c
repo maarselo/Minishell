@@ -49,7 +49,7 @@ void	ft_input_loop(char **envp)
 		ft_set_signals_prompt_mode();
 		input = readline("\033[1;32mminishell $\033[0m ");
 		if (!input)
-			ft_exit_free_input(input);
+			ft_free_exit(input);
 		if (!ft_strlen(input))
 		{
 			free(input);

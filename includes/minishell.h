@@ -160,14 +160,15 @@ void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
 // banner.c
 void		ft_print_banner(void);
 // minishell.c
+void		ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list);
 void		ft_input_loop(char **envp);
 
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
+void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // token.c
 t_token		*ft_init_token(char *content);
-void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // tokenizer.c
 t_token		*ft_tokenizer(char *input);
 
@@ -210,7 +211,7 @@ char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
 // parser.c
 t_command	*ft_tokens_to_command_struct(t_token *token_list);
 
-
+/////////////////////////////////////////////////////////////////////
 // expander.c
 void		ft_expand(t_command *cmd);
 char		*ft_expand_var(char *str, int *i);
@@ -228,41 +229,49 @@ int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
 // env.c
 t_env		*ft_get_env(char **envp);
-// executor.c
-void		ft_executor(t_command *command_list, t_saved_fd saved_fd,
-				t_env *env);
-//executor_redirections.c
-int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
-				t_command *command_list);
-int			ft_manage_redirections(t_command *current_command);
-//executor_command_utils.c
-t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
-bool		ft_is_last_command(t_command *command);
-// builtins.c
-void		ft_env(char **args, t_env *env_list);
-int			ft_isbuiltin(char *cmd);
-void		ft_execute_builtin(t_command *cmd, t_env **env_list);
-void		ft_echo(char **args);
-void		ft_pwd(char **args);
-// builtins_cd.c
-void		ft_cd(char **args, t_env *env_list);
-// builtins_unset.c
-void		ft_unset(char **args, t_env **env_list);
-// builtins_export.c
-void		ft_export(char **command, t_env *env_list);
-// env.c
-t_env		*ft_get_env(char **envp);
 // env_utils.c
 int			ft_get_value_length(char *env_var, int i);
 t_env		*ft_create_env_node(char *name, char *value);
 void		ft_add_env_var(t_env **env_list, char *name, char *value);
+
+// builtins.c
+int			ft_isbuiltin(char *cmd);
+void		ft_execute_builtin(t_command *cmd, t_env **env_list);
+// bultins_echo.c
+void		ft_echo(char **args);
+// bultins_cd.c
+void		ft_cd(char **args, t_env *env_list);
+// builtins_pwd.c
+void		ft_pwd(char **args);
+// builtins_export.c
+void		ft_export(char **command, t_env *env_list);
+// builtins_unset.c
+void		ft_unset(char **args, t_env **env_list);
+// builtins_env.c
+void		ft_env(char **args, t_env *env_list);
+
+// executor.c
+void		ft_executor(t_command *command_list, t_saved_fd saved_fd,
+				t_env *env);
+// executor_pipes.c
+int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
+				t_command *command_list);
+//executor_redirections.c
+int			ft_manage_redirections(t_command *current_command);
+//executor_command_utils.c
+t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
+bool		ft_is_last_command(t_command *command);
+
 // exit.c
-void		ft_exit_free_input(char *input);
+void		ft_free_exit(char *input);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_command *command_list, t_token *token_list);
 void		ft_exit_handler(char *input);
+
+//free_data.c
+void	ft_free_data(char *input, t_token *token_list, t_command *command_list);
 // free.c
-void		ft_free_token_and_input(char *input, t_token *token_list);
+void		ft_free_input_token(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_envp(t_env *envp);
 void		ft_free_command_list(t_command *command_list);
@@ -271,6 +280,7 @@ void		ft_free_envp(t_env *envp);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
+
 //error
 void		ft_error_creating_pipe(int *prev_pipe);
 void		ft_error_opening_files(void);

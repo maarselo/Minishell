@@ -19,12 +19,12 @@ void	ft_free_split(char **split)
 	if (!split)
 		return ;
 	i = -1;
-	while(split[++i])
+	while (split[++i])
 		free(split[i]);
 	free(split);
 }
 
-void	ft_free_token_and_input(char *input, t_token *token_list)
+void	ft_free_input_token(char *input, t_token *token_list)
 {
 	t_token	*current;
 	t_token	*next;
@@ -60,12 +60,12 @@ void	ft_free_token_list(t_token *token_list)
 
 void	ft_free_envp(t_env *envp)
 {
-	t_env 	*tmp;
+	t_env	*tmp;
 	t_env	*next;
 
 	tmp = envp;
 	while (tmp)
-	{	
+	{
 		next = tmp->next;
 		if (tmp->name)
 			free(tmp->name);

@@ -33,7 +33,7 @@ t_command	*ft_get_previous_command(t_command *find, t_command *command_list)
 
 bool	ft_is_last_command(t_command *command)
 {
-	t_command * tmp; 
+	t_command	*tmp;
 
 	tmp = command;
 	while (tmp->next)

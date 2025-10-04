@@ -12,6 +12,58 @@
 
 #include "minishell.h"
 
+/*
+void    ft_print_command_list(t_command *list)
+{
+    int i;
+    int cmd_index = 1;
+
+    while (list)
+    {
+        printf("=== Command %d ===\n", cmd_index);
+
+        // ---- imprimir argv ----
+        printf("argv:\n");
+        if (list->command)
+        {
+            i = 0;
+            while (list->command[i])
+            {
+                printf("\t[%d] -> %s\n", i, list->command[i]);
+                i++;
+            }
+        }
+        else
+            printf("\t(NULL)\n");
+
+        // ---- imprimir redirection ----
+        printf("redirection:\n");
+        if (list->redirection)
+        {
+            printf("\tinfile: %s\n",
+                list->redirection->infile ? ////
+				list->redirection->infile : "(NULL)");
+            printf("\toutfile: %s\n",
+                list->redirection->outfile ? ///
+				list->redirection->outfile : "(NULL)");
+            printf("\tappend: %d\n", list->redirection->append);
+            printf("\theredoc: %d\n", list->redirection->heredoc);
+            printf("\tdelimiter: %s\n",
+                list->redirection->delimiter ? ////
+				list->redirection->delimiter : "(NULL)");
+        }
+        else
+            printf("\t(NULL)\n");
+
+        // ---- imprimir connector ----
+        printf("connector: %d\n", list->connector);
+
+        // avanzar
+        list = list->next;
+        cmd_index++;
+    }
+}*/
+
 static t_redirect	*ft_fill_redirecction(int *malloc_error, t_token *start,
 					t_token *end)
 {
@@ -133,56 +185,3 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list)
 	}
 	return (top_command_list);
 }
-
-/*
-void    ft_print_command_list(t_command *list)
-{
-    int i;
-    int cmd_index = 1;
-
-    while (list)
-    {
-        printf("=== Command %d ===\n", cmd_index);
-
-        // ---- imprimir argv ----
-        printf("argv:\n");
-        if (list->command)
-        {
-            i = 0;
-            while (list->command[i])
-            {
-                printf("\t[%d] -> %s\n", i, list->command[i]);
-				printf("len: %ld", ft_strlen(list->command[i]));
-                i++;
-            }
-        }
-        else
-            printf("\t(NULL)\n");
-
-        // ---- imprimir redirection ----
-        printf("redirection:\n");
-        if (list->redirection)
-        {
-            printf("\tinfile: %s\n",
-                list->redirection->infile ? ////
-				list->redirection->infile : "(NULL)");
-            printf("\toutfile: %s\n",
-                list->redirection->outfile ? ///
-				list->redirection->outfile : "(NULL)");
-            printf("\tappend: %d\n", list->redirection->append);
-            printf("\theredoc: %d\n", list->redirection->heredoc);
-            printf("\tdelimiter: %s\n",
-                list->redirection->delimiter ? ////
-				list->redirection->delimiter : "(NULL)");
-        }
-        else
-            printf("\t(NULL)\n");
-
-        // ---- imprimir connector ----
-        printf("connector: %d\n", list->connector);
-
-        // avanzar
-        list = list->next;
-        cmd_index++;
-    }
-}*/

@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_check_new_token(t_token *new_token, char *input, t_token *top)
-{
-	if (!new_token)
-	{
-		ft_free_token_and_input(input, top);
-		perror("minishell");
-		exit(EXIT_FAILURE);
-	}
-}
-
 static t_token_type	ft_get_token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", ft_strlen(token)))

@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
+/*   builtins_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/07/12 22:50:49 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:24:14 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_is_quote(char c)
+void	ft_echo(char **args)
 {
-	return (c == '"' || c == '\'');
-}
+	bool	flag_n;
+	int		i;
 
-int	ft_is_operator(char c)
-{
-	return (c == '|' || c == '<' || c == '>'
-		|| c == '(' || c == ')' || c == '&');
-}
-
-void	ft_check_new_token(t_token *new_token, char *input, t_token *top)
-{
-	if (!new_token)
+	i = 0;
+	flag_n = false;
+	if (args[1] && ft_strcmp(args[1], "-n") == 0)
 	{
-		ft_free_token_and_input(input, top);
-		perror("minishell");
-		exit(EXIT_FAILURE);
+		flag_n = true;
+		i++;
 	}
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+		i++;
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	if (flag_n == false)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	ft_set_global_exit_status(T_SUCCESS);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_set_env_var(t_env *env_list, char *name, char *value)
+static void	ft_set_env_var(t_env *env_list, char *name, char *value)
 {
 	t_env	*var;
 
@@ -33,7 +33,7 @@ void	ft_set_env_var(t_env *env_list, char *name, char *value)
 	}
 }
 
-void	ft_update_pwd(char *new_path, t_env *env_list)
+static void	ft_update_pwd(char *new_path, t_env *env_list)
 {
 	t_env	*var;
 	char	*old_path;
@@ -79,6 +79,6 @@ void	ft_cd(char **args, t_env *env_list)
 	else
 	{
 		ft_update_pwd(path, env_list);
-        ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(T_SUCCESS);
 	}
 }

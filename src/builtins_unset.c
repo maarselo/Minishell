@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_is_valid_var_name(char *str)
+static int	ft_is_valid_var_name(char *str)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_is_valid_var_name(char *str)
 	return (0);
 }
 
-t_env	*ft_remove_env_var(char *str, t_env *env_list)
+static t_env	*ft_remove_env_var(char *str, t_env *env_list)
 {
 	t_env	*current;
 	t_env	*prev;
