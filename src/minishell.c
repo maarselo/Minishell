@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 20:34:35 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:44:06 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_input_loop(char **envp)
 	t_env	*env_list;
 
 	env_list = ft_get_env(envp);
-	ft_set_signal_prompt_mode();
+	/*ft_set_signal_prompt_mode();
 	while (true)
 	{
 		input = readline("\033[1;32mminishell $\033[0m ");
@@ -62,12 +62,23 @@ void	ft_input_loop(char **envp)
 			ft_exit_handler(input);
 		else if (*input)
 			ft_process_input(input, &env_list);
-	}
+	}*/
 	/*char *test1[] = {"pwd", NULL};
 	char *test2[] = {"cd", "test/", NULL};
     ft_pwd(test1);
 	ft_cd(test2, env_list);
 	ft_pwd(test1);*/
+	/*char *test3[] = {"env", NULL};
+	char *test4[] = {"unset", "USER", NULL};
+	char *test5[] = {"export", "USER=FASDFGASRGAWR", NULL};*/
+	//ft_env(test3, env_list);
+	//write(1, "\n", 1);
+	//ft_unset(test4, &env_list);
+	/*ft_env(test3, env_list);
+	write(1, "\n", 1);
+	ft_export(test5, env_list);
+	write(1, "\n", 1);
+	ft_env(test3, env_list);*/
 }
 
 int	main(int argc, char **argv, char **envp)
