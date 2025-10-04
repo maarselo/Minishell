@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 20:07:12 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 15:46:14 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:17:43 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_env	*ft_init_env(char *env_var)
 	return (var);
 }
 
-t_env	*ft_init_min_env()
+t_env	*ft_init_min_env(char **envp)
 {
 	t_env	*env_list;
 	char	*cwd;
@@ -110,7 +110,7 @@ t_env	*ft_get_env(char **envp)
 	int		i;
 
 	if (!envp || !*envp)
-		return (ft_init_min_env());
+		return (ft_init_min_env(NULL));
 	head = ft_init_env(envp[0]);
 	if (!head)
 		return (NULL);
