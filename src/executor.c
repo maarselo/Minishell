@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 int		ft_get_env_size(t_env *env_list)
 {
 	int		i;
@@ -67,86 +67,102 @@ char	**ft_convert_list(t_env *env_list)
 	return (env_array);
 }
 
-char	*ft_get_env_value_by_name(char *name, t_env *env_list)
+static char	*ft_find_path(t_command *current, t_env *env_list)
 {
-	t_env	*tmp;
-
-	tmp = env_list;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			return (tmp->value);
-	}
-	return (NULL);
-}
-
-char	*ft_find_path(char *command, t_env *env_list)
-{
-	char	*value;
-	char	**paths;
-	char	*tmp;
-	char	*possible_path;
 	int		i;
+	char	*tmp;
+	char	*path;
+	char	**split_path;
 
 	i = -1;
-	if (ft_strchr(command, '/'))
+	if (access(current->command[0], X_OK) == 0)
+		return (ft_strdup(current->command[0]));
+	tmp = ft_get_env_value(env_list, "PATH");
+	if (!tmp)
+		return (printf("minishell: command not found\n"),
+			exit(T_COMMAND_NOT_FOUND), NULL);
+	split_path = ft_split(tmp, ':');
+	if (!split_path)
+		return (free(tmp), perror("minishell :"), exit(T_GENERAL_ERROR), NULL);
+	free(tmp);
+	while (split_path[++i])
 	{
-		if (access(command, X_OK));
-			return (ft_strdup(command));
+		tmp = ft_strjoin(split_path[i], "/");
+		path = ft_strjoin(tmp, current->command[0]);
+		free(tmp);
+		if (access(path, X_OK) == 0)
+			return (ft_free_split(split_path), path);
+		free(path);
 	}
-	value = ft_get_env_value_by_name("PATH", env_list);
-	if (!value)
-		return (NULL);
-	paths = ft_split(value, ':');
-	if (!paths)
-		return (perror("minishell :"), NULL);
-	while (paths[++i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		possible_path = ft_strjoin(tmp, command);
-		free (tmp);
-		if (!access(possible_path, X_OK))
-			return (ft_free_split(paths), possible_path);
-		free(possible_path);
-	}
-	return (ft_free_split(paths), NULL);
+	return (ft_free_split(split_path), NULL);
 }
 
-int	ft_execute_command(t_command *current_command, t_env *env_list)
+void	ft_execute_child(t_command *current_cmd, t_env *env, t_command *list)
 {
-	pid_t	pid;
-	int		status;
 	char	*path;
 	char	**env_array;
 
-	if (ft_is_builtin(current_command->command[0]))
+	env_array = ft_convert_list(env);
+	if (!env_array)
 	{
-		ft_execute_builtin(current_command->command, env_list);
-		//dont know how interprete
-		//return
+		perror("minishell: ");
+		ft_free_data(env, list);
+		exit(T_GENERAL_ERROR);
 	}
-	env_array = ft_convert_list(env_list);//to free
-	pid = fork();
-	if (pid == -1)
-		return (perror("minishell: "), 1);
-	if (pid == 0)
+	path = ft_find_path(current_cmd, env);
+	if (!path)
 	{
-		path = ft_find_path(current_command->command[0], env_list);
-		if (!path)
-			return (ft_free_argv_command(env_array), ft_putstr_fd("minishell: command not found:" , STDERR_FILENO), printf(" %s", current_command), ft_set_global_exit_status(T_COMMAND_NOT_FOUND), 1);
-		if (execve(path, current_command->command, env_array) == -1)
-			return (ft_free_argv_command(env_array), ft_putstr_fd("minishell: command not found:" , STDERR_FILENO), printf(" %s", current_command), ft_set_global_exit_status(T_COMMAND_NOT_FOUND), 1);
+		ft_free_data(env, list);
+		printf("Command %s not found \n", current_cmd->command[0]);
+		exit(T_COMMAND_NOT_FOUND);
 	}
-	else
+	if (execve(path, current_cmd->command, env_array) == -1)
 	{
-		if (current_command->connector = AND)
+		printf("Command %s not found \n", current_cmd->command[0]);
+		ft_free_data(env, list);
+		exit(T_COMMAND_NOT_FOUND);
 	}
 }
 
-void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
+int	ft_execute_command(t_command *current_command, t_env **env_list, t_command *command_list, bool is_last)
 {
-	(void)env;
+	pid_t	pid;
+	int		status;
+
+	if (ft_isbuiltin(current_command->command[0]))
+		ft_execute_builtin(current_command, env_list, command_list);
+	pid = fork();
+	if (pid == -1)
+		return (perror("minishell: "), 0);
+	else if (pid == 0)
+	{
+		//ft_set_signals_child_mode()
+		ft_execute_child(current_command, *env_list, command_list);
+	}
+	else
+	{
+		if (current_command->connector == AND_CONNECTOR
+				|| current_command->connector == OR_CONNECTOR
+					|| is_last)
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				ft_set_global_exit_status(WEXITSTATUS(status));
+			else if (WIFSIGNALED(status))
+				ft_set_global_exit_status(128 + WTERMSIG(status));
+			if (g_status.exit_status != 0 && current_command->connector == AND_CONNECTOR)
+				return (0);
+			else if (g_status.exit_status == 0 && current_command->connector == OR_CONNECTOR)
+				return (0);
+		}
+	}
+	return (1);
+}
+
+void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env **env)
+{
 	int			prev_pipe;
+	int			keep;
 	t_command	*current_command;
 
 	prev_pipe = -1;
@@ -155,10 +171,14 @@ void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env *env)
 	{
 		if (ft_manage_pipes(&prev_pipe, current_command, command_list)
 			|| ft_manage_redirections(current_command))
-			return ;//IDK if i need to kill all process
-		//ft_execute_command(current_command, env);
+			return ;
+		if (current_command->next) 
+			keep = ft_execute_command(current_command, env, command_list, false);
+		else
+			keep = ft_execute_command(current_command, env, command_list, true);
 		ft_resturare_defaults_fd(saved_fd);
+		if (!keep)
+			break ;
 		current_command = current_command->next;
 	}
 }
-*/

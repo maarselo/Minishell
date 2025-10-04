@@ -28,7 +28,7 @@ char	*ft_expand_var(char *str, int *i, t_env *env_list)
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	var = ft_substr(str, start, *i - start);
-	value = ft_get_env_value(var, env_list);
+	value = ft_get_env_value(env_list, var);
 	if (value)
 		return (ft_strdup(value));
 	return (ft_strdup(""));

@@ -86,7 +86,7 @@ t_env	*ft_init_env(char *env_var)
 	return (var);
 }
 
-t_env	*ft_init_min_env(char **envp)
+t_env	*ft_init_min_env(void)
 {
 	t_env	*env_list;
 	char	*cwd;
@@ -110,7 +110,7 @@ t_env	*ft_get_env(char **envp)
 	int		i;
 
 	if (!envp || !*envp)
-		return (ft_init_min_env(NULL));
+		return (ft_init_min_env());
 	head = ft_init_env(envp[0]);
 	if (!head)
 		return (NULL);

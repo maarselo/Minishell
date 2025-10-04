@@ -67,7 +67,7 @@ void	ft_exit_handler(char *input)
 	{
 		number = ft_atoi(exit_split[1]);
 		ft_free_split(exit_split);
-		if (0 <= number || number <= 255)
+		if (0 <= number && number <= 255)
 			exit(number);
 		else
 			exit(number % 256);

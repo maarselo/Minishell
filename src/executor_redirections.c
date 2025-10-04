@@ -70,6 +70,7 @@ static int	ft_manage_outfile_redir(t_command *current_command)
 		return (ft_error_opening_files(), 1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
 }
 
 int	ft_manage_redirections(t_command *current_command)
