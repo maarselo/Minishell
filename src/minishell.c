@@ -30,9 +30,10 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env *env_list)
 	else
 	{
 		command_list = ft_tokens_to_command_struct(token_list);
+		ft_free_input_token(input, token_list);
 		ft_expand(command_list);
-		//ft_executor(command_list, saved_fd, env_list);
-		ft_free_data(input, token_list, command_list);
+		ft_executor(command_list, saved_fd, env_list);
+		ft_free_data(env_list, command_list);
 	}
 }
 
