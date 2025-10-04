@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 14:19:54 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 14:40:58 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:06:35 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ char	*ft_split_value_var(char *str)
 void	ft_replace_env_var(t_env *env_list, char *name_var, char *new_val)
 {
 	t_env	*current;
-	char	*str;
 
-	str = NULL;
 	current = env_list;
 	while (current)
 	{

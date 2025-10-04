@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 19:07:54 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 00:01:10 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,25 @@ char	**ft_expand_wildcard(char *pattern)
 	DIR				*dir;
 	char			**matches;
 	int				i;
+	char			*dir_name;
+	char			*name_pattern;
 
 	matches = NULL;
-	dir = opendir(".");
+	ft_split_dir(pattern, &dir_name, &name_pattern);
+	dir = opendir(dir_name);
 	if (dir == NULL)
+	{
+		free(dir_name);
+		free(name_pattern);
 		return (ft_empty_matches(pattern));
-	i = 0;
-	matches = ft_loop_entries(dir, pattern, &i, matches);
-	if (i == 0)
+	}
+	matches = ft_loop_entries(dir, name_pattern, matches, dir_name);
+	free(dir_name);
+	free(name_pattern);
+	i = ft_array_len(matches);
+	if (i == 0 || matches == NULL)
 		return (ft_empty_matches(pattern));
 	matches = ft_realloc_array(matches, i + 1);
-	if (!matches)
-		return (NULL);
 	matches[i] = NULL;
 	return (matches);
 }
@@ -128,6 +135,6 @@ void	ft_execute_wildcards(t_command *cmd, int *i)
 	temp_cmd = cmd->command;
 	cmd->command = ft_join_wildcards(temp_cmd, *i, wc_expanded);
 	ft_free_cmd(temp_cmd);
-	i += ft_array_len(wc_expanded);
+	*i += ft_array_len(wc_expanded);
 	ft_free_cmd(wc_expanded);
 }

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 18:58:57 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 00:03:55 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,9 @@ char		**ft_realloc_array(char **array, int size);
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
-char		**ft_loop_entries(DIR *dir, char *pattern, int *i, char **matches);
+char		**ft_loop_entries(DIR *dir, char *pattern, char **matches, char *dir_name);
+// wildcards_dir.c
+void		ft_split_dir(char *pattern, char **dir_name, char **name_pattern);
 // env.c
 t_env		*ft_get_env(char **envp);
 // env_utils.c
@@ -244,7 +246,8 @@ int			ft_find_env_var_name(t_env *env_list, char *name);
 
 // builtins.c
 int			ft_isbuiltin(char *cmd);
-void		ft_execute_builtin(t_command *cmd, t_env **env_list, t_command*list);
+void		ft_execute_builtin(t_command *cmd, t_env **env_list,
+				t_command*list);
 // bultins_echo.c
 void		ft_echo(char **args);
 // bultins_cd.c

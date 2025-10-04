@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+         #
+#    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/09/23 17:03:31 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/10/04 23:50:32 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRCS_FILES = minishell.c banner.c global.c signals.c defaults_fd.c \
 				builtins_handler.c builtins_echo.c builtins_cd.c builtins_pwd.c \
 				builtins_export.c builtins_export_utils.c builtins_unset.c builtins_env.c \
 				executor.c executor_pipes.c executor_redirections.c executor_command_utils.c \
-				free_data.c free.c free_utils.c exit.c \
+				wildcards_dir.c free_data.c free.c free_utils.c exit.c \
 				error.c
 
 #BONUS_FILES = 

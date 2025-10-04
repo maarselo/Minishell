@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:05:06 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 19:01:40 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 00:03:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ void	ft_free_cmd(char **array)
 		free(array);
 }
 
-char	**ft_loop_entries(DIR *dir, char *pattern, int *i, char **matches)
+char	**ft_loop_entries(DIR *dir, char *pattern, char **matches, char *dir_name)
 {
 	struct dirent	*entry;
+	int				i;
+	char			*full_path;
 
+	i = ft_array_len(matches);
 	entry = readdir(dir);
 	while (entry)
 	{
@@ -66,9 +69,10 @@ char	**ft_loop_entries(DIR *dir, char *pattern, int *i, char **matches)
 		}
 		if (ft_match(pattern, entry->d_name))
 		{
-			matches = ft_realloc_array(matches, *i + 1);
-			matches[*i] = ft_strdup(entry->d_name);
-			(*i)++;
+			full_path = ft_strjoin(dir_name, entry->d_name);
+			matches = ft_realloc_array(matches, i + 1);
+			matches[i] = full_path;
+			i++;
 		}
 		entry = readdir(dir);
 	}
