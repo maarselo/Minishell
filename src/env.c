@@ -83,7 +83,7 @@ t_env	*ft_init_env(char *env_var)
 	return (var);
 }
 
-t_env	*ft_init_min_env()
+t_env	*ft_init_min_env(void)
 {
 	t_env	*env_list;
 	char	*cwd;
