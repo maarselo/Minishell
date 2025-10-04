@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 16:35:38 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:58:57 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,10 +227,13 @@ char		*ft_get_env_value(t_env *env_list, char *name_var);
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
 void		ft_execute_wildcards(t_command *cmd, int *i);
+int			ft_match(char *cmd, char *str);
+char		**ft_realloc_array(char **array, int size);
 // wildcards_utils.c
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
+char		**ft_loop_entries(DIR *dir, char *pattern, int *i, char **matches);
 // env.c
 t_env		*ft_get_env(char **envp);
 // env_utils.c

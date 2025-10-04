@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 17:52:26 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:07:54 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,34 +98,20 @@ int	ft_match(char *cmd, char *str)
 	return (cmd[cmd_i] == '\0');
 }
 
-char	**ft_expand_wildcard(char *str)
+char	**ft_expand_wildcard(char *pattern)
 {
 	DIR				*dir;
-	struct dirent	*entry;
 	char			**matches;
 	int				i;
 
 	matches = NULL;
 	dir = opendir(".");
 	if (dir == NULL)
-		return (ft_empty_matches(str));
+		return (ft_empty_matches(pattern));
 	i = 0;
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (entry->d_name[0] == '.' && str[0] != '.')
-			continue ;
-		if (ft_match(str, entry->d_name))
-		{
-			matches = ft_realloc_array(matches, i + 1);
-			matches[i] = ft_strdup(entry->d_name);
-			i++;
-		}
-		entry = readdir(dir);
-	}
-	closedir(dir);
+	matches = ft_loop_entries(dir, pattern, &i, matches);
 	if (i == 0)
-		return (ft_empty_matches(str));
+		return (ft_empty_matches(pattern));
 	matches = ft_realloc_array(matches, i + 1);
 	if (!matches)
 		return (NULL);
