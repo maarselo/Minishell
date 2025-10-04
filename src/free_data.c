@@ -12,12 +12,10 @@
 
 #include "minishell.h"
 
-void	ft_free_data(char *input, t_token *token_list, t_command *command_list)
+void	ft_free_data(t_env *env_list, t_command *command_list)
 {
-	if (input)
-		free(input);
-	if (token_list)
-		ft_free_token_list(token_list);
+	if (env_list)
+		ft_free_envp(env_list);
 	if (command_list)
 		ft_free_command_list(command_list);
 }

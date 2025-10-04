@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:53:36 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 17:38:13 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:20:09 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,18 @@ void	ft_add_env_var(t_env **env_list, char *name, char *value)
 	while (current)
 		current = current->next;
 	current->next = new_node;
+}
+
+int	ft_find_env_var_name(t_env *env_list, char *name)
+{
+	t_env	*current;
+
+	current = env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->name, name) == 0)
+			return (0);
+		current = current->next;
+	}
+	return (1);
 }

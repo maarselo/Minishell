@@ -233,6 +233,7 @@ t_env		*ft_get_env(char **envp);
 int			ft_get_value_length(char *env_var, int i);
 t_env		*ft_create_env_node(char *name, char *value);
 void		ft_add_env_var(t_env **env_list, char *name, char *value);
+int			ft_find_env_var_name(t_env *env_list, char *name);
 
 // builtins.c
 int			ft_isbuiltin(char *cmd);
@@ -243,6 +244,10 @@ void		ft_echo(char **args);
 void		ft_cd(char **args, t_env *env_list);
 // builtins_pwd.c
 void		ft_pwd(char **args);
+// builtins_export_utils.c
+char		*ft_split_name_var(char *str);
+char		*ft_split_value_var(char *str);
+void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
 // builtins_unset.c
@@ -269,7 +274,7 @@ void		ft_clean_parser_memory_exit(t_command *command,
 void		ft_exit_handler(char *input);
 
 //free_data.c
-void	ft_free_data(char *input, t_token *token_list, t_command *command_list);
+void		ft_free_data(t_env *env_list, t_command *command_list);
 // free.c
 void		ft_free_input_token(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
