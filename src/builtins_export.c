@@ -112,41 +112,8 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 		ft_replace_env_var(env_list, name_var, new_value);
 		return (0);
 	}
-	env = (t_env *)ft_calloc(1, sizeof(t_env));
-	if (!ft_strcmp(mode, NO_VALUE))
-	{
-		env->name = ft_strdup(command);
-		if (!env->name)
-			return (perror("minishell :"), free(env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
-		ft_add_var_into_list(env, env_list);
-		ft_set_global_exit_status(T_SUCCESS);
-	}
-	else if (!ft_strcmp(mode, NULL_VALUE))
-	{
-		env->name = ft_strndup(command, ft_strlen(command) - 1);
-		if (!env->name)
-			return (perror("minishell :"), free(env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
-		env->value = ft_strdup("");
-		if (!env->value)
-			return (perror("minishell :"), free(env->name), free(env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
-		ft_add_var_into_list(env, env_list);
-	}
-	else if (!ft_strcmp(mode, WITH_VALUE))
-	{
-		env->name = ft_substr(command, 0, ft_strchr(command, '=') - command);
-		if (!env->name)
-			return (perror("minishell :"), free(env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
-		env->value = ft_substr(command, ft_strlen(env->name) + 1,
-				ft_strlen(command) - ft_strlen(env->name) - 1);
-		if (!env->value)
-			return (perror("minishell: "), free(env->name), free(env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
-		ft_add_var_into_list(env, env_list);
-	}
+	env = ft_create_node_export_by_mode(mode, command, env_list);
+	ft_add_var_into_list(env, env_list);
 	return (0);
 }
 
@@ -163,33 +130,9 @@ void	ft_export(char **command, t_env *env_list)
 	}
 	while (command[i])
 	{
-		if (ft_isdigit(command[i][0]) || command[i][0] == '='
-			|| ft_contains_metachar(command[i]))
-		{
-			printf("minishell: export: `%s`: not a valid identifier\n",
-				command[i]);
-			ft_set_global_exit_status(T_GENERAL_ERROR);
-		}
-		else if (!ft_strchr(command[i], '=') && ft_is_all_asnum(command[i]))
-		{
-			if (ft_create_and_add_variable(NO_VALUE, command[i], env_list))
-				return ;//malloc error
-			ft_set_global_exit_status(T_SUCCESS);
-		}
-		else if (ft_strchr(command[i], '=')
-			&& (command[i][ft_strlen(command[i]) - 1] == '='))
-		{
-			if (ft_create_and_add_variable(NULL_VALUE, command[i], env_list))
-				return ;//manage error
-			ft_set_global_exit_status(T_SUCCESS);
-		}
-		else if (ft_strchr(command[i], '=')
-			&& (command[i][ft_strlen(command[i]) - 1] != '='))
-		{
-			if (ft_create_and_add_variable(WITH_VALUE, command[i], env_list))
-				return ;//manage error
-			ft_set_global_exit_status(T_SUCCESS);
-		}
+		if (ft_export_single(command[i], env_list))
+			continue ;
+		ft_set_global_exit_status(T_SUCCESS);
 		i++;
 	}
 }

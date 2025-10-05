@@ -258,6 +258,8 @@ void		ft_pwd(char **args);
 char		*ft_split_name_var(char *str);
 char		*ft_split_value_var(char *str);
 void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
+int			ft_export_single(char *cmd, t_env *env_list);
+t_env		*ft_create_node_export_by_mode(char *mode, char *command, t_env *env_list);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
 // builtins_unset.c
@@ -273,9 +275,10 @@ int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 //executor_redirections.c
 int			ft_manage_redirections(t_command *current_command);
-//executor_utils.c
+//executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
+//executor_utils.c
 int			ft_get_env_size(t_env *env_list);
 char		**ft_convert_list(t_env *env_list);
 
