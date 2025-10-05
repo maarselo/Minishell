@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:22:25 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 17:29:17 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:59:08 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	ft_print_order_variables(t_env *list)
 
 void	ft_add_var_into_list(t_env *env, t_env *env_list)
 {
-    t_env	*tmp;
+	t_env	*tmp;
 
-    if (!env_list)
-    {
-        env_list = env;
-        return;
-    }
-    tmp = env_list;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = env;
+	if (!env_list)
+	{
+		env_list = env;
+		return ;
+	}
+	tmp = env_list;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = env;
 }
 
 int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
@@ -58,31 +58,31 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 	{
 		ft_replace_env_var(env_list, name_var, new_value);
 		free(name_var);
-    	free(new_value);
+		free(new_value);
 		return (0);
 	}
 	env = ft_create_node_export_by_mode(mode, command);
 	ft_add_var_into_list(env, env_list);
 	free(name_var);
-    free(new_value);
+	free(new_value);
 	return (0);
 }
 
 int	ft_export_single(char *cmd, t_env *env_list)
 {
-    if (ft_isdigit(cmd[0]) || cmd[0] == '=' || ft_contains_metachar(cmd))
-    {
-        printf("minishell: export: `%s`: not a valid identifier\n", cmd);
-        ft_set_global_exit_status(T_GENERAL_ERROR);
-        return (1);
-    }
-    if (!ft_strchr(cmd, '=') && ft_is_all_asnum(cmd))
-        return ft_create_and_add_variable(NO_VALUE, cmd, env_list);
-    if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] == '=')
-        return ft_create_and_add_variable(NULL_VALUE, cmd, env_list);
-    if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] != '=')
-        return ft_create_and_add_variable(WITH_VALUE, cmd, env_list);
-    return 0;
+	if (ft_isdigit(cmd[0]) || cmd[0] == '=' || ft_contains_metachar(cmd))
+	{
+		printf("minishell: export: `%s`: not a valid identifier\n", cmd);
+		ft_set_global_exit_status(T_GENERAL_ERROR);
+		return (1);
+	}
+	if (!ft_strchr(cmd, '=') && ft_is_all_asnum(cmd))
+		return (ft_create_and_add_variable(NO_VALUE, cmd, env_list));
+	if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] == '=')
+		return (ft_create_and_add_variable(NULL_VALUE, cmd, env_list));
+	if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] != '=')
+		return (ft_create_and_add_variable(WITH_VALUE, cmd, env_list));
+	return (0);
 }
 
 void	ft_export(char **command, t_env *env_list)

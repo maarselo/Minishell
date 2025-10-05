@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 00:01:10 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:31:38 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,21 @@ int	ft_match(char *cmd, char *str)
 {
 	int	cmd_i;
 	int	str_i;
-	int	cmd_pattern_i;
-	int	str_backup_i;
+	int	cmd_pt_i;
+	int	str_bck_i;
 
-	cmd_pattern_i = -1;
-	str_backup_i = -1;
+	cmd_pt_i = -1;
+	str_bck_i = -1;
 	cmd_i = 0;
 	str_i = 0;
 	while (str[str_i])
 	{
 		if (cmd[cmd_i] == '*')
-		{
-			cmd_pattern_i = cmd_i;
-			str_backup_i = str_i;
-			cmd_i++;
-		}
+			ft_match_case1(&cmd_pt_i, &str_bck_i, &cmd_i, &str_i);
 		else if (cmd[cmd_i] == str[str_i])
-		{
-			cmd_i++;
-			str_i++;
-		}
-		else if (cmd_pattern_i != -1)
-		{
-			cmd_i = cmd_pattern_i + 1;
-			str_i = str_backup_i + 1;
-			str_backup_i++;
-		}
+			ft_match_case2(&cmd_i, &str_i);
+		else if (cmd_pt_i != -1)
+			ft_match_case3(&cmd_pt_i, &str_bck_i, &cmd_i, &str_i);
 		else
 			return (0);
 	}

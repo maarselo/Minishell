@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 16:12:54 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:33:29 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env **env_list)
 	t_command	*command_list;
 	t_token		*token_list;
 
-
 	add_history(input);
-
 	token_list = ft_tokenizer(input);
-	
 	if (!token_list)
 		return (ft_free_input_token(input, token_list),
 			ft_set_global_exit_status(T_SUCCESS));
@@ -32,7 +29,6 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env **env_list)
 			ft_set_global_exit_status(T_SYNTAX));
 	else
 	{
-
 		command_list = ft_tokens_to_command_struct(token_list);
 		ft_free_input_token(input, token_list);
 		ft_expand(command_list, *env_list);
