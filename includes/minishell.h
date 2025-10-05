@@ -273,9 +273,11 @@ int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 //executor_redirections.c
 int			ft_manage_redirections(t_command *current_command);
-//executor_command_utils.c
+//executor_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
+int			ft_get_env_size(t_env *env_list);
+char		**ft_convert_list(t_env *env_list);
 
 // exit.c
 void		ft_free_exit(char *input);
