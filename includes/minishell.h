@@ -259,7 +259,8 @@ char		*ft_split_name_var(char *str);
 char		*ft_split_value_var(char *str);
 void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
 int			ft_export_single(char *cmd, t_env *env_list);
-t_env		*ft_create_node_export_by_mode(char *mode, char *command, t_env *env_list);
+int			ft_create_and_add_variable(char *mode, char *command, t_env *env_list);
+t_env		*ft_create_node_export_by_mode(char *mode, char *command);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
 // builtins_unset.c
