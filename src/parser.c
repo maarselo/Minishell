@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 /*
 void    ft_print_command_list(t_command *list)
 {
@@ -135,7 +134,7 @@ static t_connector_type	ft_fill_connector_type(t_token *end)
 }
 
 static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end,
-			t_command *command_list, t_token *token_list)
+			t_data *data, t_token *token_list)
 {
 	int			malloc_error;
 	t_command	*command;
@@ -143,13 +142,13 @@ static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end,
 	malloc_error = 0;
 	command = ft_create_command_struct();
 	if (!command)
-		ft_clean_parser_memory_exit(NULL, command_list, token_list);
+		ft_clean_parser_memory_exit(NULL, data, token_list);
 	command->command = ft_fill_argv_command(&malloc_error, *init, *end);
 	if (malloc_error)
-		ft_clean_parser_memory_exit(command, command_list, token_list);
+		ft_clean_parser_memory_exit(command, data, token_list);
 	command->redirection = ft_fill_redirecction(&malloc_error, *init, *end);
 	if (malloc_error)
-		ft_clean_parser_memory_exit(command, command_list, token_list);
+		ft_clean_parser_memory_exit(command, data, token_list);
 	command->connector = ft_fill_connector_type(*end);
 	if (*end)
 	{
@@ -159,29 +158,26 @@ static t_command	*ft_analyze_command_to_struct(t_token **init, t_token **end,
 	return (command);
 }
 
-t_command	*ft_tokens_to_command_struct(t_token *token_list)
+void	ft_tokens_to_command_struct(t_token *token_list, t_data *data)
 {
 	int			total_commands;
 	t_token		*start;
 	t_token		*end;
-	t_command	*top_command_list;
 	t_command	*command;
 
 	total_commands = ft_count_command(token_list);
 	start = token_list;
 	end = token_list;
-	top_command_list = NULL;
 	while (end && total_commands)
 	{
 		while (!ft_check_if_end_command(end))
 			end = end->next;
 		command = ft_analyze_command_to_struct(&start, &end,
-				top_command_list, token_list);
-		if (!top_command_list)
-			top_command_list = command;
+				data, token_list);
+		if (!data->cmd)
+			data->cmd = command;
 		else
-			ft_add_command_into_list(command, top_command_list);
+			ft_add_command_into_list(command, data->cmd);
 		total_commands--;
 	}
-	return (top_command_list);
 }
