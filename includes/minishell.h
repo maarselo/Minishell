@@ -63,16 +63,6 @@ typedef struct s_global
 extern t_global	g_status;
 
 /*
-	data.c
-*/
-typedef struct s_data
-{
-	t_command	*cmd;
-	t_env		*env;
-	t_saved_fd	saved_fd;
-}				t_data;
-
-/*
 	tokenizer.h
 	Enum to diff the different types in the token_list and struct
 	to five the token list in linked list to parser.
@@ -153,6 +143,17 @@ typedef struct s_saved_fd
 	int			saved_stdout;
 }				t_saved_fd;
 
+/*
+	data.c
+*/
+typedef struct s_data
+{
+	t_command	*cmd;
+	t_env		*env;
+	t_saved_fd	saved_fd;
+}				t_data;
+
+
 // signals.c
 void		ft_set_signals_prompt_mode(void);
 void		ft_set_signals_heredoc_mode(void);
@@ -180,11 +181,10 @@ void		ft_input_loop(char **envp);
 // tokenizer_utils.c
 int			ft_is_quote(char c);
 int			ft_is_operator(char c);
-void		ft_check_new_token(t_token *new_token, char *input, t_token *top);
 // token.c
-t_token		*ft_init_token(char *content);
+t_token		*ft_init_token(char *content, t_data *data);
 // tokenizer.c
-t_token		*ft_tokenizer(char *input);
+t_token		*ft_tokenizer(char *input, t_data *data);
 
 // syntax_checker_utils.c
 int			ft_check_content_quotes(char *input);
@@ -223,7 +223,7 @@ char		*ft_strdup_with_flag(int *malloc_error, const char *s);
 char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
 				t_token *end);
 // parser.c
-t_command	*ft_tokens_to_command_struct(t_token *token_list);
+void		ft_tokens_to_command_struct(t_token *token_list, t_data *data);
 
 /////////////////////////////////////////////////////////////////////
 // expander.c
@@ -239,7 +239,7 @@ char		*ft_get_env_value(t_env *env_list, char *name_var);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
-void		ft_execute_wildcards(t_command *cmd, int *i);
+void		ft_execute_wildcards(t_data *data, t_command *cmd, int *i);
 int			ft_match(char *cmd, char *str);
 char		**ft_realloc_array(char **array, int size);
 // wildcards_utils.c
@@ -247,8 +247,14 @@ char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
 char		**ft_loop_entries(DIR *dir, char *pattern, char **matches, char *dir_name);
+int			ft_ignore_file(struct dirent *entry, char *pattern);
 // wildcards_dir.c
 void		ft_split_dir(char *pattern, char **dir_name, char **name_pattern);
+void		ft_match_case1(int *cmd_pattern_i, int *str_backup_i,
+				int *cmd_i, int *str_i);
+void		ft_match_case2(int *cmd_i, int *str_i);
+void		ft_match_case3(int *cmd_pattern_i, int *str_backup_i,
+				int *cmd_i, int *str_i);
 // env.c
 t_env		*ft_get_env(char **envp);
 // env_utils.c
@@ -296,9 +302,9 @@ int			ft_get_env_size(t_env *env_list);
 char		**ft_convert_list(t_env *env_list);
 
 // exit.c
-void		ft_free_exit(char *input);
-void		ft_clean_parser_memory_exit(t_command *command,
-				t_command *command_list, t_token *token_list);
+void	ft_free_exit(char *input, t_data *data);
+void	ft_clean_parser_memory_exit(t_command *command,
+			t_data *data, t_token *token_list);
 void		ft_exit_handler(char *input);
 
 //free_data.c
@@ -308,9 +314,9 @@ void		ft_exit_free_data(t_data *data, int exit_code);
 void		ft_free_input_token(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
 void		ft_free_envp(t_env *envp);
-void		ft_free_command_list(t_command *command_list);
 void		ft_free_split(char **split);
 void		ft_free_envp(t_env *envp);
+void		ft_free_command_list(t_data *data);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);

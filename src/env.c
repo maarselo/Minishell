@@ -63,6 +63,7 @@ char	*ft_get_value_env(char *env_var)
 t_env	*ft_init_env(char *env_var)
 {
 	t_env	*var;
+	char	*tmp;
 
 	var = (t_env *)malloc(sizeof(t_env));
 	if (!var)
@@ -78,7 +79,11 @@ t_env	*ft_init_env(char *env_var)
 	{
 		var->name = ft_get_name_env(env_var);
 		if (ft_strcmp(var->name, "SHLVL") == 0)
-			var->value = ft_itoa(ft_atoi(ft_get_value_env(env_var)) + 1);
+		{
+			tmp = ft_get_value_env(env_var);
+			var->value = ft_itoa(ft_atoi(tmp) + 1);
+			free(tmp);
+		}
 		else
 			var->value = ft_get_value_env(env_var);
 	}

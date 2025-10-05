@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 int	ft_get_env_size(t_env *env_list)
 {
 	int		i;
@@ -77,3 +77,4 @@ char	**ft_convert_list(t_env *env_list)
 	env_array[i] = NULL;
 	return (env_array);
 }
+*/

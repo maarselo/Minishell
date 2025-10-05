@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
+#    By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/10/04 23:50:32 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/09/23 17:03:31 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,15 +23,15 @@ LIBFT_DIR = ./Libft
 HEADER = includes/minishell.h
 #BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
-SRCS_FILES = minishell.c banner.c global.c signals.c defaults_fd.c \
+SRCS_FILES = minishell.c banner.c global.c signals.c defaults_fd.c data.c \
 				token.c tokenizer.c tokenizer_utils.c \
 				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c \
 				parser.c parser_utils.c parser_redirection_utils.c init_parser_struct.c \
-				expander.c expander_utils.c env.c env_utils.c wildcards.c wildcards_utils.c \
+				expander.c expander_utils.c env.c env_utils.c wildcards.c wildcards_dir.c wildcards_utils.c \
 				builtins_handler.c builtins_echo.c builtins_cd.c builtins_pwd.c \
 				builtins_export.c builtins_export_utils1.c builtins_export_utils2.c builtins_unset.c builtins_env.c \
-				executor.c executor_pipes.c executor_redirections.c executor_command_utils.c executor_utils.c \
-				wildcards_dir.c free_data.c free.c free_utils.c exit.c \
+				executor.c executor_pipes.c executor_redirections.c executor_command_utils.c \
+				free_data.c free.c free_utils.c exit.c \
 				error.c
 
 #BONUS_FILES = 

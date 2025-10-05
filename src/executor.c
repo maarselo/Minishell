@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+/*
+
 static char	*ft_find_path(t_command *current, t_env *env_list)
 {
 	int		i;
@@ -81,7 +83,7 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_env **env_lis
 		return (perror("minishell: "), 0);
 	else if (pid == 0)
 	{
-		//ft_set_signals_child_mode()
+		ft_set_signals_child_mode()
 		ft_execute_child(current_command, *env_list, command_list);
 	}
 	else
@@ -120,10 +122,11 @@ void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env **env)
 		if (current_command->next)
 			keep = ft_execute_command(false, current_command, env, command_list);
 		else
-			keep = ft_execute_command(true, current_command, env, command_list)	;
+			keep = ft_execute_command(true, current_command, env, command_list);
 		ft_resturare_defaults_fd(saved_fd);
 		if (!keep)
 			break ;
 		current_command = current_command->next;
 	}
 }
+*/

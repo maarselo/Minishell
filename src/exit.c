@@ -12,20 +12,29 @@
 
 #include "minishell.h"
 
-void	ft_free_exit(char *input)
+void	ft_free_exit(char *input, t_data *data)
 {
-	free(input);
+	if (input)
+		free(input);
+	if (data)
+		ft_free_data(data);
 	printf("exit\n");
 	exit(T_SUCCESS);
 }
 
-void	ft_clean_parser_memory_exit(t_command *command, t_command *command_list,
-	t_token *token_list)
+void	ft_clean_parser_memory_exit(t_command *command,
+	t_data *data, t_token *token_list)
 {
 	if (command)
-		ft_free_command_list(command);
-	if (command_list)
-		ft_free_command_list(command_list);
+	{
+		if (command->command)
+			ft_free_argv_command(command->command);
+		if (command->redirection)
+			ft_free_redirections_command(command->redirection);
+		free(command);
+	}
+	if (data)
+		ft_free_data(data);
 	if (token_list)
 		ft_free_token_list(token_list);
 	exit(T_GENERAL_ERROR);

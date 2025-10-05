@@ -21,7 +21,7 @@ t_data	*ft_init_data(t_command *command, t_env *env_list,
 	if (!data)
 		return (NULL);
 	if (command)
-		data->command = command;
+		data->cmd = command;
 	if (env_list)
 		data->env = env_list;
 	data->saved_fd = saved_fd;

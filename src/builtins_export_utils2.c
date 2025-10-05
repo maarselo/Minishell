@@ -56,6 +56,7 @@ t_env	*ft_clone_env_node(t_env *tmp)
 			return (free(node->value), free(node),
 				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 	}
+	return (node);
 }
 
 t_env	*ft_clone_env_list(t_env *env_list)
@@ -81,12 +82,12 @@ void	ft_check_env_node(char *command, t_env *node_env)
 {
 	if (!node_env->name)
 		return (perror("minishell :"), free(node_env),
-			ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
+			ft_set_global_exit_status(T_GENERAL_ERROR));
 	node_env->value = ft_substr(command, ft_strlen(node_env->name) + 1,
 			ft_strlen(command) - ft_strlen(node_env->name) - 1);
 	if (!node_env->value)
 		return (perror("minishell: "), free(node_env->name), free(node_env),
-			ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
+			ft_set_global_exit_status(T_GENERAL_ERROR));
 }
 
 t_env	*ft_create_node_export_by_mode(char *mode, char *command)

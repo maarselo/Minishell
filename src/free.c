@@ -63,6 +63,8 @@ void	ft_free_envp(t_env *envp)
 	t_env	*tmp;
 	t_env	*next;
 
+	if (!envp)
+		return ;
 	tmp = envp;
 	while (tmp)
 	{
@@ -76,12 +78,14 @@ void	ft_free_envp(t_env *envp)
 	}
 }
 
-void	ft_free_command_list(t_command *command_list)
+void	ft_free_command_list(t_data *data)
 {
 	t_command	*tmp;
 	t_command	*next;
 
-	tmp = command_list;
+	if (!data->cmd)
+		return ;
+	tmp = data->cmd;
 	while (tmp != NULL)
 	{
 		next = tmp->next;
@@ -92,4 +96,5 @@ void	ft_free_command_list(t_command *command_list)
 		free(tmp);
 		tmp = next;
 	}
+	data->cmd = NULL;
 }

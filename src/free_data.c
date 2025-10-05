@@ -17,11 +17,8 @@ void	ft_free_data(t_data *data)
 	if (data->env)
 		ft_free_envp(data->env);
 	if (data->cmd)
-		ft_free_command_list(data->cmd);
-	if (data->saved_fd.saved_stdin != -1)
-		close(data->saved_fd.saved_stdin);
-	if (data->saved_fd.saved_stdout != -1)
-		close(data->saved_fd.saved_stdout);
+		ft_free_command_list(data);
+	ft_close_defaults_fd(data->saved_fd);
 }
 
 void	ft_exit_free_data(t_data *data, int exit_code)

@@ -19,7 +19,7 @@ void	ft_process_input(char *input, t_data *data)
 	t_token		*token_list;
 
 	add_history(input);
-	token_list = ft_tokenizer(input);
+	token_list = ft_tokenizer(input, data);
 	if (!token_list)
 		return (ft_free_input_token(input, token_list),
 			ft_set_global_exit_status(T_SUCCESS));
@@ -28,11 +28,12 @@ void	ft_process_input(char *input, t_data *data)
 			ft_set_global_exit_status(T_SYNTAX));
 	else
 	{
-		data->command = ft_tokens_to_command_struct(token_list);
+		ft_tokens_to_command_struct(token_list, data);
+		//ft_free_command_list(data->cmd);
 		ft_free_input_token(input, token_list);	
-		ft_expand(data);
-		ft_executor(data);
-		ft_free_data(*env_list, command_list);
+	//	ft_expand(data);
+	//	ft_executor(data);*/
+		ft_free_command_list(data);
 	}
 }
 
@@ -51,14 +52,20 @@ void	ft_input_loop(char **envp)
 		ft_set_signals_prompt_mode();
 		input = readline("\033[1;32mminishell $\033[0m ");
 		if (!input)
-			ft_free_exit(input);
+		{
+			clear_history();
+			ft_free_exit(input, data);
+		}
 		if (!ft_strlen(input))
 		{
 			free(input);
 			continue ;
 		}
 		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
+		{
+			clear_history();
 			ft_exit_handler(input);
+		}
 		if (*input)
 			ft_process_input(input, data);
 	}

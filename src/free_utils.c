@@ -16,9 +16,14 @@ void	ft_free_argv_command(char **argv_command)
 {
 	int	i;
 
-	i = -1;
-	while (argv_command[++i])
+	i = 0;
+	if (!argv_command || !*argv_command)
+		return ;
+	while (argv_command[i])
+	{
 		free(argv_command[i]);
+		i++;
+	}
 	free(argv_command);
 	argv_command = NULL;
 }

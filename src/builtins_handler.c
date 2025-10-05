@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 int	ft_isbuiltin(char *cmd)
 {
 	if (!cmd)
@@ -31,7 +31,7 @@ int	ft_isbuiltin(char *cmd)
 	return (0);
 }
 
-void	ft_execute_builtin(t_command *cmd, t_env **env_list, t_command *list)
+int	ft_execute_builtin(t_command *cmd, t_env **env_list, t_command *list)
 {
 	(void)list;
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
@@ -44,6 +44,10 @@ void	ft_execute_builtin(t_command *cmd, t_env **env_list, t_command *list)
 		ft_unset(cmd->command, env_list);
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
 		ft_env(cmd->command, *env_list);
-	else if (ft_strcmp(cmd->command[0], "export") == 0)t
-		ft_export(cmd->command, *env_list);
+	else if (ft_strcmp(cmd->command[0], "export") == 0)
+		ft_export(cmd, *env_list);
+	if (g_status.exit_status != T_SUCCESS)
+		return (0);
+	return (1);
 }
+*/
