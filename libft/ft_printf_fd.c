@@ -12,22 +12,22 @@
 
 #include "ft_printf.h"
 
-void	ft_format(char type, va_list args, int *count)
+void	ft_format_fd(int fd, char type, va_list args, int *count)
 {
 	if (type == 'c')
-		ft_putchar_p(va_arg(args, int), 1, count);
+		ft_putchar_p(va_arg(args, int), fd, count);
 	else if (type == 's')
-		ft_putstr_p(va_arg(args, char *), 1, count);
+		ft_putstr_p(va_arg(args, char *), fd, count);
 	else if (type == 'd' || type == 'i')
-		ft_putnbr_p(va_arg(args, int), 1, count);
+		ft_putnbr_p(va_arg(args, int), fd, count);
 	else if (type == 'u')
-		ft_putnbru_fd(va_arg(args, unsigned int), 1, count);
+		ft_putnbru_fd(va_arg(args, unsigned int), fd, count);
 	else if (type == 'p')
-		ft_putptr_fd(va_arg(args, void *), 1, count);
+		ft_putptr_fd(va_arg(args, void *), fd, count);
 	else if (type == 'x')
-		ft_puthex_fd(va_arg(args, unsigned int), 1, count, HEX_LOW_BASE);
+		ft_puthex_fd(va_arg(args, unsigned int), fd, count, HEX_LOW_BASE);
 	else if (type == 'X')
-		ft_puthex_fd(va_arg(args, unsigned int), 1, count, HEX_UPP_BASE);
+		ft_puthex_fd(va_arg(args, unsigned int), fd, count, HEX_UPP_BASE);
 }
 
 int	ft_printf_fd(int fd, char const *str, ...)
@@ -44,10 +44,10 @@ int	ft_printf_fd(int fd, char const *str, ...)
 			str++;
 			if (*str == '%')
 				ft_putchar_p('%', 1, &count);
-			ft_format(*str, args, &count);
+			ft_format_fd(fd, *str, args, &count);
 		}
 		else
-			ft_putchar_p(*str, 1, &count);
+			ft_putchar_p(*str, fd, &count);
 		str++;
 	}
 	va_end(args);
