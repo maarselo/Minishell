@@ -84,7 +84,7 @@ int	ft_export_single(char *cmd, t_env *env_list)
     return 0;
 }
 
-t_env	*ft_create_node_export_by_mode(char *mode, char *command, t_env *env_list)
+t_env	*ft_create_node_export_by_mode(char *mode, char *command)
 {
 	t_env	*node_env;
 
@@ -95,7 +95,7 @@ t_env	*ft_create_node_export_by_mode(char *mode, char *command, t_env *env_list)
 		node_env->name = ft_strdup(command);
 		if (!node_env->name)
 			return (perror("minishell :"), free(node_env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 		ft_set_global_exit_status(T_SUCCESS);
 	}
 	else if (!ft_strcmp(mode, NULL_VALUE))
@@ -103,23 +103,23 @@ t_env	*ft_create_node_export_by_mode(char *mode, char *command, t_env *env_list)
 		node_env->name = ft_strndup(command, ft_strlen(command) - 1);
 		if (!node_env->name)
 			return (perror("minishell :"), free(node_env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 		node_env->value = ft_strdup("");
 		if (!node_env->value)
 			return (perror("minishell :"), free(node_env->name), free(node_env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 	}
 	else if (!ft_strcmp(mode, WITH_VALUE))
 	{
 		node_env->name = ft_substr(command, 0, ft_strchr(command, '=') - command);
 		if (!node_env->name)
 			return (perror("minishell :"), free(node_env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 		node_env->value = ft_substr(command, ft_strlen(node_env->name) + 1,
 				ft_strlen(command) - ft_strlen(node_env->name) - 1);
 		if (!node_env->value)
 			return (perror("minishell: "), free(node_env->name), free(node_env),
-				ft_set_global_exit_status(T_GENERAL_ERROR), 1);
+				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
 	}
 	return (node_env);
 }

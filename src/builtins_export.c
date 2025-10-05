@@ -112,7 +112,7 @@ int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 		ft_replace_env_var(env_list, name_var, new_value);
 		return (0);
 	}
-	env = ft_create_node_export_by_mode(mode, command, env_list);
+	env = ft_create_node_export_by_mode(mode, command);
 	ft_add_var_into_list(env, env_list);
 	return (0);
 }
