@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 20:33:20 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:10:56 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_set_env_var(t_env *env_list, char *name, char *value)
 			if (var->value)
 				free(var->value);
 			if (value)
-				var->value = value;
+				var->value = ft_strdup(value);
 			else
 				var->value = NULL;
 			return ;
@@ -44,7 +44,8 @@ static void	ft_update_pwd(char *new_path, t_env *env_list)
 	{
 		if (ft_strcmp(var->name, "PWD") == 0)
 		{
-			old_path = ft_strdup(var->value);
+			if (var->value)
+				old_path = ft_strdup(var->value);
 			break ;
 		}
 		var = var->next;
@@ -61,7 +62,7 @@ void	ft_cd(char **args, t_env *env_list)
 
 	if (!args[1])
 	{
-		path = getenv("HOME");
+		path = ft_get_env_value(env_list, "HOME");
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
