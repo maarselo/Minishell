@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:05:06 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 17:25:41 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:07:18 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	**ft_empty_matches(char	*str)
 	if (!matches)
 		return (NULL);
 	matches[0] = ft_strdup(str);
+	if (!matches[0])
+		return (NULL);
 	matches[1] = NULL;
 	return (matches);
 }
@@ -70,6 +72,8 @@ char	**ft_loop_entries(DIR *dir, char *pattern, char **matches,
 		{
 			full_path = ft_strjoin(dir_name, entry->d_name);
 			matches = ft_realloc_array(matches, i + 1);
+			if (!full_path || !matches)
+				return (NULL);
 			matches[i++] = full_path;
 		}
 		entry = readdir(dir);

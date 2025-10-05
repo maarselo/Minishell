@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 17:01:29 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:40:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ char	*ft_handle_expansion(char *result, char *str, int *i, t_env *env_list)
 	if (str[*i] == '$')
 	{
 		tmp = ft_expand_var(str, i, env_list);
+		if (!tmp)
+			return (NULL);
 		result = ft_join_str_var(result, tmp);
 		free(tmp);
+		if (!result)
+			return (NULL);
 	}
 	else
 	{
 		result = ft_join_char_var(result, str[*i]);
+		if (!result)
+			return (NULL);
 		(*i)++;
 	}
 	return (result);
@@ -39,6 +45,8 @@ char	*ft_expand_tilde(char *result, t_env *env_list)
 		return (ft_strdup(result));
 	result = ft_join_str_var(result, tmp + 1);
 	free(tmp);
+	if (!result)
+		return (NULL);
 	return (result);
 }
 
@@ -51,6 +59,8 @@ char	*ft_join_char_var(char *str, char c)
 	tmp[1] = '\0';
 	joined = ft_strjoin(str, tmp);
 	free(str);
+	if (!joined)
+		return (NULL);
 	return (joined);
 }
 
@@ -62,6 +72,8 @@ char	*ft_join_str_var(char *str, char *to_append)
 		to_append = "";
 	joined = ft_strjoin(str, to_append);
 	free(str);
+	if (!joined)
+		return (NULL);
 	return (joined);
 }
 
