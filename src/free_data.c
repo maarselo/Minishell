@@ -12,10 +12,20 @@
 
 #include "minishell.h"
 
-void	ft_free_data(t_env *env_list, t_command *command_list)
+void	ft_free_data(t_data *data)
 {
-	if (env_list)
-		ft_free_envp(env_list);
-	if (command_list)
-		ft_free_command_list(command_list);
+	if (data->env)
+		ft_free_envp(data->env);
+	if (data->cmd)
+		ft_free_command_list(data->cmd);
+	if (data->saved_fd.saved_stdin != -1)
+		close(data->saved_fd.saved_stdin);
+	if (data->saved_fd.saved_stdout != -1)
+		close(data->saved_fd.saved_stdout);
+}
+
+void	ft_exit_free_data(t_data *data, int exit_code)
+{
+	ft_free_data(data);
+	exit(exit_code);
 }

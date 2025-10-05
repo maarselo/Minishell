@@ -14,9 +14,8 @@
 
 t_global	g_status;
 
-void	ft_process_input(char *input, t_saved_fd saved_fd, t_env **env_list)
+void	ft_process_input(char *input, t_data *data)
 {
-	t_command	*command_list;
 	t_token		*token_list;
 
 	add_history(input);
@@ -29,10 +28,10 @@ void	ft_process_input(char *input, t_saved_fd saved_fd, t_env **env_list)
 			ft_set_global_exit_status(T_SYNTAX));
 	else
 	{
-		command_list = ft_tokens_to_command_struct(token_list);
-		ft_free_input_token(input, token_list);
-		ft_expand(command_list, *env_list);
-		ft_executor(command_list, saved_fd, env_list);
+		data->command = ft_tokens_to_command_struct(token_list);
+		ft_free_input_token(input, token_list);	
+		ft_expand(data);
+		ft_executor(data);
 		ft_free_data(*env_list, command_list);
 	}
 }
@@ -42,9 +41,11 @@ void	ft_input_loop(char **envp)
 	char		*input;
 	t_env		*env_list;
 	t_saved_fd	saved_fd;
+	t_data		*data;
 
 	env_list = ft_get_env(envp);
 	saved_fd = ft_store_defaults_fd();
+	data = ft_init_data(NULL, env_list, saved_fd);
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
@@ -59,10 +60,10 @@ void	ft_input_loop(char **envp)
 		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
 			ft_exit_handler(input);
 		if (*input)
-			ft_process_input(input, saved_fd, &env_list);
+			ft_process_input(input, data);
 	}
 	ft_free_envp(env_list);
-	ft_close_defaults_fd(&saved_fd);
+	ft_close_defaults_fd(saved_fd);
 }
 
 int	main(int argc, char **argv, char **envp)

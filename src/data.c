@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   defaults_fd.c                                      :+:      :+:    :+:   */
+/*   data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,32 +12,18 @@
 
 #include "minishell.h"
 
-t_saved_fd	ft_store_defaults_fd(void)
+t_data	*ft_init_data(t_command *command, t_env *env_list,
+			t_saved_fd saved_fd)
 {
-	t_saved_fd	saved_fd;
+	t_data	*data;
 
-	saved_fd.saved_stdin = dup(STDIN_FILENO);
-	saved_fd.saved_stdout = dup(STDOUT_FILENO);
-	if (saved_fd.saved_stdin == -1 || saved_fd.saved_stdout == -1)
-	{
-		perror("minishell");
-		ft_set_global_exit_status(1);
-	}
-	return (saved_fd);
-}
-
-void	ft_close_defaults_fd(t_saved_fd saved_fd)
-{
-	if (saved_fd.saved_stdin != -1)
-		close(saved_fd.saved_stdin);
-	if (saved_fd.saved_stdout != -1)
-		close(saved_fd.saved_stdout);
-}
-
-void	ft_resturare_defaults_fd(t_saved_fd saved_fd)
-{
-	if (saved_fd.saved_stdin != -1)
-		dup2(saved_fd.saved_stdin, STDIN_FILENO);
-	if (saved_fd.saved_stdout != -1)
-		dup2(saved_fd.saved_stdout, STDOUT_FILENO);
+	data = (t_data *)ft_calloc(1, sizeof(t_data));
+	if (!data)
+		return (NULL);
+	if (command)
+		data->command = command;
+	if (env_list)
+		data->env = env_list;
+	data->saved_fd = saved_fd;
+	return (data);
 }

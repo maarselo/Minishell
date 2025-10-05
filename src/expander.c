@@ -83,29 +83,30 @@ char	*ft_execute_expander(char *str, t_env *env_list)
 	return (ft_expand_var_no_quotes(str, env_list));
 }
 
-void	ft_expand(t_command *cmd, t_env *env_list)
+void	ft_expand(t_data *data)
 {
 	int		i;
 	char	*expanded;
 	bool	quotes;
 
-	while (cmd)
+	while (data->cmd)
 	{
 		i = 0;
 		quotes = false;
-		while (cmd->command && cmd->command[i])
+		while (data->cmd->command && data->cmd->command[i])
 		{
-			if (ft_strchr(cmd->command[i], '\'')
-				|| ft_strchr(cmd->command[i], '"'))
+			if (ft_strchr(data->cmd->command[i], '\'')
+				|| ft_strchr(data->cmd->command[i], '"'))
 				quotes = true;
-			expanded = ft_execute_expander(cmd->command[i], env_list);
-			free(cmd->command[i]);
-			cmd->command[i] = expanded;
-			if (quotes == false && ft_strchr(cmd->command[i], '*'))
-				ft_execute_wildcards(cmd, &i);
+			expanded = ft_execute_expander(data, data->cmd->command[i],
+					data->env);
+			free(data->cmd->command[i]);
+			data->cmd->command[i] = expanded;
+			if (quotes == false && ft_strchr(data->cmd->command[i], '*'))
+				ft_execute_wildcards(data, data->cmd, &i);
 			else
 				i++;
 		}
-		cmd = cmd->next;
+		data->cmd = data->cmd->next;
 	}
 }

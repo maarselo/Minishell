@@ -63,6 +63,16 @@ typedef struct s_global
 extern t_global	g_status;
 
 /*
+	data.c
+*/
+typedef struct s_data
+{
+	t_command	*cmd;
+	t_env		*env;
+	t_saved_fd	saved_fd;
+}				t_data;
+
+/*
 	tokenizer.h
 	Enum to diff the different types in the token_list and struct
 	to five the token list in linked list to parser.
@@ -155,14 +165,16 @@ void		ft_set_global_heredoc_status(int heredoc_status);
 
 //default_fd.c
 t_saved_fd	ft_store_defaults_fd(void);
-void		ft_close_defaults_fd(t_saved_fd *saved_fd);
+void		ft_close_defaults_fd(t_saved_fd saved_fd);
 void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
+
+//data.c
+t_data	*ft_init_data(t_command *command, t_env *env_list,
+			t_saved_fd saved_fd);
 
 // banner.c
 void		ft_print_banner(void);
 // minishell.c
-void		ft_process_input(char *input, t_saved_fd saved_fd,
-				t_env **env_list);
 void		ft_input_loop(char **envp);
 
 // tokenizer_utils.c
@@ -215,7 +227,7 @@ t_command	*ft_tokens_to_command_struct(t_token *token_list);
 
 /////////////////////////////////////////////////////////////////////
 // expander.c
-void		ft_expand(t_command *cmd, t_env *env_list);
+void		ft_expand(t_data *data);
 char		*ft_expand_var(char *str, int *i, t_env *env_list);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
@@ -290,7 +302,8 @@ void		ft_clean_parser_memory_exit(t_command *command,
 void		ft_exit_handler(char *input);
 
 //free_data.c
-void		ft_free_data(t_env *env_list, t_command *command_list);
+void		ft_free_data(t_data *data);
+void		ft_exit_free_data(t_data *data, int exit_code);
 // free.c
 void		ft_free_input_token(char *input, t_token *token_list);
 void		ft_free_token_list(t_token *token_list);
