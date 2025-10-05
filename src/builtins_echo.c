@@ -17,7 +17,7 @@ void	ft_echo(char **args)
 	bool	flag_n;
 	int		i;
 
-	i = 0;
+	i = 1;
 	flag_n = false;
 	if (args[1] && ft_strcmp(args[1], "-n") == 0)
 	{
