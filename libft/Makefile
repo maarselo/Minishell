@@ -31,7 +31,7 @@ ft_is_all_asnum.c ft_contains_metachar.c ft_isnumbers.c
 SRC_GNL = get_next_line.c get_next_line_utils.c
 
 SRC_PRINTF = ft_printf.c ft_putchar_p.c ft_putstr_p.c ft_putnbr_p.c \
-ft_puthex_fd.c ft_putptr_fd.c
+ft_puthex_fd.c ft_putptr_fd.c ft_printf_fd.c
 
 BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstadd_back.c ft_lstsize.c \
 ft_lstlast.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c

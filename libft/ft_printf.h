@@ -21,6 +21,7 @@
 # define HEX_LOW_BASE "0123456789abcdef"
 
 int			ft_printf(char const *str, ...);
+int			ft_printf_fd(int fd, char const *str, ...);
 void		ft_format(char type, va_list args, int *count);
 void		ft_putchar_p(char c, int fd, int *count);
 void		ft_putstr_p(char *s, int fd, int *count);
