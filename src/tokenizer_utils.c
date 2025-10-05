@@ -23,12 +23,3 @@ int	ft_is_operator(char c)
 		|| c == '(' || c == ')' || c == '&');
 }
 
-void	ft_check_new_token(t_token *new_token, char *input, t_token *top)
-{
-	if (!new_token)
-	{
-		ft_free_input_token(input, top);
-		perror("minishell");
-		exit(EXIT_FAILURE);
-	}
-}

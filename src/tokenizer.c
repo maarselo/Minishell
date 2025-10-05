@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 void	ft_print_tokens(t_token	*token)
 {
 	t_token	*first_token;
@@ -22,7 +22,7 @@ void	ft_print_tokens(t_token	*token)
 		ft_printf("%s\n", first_token->content);
 		first_token = first_token->next;
 	}
-}*/
+}
 
 static char	*ft_extract_quotes(char *str, int	*i)
 {
@@ -84,7 +84,7 @@ static char	*ft_extract_token(char *input, int *i)
 		return (ft_extract_word(input, i));
 }
 
-t_token	*ft_tokenizer(char *input)
+t_token	*ft_tokenizer(char *input, t_data *data)
 {
 	int		i;
 	t_token	*new_token;
@@ -100,8 +100,7 @@ t_token	*ft_tokenizer(char *input)
 			i++;
 		if (!input[i])
 			break ;
-		new_token = ft_init_token(ft_extract_token(input, &i));
-		ft_check_new_token(new_token, input, top);
+		new_token = ft_init_token(ft_extract_token(input, &i), data);
 		if (!top)
 			top = new_token;
 		else
