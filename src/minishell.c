@@ -29,10 +29,9 @@ void	ft_process_input(char *input, t_data *data)
 	else
 	{
 		ft_tokens_to_command_struct(token_list, data);
-		//ft_free_command_list(data->cmd);
 		ft_free_input_token(input, token_list);	
-	//	ft_expand(data);
-	//	ft_executor(data);*/
+		ft_expand(data);
+		ft_executor(data);
 		ft_free_command_list(data);
 	}
 }
@@ -64,13 +63,12 @@ void	ft_input_loop(char **envp)
 		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
 		{
 			clear_history();
-			ft_exit_handler(input);
+			ft_exit_handler(input);//free data
 		}
 		if (*input)
 			ft_process_input(input, data);
 	}
-	ft_free_envp(env_list);
-	ft_close_defaults_fd(saved_fd);
+	ft_free_data(data);
 }
 
 int	main(int argc, char **argv, char **envp)

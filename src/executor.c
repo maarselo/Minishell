@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-/*
-
 static char	*ft_find_path(t_command *current, t_env *env_list)
 {
 	int		i;
@@ -44,47 +42,45 @@ static char	*ft_find_path(t_command *current, t_env *env_list)
 	return (ft_free_split(split_path), NULL);
 }
 
-void	ft_execute_child(t_command *current_cmd, t_env *env, t_command *list)
+void	ft_execute_child(t_command *current_cmd, t_data *data)
 {
 	char	*path;
 	char	**env_array;
 
-	env_array = ft_convert_list(env);
+	env_array = ft_convert_list(data->env);
 	if (!env_array)
 	{
 		perror("minishell: ");
-		ft_free_data(env, list);
+		ft_exit_free_data(data, T_GENERAL_ERROR);
 		exit(T_GENERAL_ERROR);
 	}
-	path = ft_find_path(current_cmd, env);
+	path = ft_find_path(current_cmd, data->env);
 	if (!path)
 	{
-		ft_free_data(env, list);
 		printf("Command %s not found \n", current_cmd->command[0]);
-		exit(T_COMMAND_NOT_FOUND);
+		ft_exit_free_data(data, T_COMMAND_NOT_FOUND);
 	}
 	if (execve(path, current_cmd->command, env_array) == -1)
 	{
 		printf("Command %s not found \n", current_cmd->command[0]);
-		ft_free_data(env, list);
-		exit(T_COMMAND_NOT_FOUND);
+		ft_exit_free_data(data, T_COMMAND_NOT_FOUND);
 	}
 }
 
-int	ft_execute_command(bool is_last, t_command *current_command, t_env **env_list, t_command *command_list)
+int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 {
 	pid_t	pid;
 	int		status;
 
-	if (ft_isbuiltin(current_command->command[0]))
-		return (ft_execute_builtin(is_last, current_command, env_list, command_list));
+	//if (ft_isbuiltin(current_command->command[0]))
+		//return (ft_execute_builtin(is_last, current_command, data));
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell: "), 0);
 	else if (pid == 0)
 	{
-		ft_set_signals_child_mode()
-		ft_execute_child(current_command, *env_list, command_list);
+		ft_set_signals_child_mode();
+		ft_execute_child(current_command, data);
 	}
 	else
 	{
@@ -106,27 +102,26 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_env **env_lis
 	return (1);
 }
 
-void	ft_executor(t_command *command_list, t_saved_fd saved_fd, t_env **env)
+void	ft_executor(t_data *data)
 {
 	int			prev_pipe;
 	int			keep;
 	t_command	*current_command;
 
 	prev_pipe = -1;
-	current_command = command_list;
+	current_command = data->cmd;
 	while (current_command)
 	{
-		if (ft_manage_pipes(&prev_pipe, current_command, command_list)
+		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd)
 			|| ft_manage_redirections(current_command))
 			return ;
 		if (current_command->next)
-			keep = ft_execute_command(false, current_command, env, command_list);
+			keep = ft_execute_command(false, current_command, data);
 		else
-			keep = ft_execute_command(true, current_command, env, command_list);
-		ft_resturare_defaults_fd(saved_fd);
+			keep = ft_execute_command(true, current_command, data);
+		ft_resturare_defaults_fd(data->saved_fd);
 		if (!keep)
 			break ;
 		current_command = current_command->next;
 	}
 }
-*/

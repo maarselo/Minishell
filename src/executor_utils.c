@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 int	ft_get_env_size(t_env *env_list)
 {
 	int		i;
@@ -32,6 +32,7 @@ static char	*ft_create_array_value(char *mode, t_env *current)
 	char	*str;
 	char	*prev_to_free;
 
+	str = NULL;
 	if (!ft_strcmp(WITH_VALUE, mode))
 	{
 		str = ft_strjoin(current->name, "=");
@@ -77,4 +78,3 @@ char	**ft_convert_list(t_env *env_list)
 	env_array[i] = NULL;
 	return (env_array);
 }
-*/

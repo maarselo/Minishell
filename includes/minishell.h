@@ -265,8 +265,7 @@ int			ft_find_env_var_name(t_env *env_list, char *name);
 
 // builtins.c
 int			ft_isbuiltin(char *cmd);
-int			ft_execute_builtin(bool is_last, t_command *cmd, t_env **env_list,
-				t_command*list);
+int			ft_execute_builtin(bool is_last, t_command *cmd, t_data *data);
 // bultins_echo.c
 void		ft_echo(char **args);
 // bultins_cd.c
@@ -287,8 +286,7 @@ void		ft_unset(char **args, t_env **env_list);
 void		ft_env(char **args, t_env *env_list);
 
 // executor.c
-void		ft_executor(t_command *command_list, t_saved_fd saved_fd,
-				t_env **env);
+void		ft_executor(t_data *data);
 // executor_pipes.c
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);

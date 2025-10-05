@@ -19,6 +19,7 @@ void	ft_free_data(t_data *data)
 	if (data->cmd)
 		ft_free_command_list(data);
 	ft_close_defaults_fd(data->saved_fd);
+	free(data);
 }
 
 void	ft_exit_free_data(t_data *data, int exit_code)
