@@ -40,3 +40,9 @@ void	ft_set_signals_heredoc_mode(void)
 	signal(SIGINT, ft_sigint_hadler_heredoc_mode);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	ft_set_signals_child_mode(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

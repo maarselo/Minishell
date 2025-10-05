@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_command_utils.c                           :+:      :+:    :+:   */
+/*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,37 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_command	*ft_get_previous_command(t_command *find, t_command *command_list)
-{
-	t_command	*tmp;
-	t_command	*previous;
-
-	if (find == command_list)
-		return (NULL);
-	previous = command_list;
-	tmp = command_list->next;
-	while (tmp)
-	{
-		if (tmp == find)
-			return (previous);
-		previous = tmp;
-		tmp = tmp->next;
-	}
-	return (tmp);
-}
-
-bool	ft_is_last_command(t_command *command)
-{
-	t_command	*tmp;
-
-	tmp = command;
-	while (tmp->next)
-		tmp = tmp->next;
-	if (tmp == command)
-		return (true);
-	return (false);
-}
 
 int	ft_get_env_size(t_env *env_list)
 {
@@ -58,7 +27,7 @@ int	ft_get_env_size(t_env *env_list)
 	return (i);
 }
 
-char	*ft_create_array_value(int i, char *mode, t_env *current)
+static char	*ft_create_array_value(char *mode, t_env *current)
 {
 	char	*str;
 	char	*prev_to_free;
@@ -99,9 +68,9 @@ char	**ft_convert_list(t_env *env_list)
 	while (tmp)
 	{
 		if (tmp->name && tmp->value)
-			ft_create_array_value(i, WITH_VALUE, tmp);
+			ft_create_array_value(WITH_VALUE, tmp);
 		else if (tmp->name)
-			ft_create_array_value(i, NULL_VALUE, tmp);
+			ft_create_array_value(NULL_VALUE, tmp);
 		tmp = tmp->next;
 		i++;
 	}
