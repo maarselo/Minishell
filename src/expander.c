@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 20:48:14 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:43:33 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ char	*ft_expand_var_no_quotes(char *str, t_env *env_list)
 		if (!result)
 			return (NULL);
 	}
+	free(str);
 	return (result);
 }
 
@@ -104,34 +105,36 @@ char	*ft_execute_expander(t_data *data, char *str)
 		return (ft_strndup(str + 1, l - 2));
 	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
 		return (ft_expand_variables(ft_strndup(str + 1, l - 2), data->env));
-	return (ft_expand_var_no_quotes(str, data->env));
+	return (ft_expand_var_no_quotes(ft_strdup(str), data->env));
 }
 
 void	ft_expand(t_data *data)
 {
-	int		i;
-	char	*expanded;
-	bool	quotes;
+	int			i;
+	char		*expanded;
+	bool		quotes;
+	t_command	*tmp;
 
-	while (data->cmd)
+	tmp = data->cmd;
+	while (tmp)
 	{
 		i = 0;
 		quotes = false;
-		while (data->cmd->command && data->cmd->command[i])
+		while (tmp->command && tmp->command[i])
 		{
-			if (ft_strchr(data->cmd->command[i], '\'')
-				|| ft_strchr(data->cmd->command[i], '"'))
+			if (ft_strchr(tmp->command[i], '\'')
+				|| ft_strchr(tmp->command[i], '"'))
 				quotes = true;
-			expanded = ft_execute_expander(data, data->cmd->command[i]);
+			expanded = ft_execute_expander(data, tmp->command[i]);
 			if (!expanded)
 				ft_exit_free_data(data, T_GENERAL_ERROR);
-			free(data->cmd->command[i]);
-			data->cmd->command[i] = expanded;
-			if (quotes == false && ft_strchr(data->cmd->command[i], '*'))
-				ft_execute_wildcards(data, data->cmd, &i);
+			free(tmp->command[i]);
+			tmp->command[i] = expanded;
+			if (quotes == false && ft_strchr(tmp->command[i], '*'))
+				ft_execute_wildcards(data, tmp, &i);
 			else
 				i++;
 		}
-		data->cmd = data->cmd->next;
+		tmp = tmp->next;
 	}
 }

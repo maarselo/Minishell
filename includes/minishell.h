@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 00:03:55 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:37:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef enum exit_codes
 	T_COMMAND_NOT_FOUND = 127,
 	T_SIGINT = 130,
 	T_SIGQUIT = 131,
-}			t_exit_types;
+}	t_exit_types;
 
 /*
 sig_atomic_t → asegura que la lectura/escritura sea atómica
@@ -58,7 +58,7 @@ typedef struct s_global
 {
 	volatile sig_atomic_t	exit_status;
 	volatile sig_atomic_t	heredoc_status;
-}				t_global;
+}	t_global;
 
 extern t_global	g_status;
 
@@ -79,7 +79,7 @@ typedef enum e_token_type
 	T_OR,
 	T_PAREN_OPEN,
 	T_PAREN_CLOSE,
-}			t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
@@ -141,7 +141,7 @@ typedef struct s_saved_fd
 {
 	int			saved_stdin;
 	int			saved_stdout;
-}				t_saved_fd;
+}	t_saved_fd;
 
 /*
 	data.c
@@ -151,8 +151,7 @@ typedef struct s_data
 	t_command	*cmd;
 	t_env		*env;
 	t_saved_fd	saved_fd;
-}				t_data;
-
+}	t_data;
 
 // signals.c
 void		ft_set_signals_prompt_mode(void);
@@ -170,8 +169,9 @@ void		ft_close_defaults_fd(t_saved_fd saved_fd);
 void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
 
 //data.c
-t_data	*ft_init_data(t_command *command, t_env *env_list,
-			t_saved_fd saved_fd);
+t_data		*ft_init_data(t_command *command, t_env *env_list,
+				t_saved_fd saved_fd);
+void		ft_print_data(t_data *data);
 
 // banner.c
 void		ft_print_banner(void);
@@ -246,7 +246,8 @@ char		**ft_realloc_array(char **array, int size);
 char		**ft_empty_matches(char	*str);
 int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
-char		**ft_loop_entries(DIR *dir, char *pattern, char **matches, char *dir_name);
+char		**ft_loop_entries(DIR *dir, char *pattern,
+				char **matches, char *dir_name);
 int			ft_ignore_file(struct dirent *entry, char *pattern);
 // wildcards_dir.c
 void		ft_split_dir(char *pattern, char **dir_name, char **name_pattern);
@@ -300,9 +301,9 @@ int			ft_get_env_size(t_env *env_list);
 char		**ft_convert_list(t_env *env_list);
 
 // exit.c
-void	ft_free_exit(char *input, t_data *data);
-void	ft_clean_parser_memory_exit(t_command *command,
-			t_data *data, t_token *token_list);
+void		ft_free_exit(char *input, t_data *data);
+void		ft_clean_parser_memory_exit(t_command *command,
+				t_data *data, t_token *token_list);
 void		ft_exit_handler(char *input);
 
 //free_data.c

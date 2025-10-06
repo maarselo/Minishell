@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 21:26:06 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:57:23 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,32 @@ int	ft_match(char *cmd, char *str)
 {
 	int	cmd_i;
 	int	str_i;
-	int	cmd_pt_i;
-	int	str_bck_i;
+	int	cmd_pattern_i;
+	int	str_backup_i;
 
-	cmd_pt_i = -1;
-	str_bck_i = -1;
+	cmd_pattern_i = -1;
+	str_backup_i = -1;
 	cmd_i = 0;
 	str_i = 0;
 	while (str[str_i])
 	{
 		if (cmd[cmd_i] == '*')
-			ft_match_case1(&cmd_pt_i, &str_bck_i, &cmd_i, &str_i);
+		{
+			cmd_pattern_i = cmd_i;
+			str_backup_i = str_i;
+			cmd_i++;
+		}
 		else if (cmd[cmd_i] == str[str_i])
-			ft_match_case2(&cmd_i, &str_i);
-		else if (cmd_pt_i != -1)
-			ft_match_case3(&cmd_pt_i, &str_bck_i, &cmd_i, &str_i);
+		{
+			cmd_i++;
+			str_i++;
+		}
+		else if (cmd_pattern_i != -1)
+		{
+			cmd_i = cmd_pattern_i + 1;
+			str_i = str_backup_i + 1;
+			str_backup_i++;
+		}
 		else
 			return (0);
 	}
@@ -97,22 +108,21 @@ char	**ft_expand_wildcard(char *pattern)
 
 	matches = NULL;
 	ft_split_dir(pattern, &dir_name, &name_pattern);
-	if (!dir_name) 
-		return (NULL);
 	dir = opendir(dir_name);
 	if (dir == NULL)
-		return (free(name_pattern), free(dir_name), ft_empty_matches(pattern));
+	{
+		free(dir_name);
+		free(name_pattern);
+		return (ft_empty_matches(pattern));
+	}
 	matches = ft_loop_entries(dir, name_pattern, matches, dir_name);
 	free(dir_name);
 	free(name_pattern);
-	if (matches == NULL)
-		return (NULL);
 	i = ft_array_len(matches);
 	if (i == 0 || matches == NULL)
 		return (ft_empty_matches(pattern));
 	matches = ft_realloc_array(matches, i + 1);
-	if (!matches)
-		return (NULL);
+	matches[i] = NULL;
 	return (matches);
 }
 
@@ -121,6 +131,7 @@ void	ft_execute_wildcards(t_data *data, t_command *cmd, int *i)
 	char	**wc_expanded;
 	char	**temp_cmd;
 
+	(void)data;
 	wc_expanded = ft_expand_wildcard(cmd->command[*i]);
 	if (!wc_expanded)
 		ft_exit_free_data(data, T_GENERAL_ERROR);

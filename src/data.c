@@ -27,3 +27,28 @@ t_data	*ft_init_data(t_command *command, t_env *env_list,
 	data->saved_fd = saved_fd;
 	return (data);
 }
+
+void	ft_print_data(t_data *data)
+{
+	t_command	*tmp_cmd;
+	int			i;
+
+	if (!data)
+		return ;
+	if (data->cmd)
+	{
+		tmp_cmd = data->cmd;
+		while (tmp_cmd)
+		{
+			i = 0;
+			ft_putstr_fd("--- Nuevo Comando ---\n", 1);
+			while (tmp_cmd->command[i])
+			{
+				ft_putstr_fd(tmp_cmd->command[i], 1);
+				ft_putstr_fd("\n", 1);
+				i++;
+			}
+			tmp_cmd = tmp_cmd->next;
+		}
+	}
+}

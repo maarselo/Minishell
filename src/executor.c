@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/08/24 11:58:01 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:31:35 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	pid_t	pid;
 	int		status;
 
-	//if (ft_isbuiltin(current_command->command[0]))
-		//return (ft_execute_builtin(is_last, current_command, data));
+	if (ft_isbuiltin(current_command->command[0]))
+		return (ft_execute_builtin(is_last, current_command, data));
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell: "), 0);
@@ -85,17 +85,19 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	else
 	{
 		if (current_command->connector == AND_CONNECTOR
-				|| current_command->connector == OR_CONNECTOR
-					|| is_last)
+			|| current_command->connector == OR_CONNECTOR
+			|| is_last)
 		{
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 				ft_set_global_exit_status(WEXITSTATUS(status));
 			else if (WIFSIGNALED(status))
 				ft_set_global_exit_status(128 + WTERMSIG(status));
-			if (g_status.exit_status != 0 && current_command->connector == AND_CONNECTOR)
+			if (g_status.exit_status != 0
+				&& current_command->connector == AND_CONNECTOR)
 				return (0);
-			else if (g_status.exit_status == 0 && current_command->connector == OR_CONNECTOR)
+			else if (g_status.exit_status == 0
+				&& current_command->connector == OR_CONNECTOR)
 				return (0);
 		}
 	}
