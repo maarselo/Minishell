@@ -54,7 +54,8 @@ t_token	*ft_init_token(char *content, t_data *data)
 	t_token	*token;
 
 	if (!content)
-		return (NULL);
+		return (perror("minishell: "),
+			ft_exit_free_data(data, T_GENERAL_ERROR), NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (perror("minishell: "),
