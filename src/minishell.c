@@ -31,7 +31,6 @@ void	ft_process_input(char *input, t_data *data)
 		ft_tokens_to_command_struct(token_list, data);
 		ft_free_input_token(input, token_list);	
 		ft_expand(data);
-		//ft_print_data(data);
 		ft_executor(data);
 		ft_free_command_list(data);
 	}
@@ -46,7 +45,7 @@ void	ft_input_loop(char **envp)
 
 	env_list = ft_get_env(envp);
 	saved_fd = ft_store_defaults_fd();
-	data = ft_init_data(NULL, env_list, saved_fd);
+	data = ft_init_data(env_list, saved_fd);
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
@@ -64,7 +63,7 @@ void	ft_input_loop(char **envp)
 		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
 		{
 			clear_history();
-			ft_exit_handler(input);//free data
+			ft_exit_handler(input, data);
 		}
 		if (*input)
 			ft_process_input(input, data);

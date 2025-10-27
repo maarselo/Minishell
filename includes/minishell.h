@@ -169,8 +169,7 @@ void		ft_close_defaults_fd(t_saved_fd saved_fd);
 void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
 
 //data.c
-t_data		*ft_init_data(t_command *command, t_env *env_list,
-				t_saved_fd saved_fd);
+t_data		*ft_init_data(t_env *env_list, t_saved_fd saved_fd);
 void		ft_print_data(t_data *data);
 
 // banner.c
@@ -304,7 +303,7 @@ char		**ft_convert_list(t_env *env_list);
 void		ft_free_exit(char *input, t_data *data);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_data *data, t_token *token_list);
-void		ft_exit_handler(char *input);
+void		ft_exit_handler(char *input, t_data *data);
 
 //free_data.c
 void		ft_free_data(t_data *data);
