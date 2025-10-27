@@ -277,7 +277,7 @@ void		ft_pwd(char **args);
 char		*ft_split_name_var(char *str);
 char		*ft_split_value_var(char *str);
 void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
-t_env		*ft_create_node_export_by_mode(char *mode, char *command);
+t_env		*ft_create_node_export_by_mode(char *mode, char *var_name, char *var_value);
 t_env		*ft_clone_env_list(t_env *env_list);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);

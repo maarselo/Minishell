@@ -78,26 +78,25 @@ t_env	*ft_clone_env_list(t_env *env_list)
 	return (sorted);
 }
 
-void	ft_check_env_node(char *command, t_env *node_env)
+void	ft_check_env_node(char *var_value, t_env *node_env)
 {
 	if (!node_env->name)
 		return (perror("minishell :"), free(node_env),
 			ft_set_global_exit_status(T_GENERAL_ERROR));
-	node_env->value = ft_substr(command, ft_strlen(node_env->name) + 1,
-			ft_strlen(command) - ft_strlen(node_env->name) - 1);
+	node_env->value = ft_strdup(var_value);
 	if (!node_env->value)
 		return (perror("minishell: "), free(node_env->name), free(node_env),
 			ft_set_global_exit_status(T_GENERAL_ERROR));
 }
 
-t_env	*ft_create_node_export_by_mode(char *mode, char *command)
+t_env	*ft_create_node_export_by_mode(char *mode, char *var_name, char *var_value)
 {
 	t_env	*node_env;
 
 	node_env = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!ft_strcmp(mode, NO_VALUE))
 	{
-		node_env->name = ft_strdup(command);
+		node_env->name = ft_strdup(var_name);
 		if (!node_env->name)
 			return (perror("minishell :"), free(node_env),
 				ft_set_global_exit_status(T_GENERAL_ERROR), NULL);
@@ -105,14 +104,13 @@ t_env	*ft_create_node_export_by_mode(char *mode, char *command)
 	}
 	else if (!ft_strcmp(mode, NULL_VALUE))
 	{
-		node_env->name = ft_strndup(command, ft_strlen(command) - 1);
-		ft_check_env_node(command, node_env);
+		node_env->name = ft_strdup(var_name);
+		ft_check_env_node(var_value, node_env);
 	}
 	else if (!ft_strcmp(mode, WITH_VALUE))
 	{
-		node_env->name = ft_substr(command, 0,
-				ft_strchr(command, '=') - command);
-		ft_check_env_node(command, node_env);
+		node_env->name = ft_strdup(var_name);
+		ft_check_env_node(var_value, node_env);
 	}
 	return (node_env);
 }

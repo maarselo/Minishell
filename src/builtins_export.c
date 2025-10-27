@@ -26,7 +26,7 @@ void	ft_print_order_variables(t_env *list)
 		if (tmp->value)
 			printf("declare -x %s=\'%s\'\n", tmp->name, tmp->value);
 		else
-			printf("declare -x %s=\'\'\n", tmp->name);
+			printf("declare -x %s\n", tmp->name);
 		tmp = tmp->next;
 	}
 }
@@ -49,23 +49,36 @@ void	ft_add_var_into_list(t_env *env, t_env *env_list)
 int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
 {
 	t_env	*env;
-	char	*name_var;
-	char	*new_value;
+	char	*var_name;
+	char	*var_value;
 
-	name_var = ft_split_name_var(command);
-	new_value = ft_split_value_var(command);
-	if (ft_find_env_var_name(env_list, name_var) == 0)
+	var_name = ft_split_name_var(command);
+	var_value = ft_split_value_var(command);
+	if (ft_find_env_var_name(env_list, var_name) == 0)
 	{
-		ft_replace_env_var(env_list, name_var, new_value);
-		free(name_var);
-		free(new_value);
+		ft_replace_env_var(env_list, var_name, var_value);
+		free(var_name);
+		free(var_value);
 		return (0);
 	}
-	env = ft_create_node_export_by_mode(mode, command);
+	env = ft_create_node_export_by_mode(mode, var_name, var_value);
 	ft_add_var_into_list(env, env_list);
-	free(name_var);
-	free(new_value);
+	free(var_name);
+	free(var_value);
 	return (0);
+}
+
+static int	ft_is_all_asnum(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != '\'' && str[i] != '\"' && !ft_isalnum(str[i]))
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_export_single(char *cmd, t_env *env_list)
