@@ -55,11 +55,12 @@ static void	ft_exit_alphas(char **exit_split)
 	return ;
 }
 
-void	ft_exit_handler(char *input)
+void	ft_exit_handler(char *input, t_data *data)
 {
 	int		number;
 	char	**exit_split;
 
+	ft_free_data(data);
 	printf("exit\n");
 	if (!ft_strcmp(input, "exit") || !ft_strcmp(input, "exit "))
 	{
