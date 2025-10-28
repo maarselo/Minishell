@@ -36,23 +36,14 @@ void	ft_clean_parser_memory_exit(t_command *command,
 	if (data)
 		ft_free_data(data);
 	if (token_list)
-		ft_free_token_list(token_list);
+		ft_free_token(token_list);
 	exit(T_GENERAL_ERROR);
 }
 
-static void	ft_exit_many_arguments(char **exit_split)
+void	ft_free_data_exit(t_data *data, int exit_code)
 {
-	ft_free_split(exit_split);
-	ft_set_global_exit_status(T_GENERAL_ERROR);
-	ft_putstr_fd("bash: exit: too many arguments\n", STDOUT_FILENO);
-}
-
-static void	ft_exit_alphas(char **exit_split)
-{
-	ft_set_global_exit_status(T_SYNTAX);
-	printf("bash: exit: %s: numeric argument required\n", exit_split[1]);
-	ft_free_split(exit_split);
-	return ;
+	ft_free_data(data);
+	exit(exit_code);
 }
 
 void	ft_exit_handler(char *input, t_data *data)
