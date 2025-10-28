@@ -276,7 +276,8 @@ void		ft_pwd(char **args);
 char		*ft_split_name_var(char *str);
 char		*ft_split_value_var(char *str);
 void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
-t_env		*ft_create_node_export_by_mode(char *mode, char *var_name, char *var_value);
+t_env		*ft_create_node_export_by_mode(char *mode, char *var_name,
+				char *var_value);
 t_env		*ft_clone_env_list(t_env *env_list);
 // builtins_export.c
 void		ft_export(char **command, t_env *env_list);
@@ -299,6 +300,10 @@ bool		ft_is_last_command(t_command *command);
 int			ft_get_env_size(t_env *env_list);
 char		**ft_convert_list(t_env *env_list);
 
+//exit_handler_utils.c
+void		ft_exit_many_arguments(char **exit_split);
+void		ft_exit_alphas(char **exit_split);
+
 // exit.c
 void		ft_free_exit(char *input, t_data *data);
 void		ft_clean_parser_memory_exit(t_command *command,
@@ -307,10 +312,10 @@ void		ft_exit_handler(char *input, t_data *data);
 
 //free_data.c
 void		ft_free_data(t_data *data);
-void		ft_exit_free_data(t_data *data, int exit_code);
+void		ft_free_data_exit(t_data *data, int exit_code);
 // free.c
 void		ft_free_input_token(char *input, t_token *token_list);
-void		ft_free_token_list(t_token *token_list);
+void		ft_free_token(t_token *token_list);
 void		ft_free_envp(t_env *envp);
 void		ft_free_split(char **split);
 void		ft_free_envp(t_env *envp);
