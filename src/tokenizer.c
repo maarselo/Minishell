@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/08/22 20:06:56 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:12:55 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_print_tokens(t_token	*token)
 	}
 }
 
-static char	*ft_extract_quotes(char *str, int	*i)
+/*static char	*ft_extract_quotes(char *str, int	*i)
 {
 	int		start;
 	int		end;
@@ -39,6 +39,26 @@ static char	*ft_extract_quotes(char *str, int	*i)
 		(*i)++;
 	end = *i;
 	return (ft_substr(str, start, end - start));
+}*/
+
+static char	*ft_extract_quotes(char *str, int *i)
+{
+	bool	in_quotes;
+	int		start;
+
+	start = *i;
+	in_quotes = false;
+	while (str[*i])
+	{
+		if ((str[*i] == '\"' || str[*i] == '\'') && in_quotes == false)
+			in_quotes = true;
+		else if ((str[*i] == '\"' || str[*i] == '\'') && in_quotes == true)
+			in_quotes = false;
+		if (str[*i] == ' ' && in_quotes == false)
+			return (ft_substr(str, start, *i - start));
+		(*i)++;
+	}
+	return (ft_substr(str, start, *i - start));
 }
 
 static char	*ft_extract_word(char *str, int	*i)
