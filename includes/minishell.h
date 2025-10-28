@@ -288,9 +288,11 @@ void		ft_env(char **args, t_env *env_list);
 // executor.c
 void		ft_executor(t_data *data);
 // executor_pipes.c
+void		ft_close_pipe(int *prev_pipe);
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 //executor_redirections.c
+int			ft_check_heredoc(t_command *current_command, int *prev_pipe);
 int			ft_manage_redirections(t_command *current_command);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);

@@ -115,12 +115,17 @@ void	ft_executor(t_data *data)
 	while (current_command)
 	{
 		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd)
-			|| ft_manage_redirections(current_command))
+			|| ft_check_heredoc(current_command, &prev_pipe))
 			return ;
-		if (current_command->next)
-			keep = ft_execute_command(false, current_command, data);
+		if (ft_manage_redirections(current_command))
+			ft_close_pipe(&prev_pipe);
 		else
-			keep = ft_execute_command(true, current_command, data);
+		{
+			if (current_command->next)
+				keep = ft_execute_command(false, current_command, data);
+			else
+				keep = ft_execute_command(true, current_command, data);
+		}
 		ft_resturare_defaults_fd(data->saved_fd);
 		if (!keep)
 			break ;

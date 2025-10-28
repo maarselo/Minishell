@@ -69,9 +69,9 @@ char	**ft_convert_list(t_env *env_list)
 	while (tmp)
 	{
 		if (tmp->name && tmp->value)
-			ft_create_array_value(WITH_VALUE, tmp);
+			env_array[i] = ft_create_array_value(WITH_VALUE, tmp);
 		else if (tmp->name)
-			ft_create_array_value(NULL_VALUE, tmp);
+			env_array[i] = ft_create_array_value(NULL_VALUE, tmp);
 		tmp = tmp->next;
 		i++;
 	}

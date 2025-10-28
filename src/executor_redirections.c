@@ -63,47 +63,59 @@ static int	ft_open_redirection_file(char *mode, t_command *command)
 	else if (!ft_strncmp(mode, MODE_APPEND, ft_strlen(mode)))
 		fd = open(command->redirection->outfile,
 				O_CREAT | O_WRONLY | O_APPEND, 0644);
-	return (fd);
-}
-
-static int	ft_manage_outfile_redir(t_command *current_command)
-{
-	int	fd;
-
-	if (current_command->redirection->append)
-		fd = ft_open_redirection_file(MODE_APPEND, current_command);
-	else
-		fd = ft_open_redirection_file(MODE_WRITE, current_command);
 	if (fd == -1)
 		return (ft_error_opening_files(), 1);
-	dup2(fd, STDOUT_FILENO);
+	if (!ft_strncmp(mode, MODE_READ, ft_strlen(mode)))
+	{
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (close(fd), 1);
+	}
+	else
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			return (close(fd), 1);
+	}
 	close(fd);
+	return (0);
+}
+
+int	ft_check_heredoc(t_command *current_command, int *prev_pipe)
+{
+	if (current_command->redirection)
+	{
+		if (current_command->redirection->heredoc)
+		{
+			if (ft_heredoc(current_command->redirection->delimiter))
+			{
+				ft_close_pipe(prev_pipe);
+				return (1);
+			}
+		}
+	}
 	return (0);
 }
 
 int	ft_manage_redirections(t_command *current_command)
 {
-	int	fd;
-
 	if (current_command->redirection)
 	{
 		if (current_command->redirection->infile)
 		{
-			fd = ft_open_redirection_file(MODE_READ, current_command);
-			if (fd == -1)
-				return (ft_error_opening_files(), 1);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (current_command->redirection->heredoc)
-		{
-			if (ft_heredoc(current_command->redirection->delimiter))
+			if (ft_open_redirection_file(MODE_READ, current_command))
 				return (1);
 		}
 		if (current_command->redirection->outfile)
 		{
-			if (ft_manage_outfile_redir(current_command))
-				return (1);
+			if (current_command->redirection->append)
+			{
+				if (ft_open_redirection_file(MODE_APPEND, current_command))
+					return (1);
+			}
+			else
+			{
+				if (ft_open_redirection_file(MODE_WRITE, current_command))
+					return (1);
+			}
 		}
 	}
 	return (0);

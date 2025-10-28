@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	ft_close_pipe(int *prev_pipe)
+{
+    if (*prev_pipe != -1)
+    {
+        close(*prev_pipe);
+        *prev_pipe = -1;
+    }
+}
+
 int	ft_manage_pipes(int *prev_pipe, t_command *current_command,
 			t_command *command_list)
 {
