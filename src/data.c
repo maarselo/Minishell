@@ -18,7 +18,12 @@ t_data	*ft_init_data(t_env *env_list, t_saved_fd saved_fd)
 
 	data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (!data)
-		return (NULL);
+	{
+		ft_free_envp(env_list);
+		ft_close_defaults_fd(saved_fd);
+		perror("minishell");
+		exit(T_GENERAL_ERROR);
+	}
 	if (env_list)
 		data->env = env_list;
 	data->saved_fd = saved_fd;
