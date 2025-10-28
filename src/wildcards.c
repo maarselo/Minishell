@@ -134,11 +134,11 @@ void	ft_execute_wildcards(t_data *data, t_command *cmd, int *i)
 	(void)data;
 	wc_expanded = ft_expand_wildcard(cmd->command[*i]);
 	if (!wc_expanded)
-		ft_exit_free_data(data, T_GENERAL_ERROR);
+		ft_free_data_exit(data, T_GENERAL_ERROR);
 	temp_cmd = cmd->command;
 	cmd->command = ft_join_wildcards(temp_cmd, *i, wc_expanded);
 	if (!cmd->command)
-		ft_exit_free_data(data, T_GENERAL_ERROR);
+		ft_free_data_exit(data, T_GENERAL_ERROR);
 	ft_free_cmd(temp_cmd);
 	*i += ft_array_len(wc_expanded);
 	ft_free_cmd(wc_expanded);
