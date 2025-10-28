@@ -42,7 +42,7 @@ void	ft_free_input_token(char *input, t_token *token_list)
 	}
 }
 
-void	ft_free_token_list(t_token *token_list)
+void	ft_free_token(t_token *token_list)
 {
 	t_token	*current;
 	t_token	*next;

@@ -29,7 +29,7 @@ void	ft_process_input(char *input, t_data *data)
 	else
 	{
 		ft_tokens_to_command_struct(token_list, data);
-		ft_free_input_token(input, token_list);	
+		ft_free_input_token(input, token_list);
 		ft_expand(data);
 		ft_executor(data);
 		ft_free_command_list(data);

@@ -21,9 +21,3 @@ void	ft_free_data(t_data *data)
 	ft_close_defaults_fd(data->saved_fd);
 	free(data);
 }
-
-void	ft_exit_free_data(t_data *data, int exit_code)
-{
-	ft_free_data(data);
-	exit(exit_code);
-}

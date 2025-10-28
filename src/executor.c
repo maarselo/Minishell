@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+		/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
@@ -51,19 +51,19 @@ void	ft_execute_child(t_command *current_cmd, t_data *data)
 	if (!env_array)
 	{
 		perror("minishell: ");
-		ft_exit_free_data(data, T_GENERAL_ERROR);
+		ft_free_data_exit(data, T_GENERAL_ERROR);
 		exit(T_GENERAL_ERROR);
 	}
 	path = ft_find_path(current_cmd, data->env);
 	if (!path)
 	{
 		printf("Command %s not found \n", current_cmd->command[0]);
-		ft_exit_free_data(data, T_COMMAND_NOT_FOUND);
+		ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
 	}
 	if (execve(path, current_cmd->command, env_array) == -1)
 	{
 		printf("Command %s not found \n", current_cmd->command[0]);
-		ft_exit_free_data(data, T_COMMAND_NOT_FOUND);
+		ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
 	}
 }
 

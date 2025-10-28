@@ -24,7 +24,7 @@ t_data	*ft_init_data(t_env *env_list, t_saved_fd saved_fd)
 	data->saved_fd = saved_fd;
 	return (data);
 }
-
+/*
 void	ft_print_data(t_data *data)
 {
 	t_command	*tmp_cmd;
@@ -48,4 +48,4 @@ void	ft_print_data(t_data *data)
 			tmp_cmd = tmp_cmd->next;
 		}
 	}
-}
+}*/

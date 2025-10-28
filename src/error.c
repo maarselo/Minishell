@@ -19,6 +19,7 @@ void	ft_error_creating_pipe(int *prev_pipe)
 		if (*prev_pipe != 1)
 			close(*prev_pipe);
 	}
+	ft_set_global_exit_status(T_GENERAL_ERROR);
 	printf("minishell: Error while creating pipes.");
 }
 
