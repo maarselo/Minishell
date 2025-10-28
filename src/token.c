@@ -55,11 +55,11 @@ t_token	*ft_init_token(char *content, t_data *data)
 
 	if (!content)
 		return (perror("minishell: "),
-			ft_exit_free_data(data, T_GENERAL_ERROR), NULL);
+			ft_free_data_exit(data, T_GENERAL_ERROR), NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (perror("minishell: "),
-			ft_exit_free_data(data, T_GENERAL_ERROR), NULL);
+			ft_free_data_exit(data, T_GENERAL_ERROR), NULL);
 	token->content = content;
 	token->type = ft_get_token_type(content);
 	token->is_quoted = ft_token_is_quoted(content);
