@@ -23,7 +23,7 @@ void	ft_process_input(char *input, t_data *data)
 	if (!token_list)
 		return (ft_free_input_token(input, token_list),
 			ft_set_global_exit_status(T_SUCCESS));
-	else if (ft_syntax(token_list))
+	else if (ft_syntax1(token_list) || ft_syntax2(token_list))
 		return (ft_free_input_token(input, token_list),
 			ft_set_global_exit_status(T_SYNTAX));
 	else

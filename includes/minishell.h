@@ -197,7 +197,8 @@ int			ft_check_open_parenthesis(t_token *token);
 int			ft_check_close_parenthesis(t_token *token);
 int			ft_check_if_have_parenthesis(t_token *token);
 // syntax.c
-bool		ft_syntax(t_token *token);
+bool		ft_syntax1(t_token *token);
+bool		ft_syntax2(t_token *token);
 
 // parser_redirection_utils
 int			ft_have_any_redirection(t_token *start, t_token *end);
