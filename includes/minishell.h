@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 20:37:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/28 22:00:20 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,6 @@ char		*ft_expand_var(char *str, int *i, t_env *env_list);
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result, t_env *env_list);
-char		*ft_handle_expansion(char *result, char *str, int *i,
-				t_env *env_list);
 char		*ft_get_env_value(t_env *env_list, char *name_var);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);

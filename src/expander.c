@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 16:43:33 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/10/28 21:59:47 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,72 +40,87 @@ char	*ft_expand_var(char *str, int *i, t_env *env_list)
 	return (ft_strdup(""));
 }
 
-char	*ft_expand_variables(char *str, t_env *env_list)
+char	*ft_remove_quotes(char *str)
 {
 	int		i;
+	bool	in_quotes;
+	bool	in_squotes;
 	char	*result;
 
-	if (!str)
-		return (NULL);
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
+	in_quotes = false;
+	in_squotes = false;
 	i = 0;
 	while (str[i])
 	{
-		result = ft_handle_expansion(result, str, &i, env_list);
-		if (!result)
+		if (str[i] == '\'' && in_quotes == false)
+			in_squotes = !in_squotes;
+		else if (str[i] == '"' && in_squotes == false)
+			in_quotes = !in_quotes;
+		else
 		{
-			free(str);
-			return (NULL);
+			result = ft_join_char_var(result, str[i]);
+			if (!result)
+				return (free(str), NULL);
 		}
+		i++;
 	}
-	free(str);
 	return (result);
 }
 
-char	*ft_expand_var_no_quotes(char *str, t_env *env_list)
+char	*ft_expand_join(char *str, int *i, char *result, t_data *data)
 {
-	int		i;
-	char	*result;
+	char	*tmp;
+	bool	in_quotes;
+	bool	in_squotes;
 
-	if (!str)
-		return (NULL);
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (str[i])
+	in_quotes = false;
+	in_squotes = false;
+	while (str[*i])
 	{
-		if (i == 0 && str[i] == '~' && (str[i + 1] == '\0'
-				|| str[i + 1] == '/' || ft_isspace(str[i + 1])))
+		if (str[*i] == '\'' && in_quotes == false)
+			in_squotes = !in_squotes;
+		else if (str[*i] == '"' && in_squotes == false)
+			in_quotes = !in_quotes;
+		if (str[*i] == '$' && in_squotes == false)
 		{
-			result = ft_expand_tilde(result, env_list);
-			if (!result)
+			tmp = ft_expand_var(str, i, data->env);
+			if (!tmp)
 				return (NULL);
-			i++;
+			result = ft_join_str_var(result, tmp);
+			free(tmp);
 			continue ;
 		}
-		result = ft_handle_expansion(result, str, &i, env_list);
-		if (!result)
-			return (NULL);
+		else
+			result = ft_join_char_var(result, str[*i]);
+		(*i)++;
 	}
-	free(str);
 	return (result);
 }
 
 char	*ft_execute_expander(t_data *data, char *str)
 {
-	int	l;
+	int		i;
+	char	*result;
 
 	if (!str)
 		return (NULL);
-	l = ft_strlen(str);
-	if (l >= 2 && str[0] == '\'' && str[l - 1] == '\'')
-		return (ft_strndup(str + 1, l - 2));
-	if (l >= 2 && str[0] == '"' && str[l - 1] == '"')
-		return (ft_expand_variables(ft_strndup(str + 1, l - 2), data->env));
-	return (ft_expand_var_no_quotes(ft_strdup(str), data->env));
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	i = 0;
+	if (i == 0 && str[i] == '~' && (str[i + 1] == '\0'
+			|| str[i + 1] == '/' || ft_isspace(str[i + 1])))
+	{
+		result = ft_expand_tilde(result, data->env);
+		if (!result)
+			return (NULL);
+		i++;
+	}
+	result = ft_expand_join(str, &i, result, data);
+	return(ft_remove_quotes(result));
 }
 
 void	ft_expand(t_data *data)
