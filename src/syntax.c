@@ -56,7 +56,7 @@ bool	ft_syntax2(t_token *token)
 	}
 	if (ft_check_if_have_parenthesis(token))
 	{
-		ft_putstr_fd("minishell: parenthesis must be implemented in the future\n", 2);
+		ft_putstr_fd("minishell: parenthesis in the future\n", 2);
 		return (true);
 	}
 	return (false);
