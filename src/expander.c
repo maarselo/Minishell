@@ -127,7 +127,7 @@ void	ft_expand(t_data *data)
 				quotes = true;
 			expanded = ft_execute_expander(data, tmp->command[i]);
 			if (!expanded)
-				ft_exit_free_data(data, T_GENERAL_ERROR);
+				ft_free_data_exit(data, T_GENERAL_ERROR);
 			free(tmp->command[i]);
 			tmp->command[i] = expanded;
 			if (quotes == false && ft_strchr(tmp->command[i], '*'))
