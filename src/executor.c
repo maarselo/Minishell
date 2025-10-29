@@ -121,10 +121,13 @@ void	ft_executor(t_data *data)
 			ft_close_pipe(&prev_pipe);
 		else
 		{
-			if (current_command->next)
-				keep = ft_execute_command(false, current_command, data);
-			else
-				keep = ft_execute_command(true, current_command, data);
+			if (current_command->command)
+			{
+				if (current_command->next)
+					keep = ft_execute_command(false, current_command, data);
+				else
+					keep = ft_execute_command(true, current_command, data);
+			}
 		}
 		ft_resturare_defaults_fd(data->saved_fd);
 		if (!keep)
