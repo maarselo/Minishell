@@ -30,7 +30,7 @@ SRCS_FILES = minishell.c banner.c global.c signals.c defaults_fd.c data.c \
 				expander.c expander_utils.c env.c env_utils.c wildcards.c wildcards_dir.c wildcards_utils.c \
 				builtins_handler.c builtins_echo.c builtins_cd.c builtins_pwd.c \
 				builtins_export.c builtins_export_utils1.c builtins_export_utils2.c builtins_unset.c builtins_env.c \
-				executor.c executor_utils.c executor_pipes.c executor_redirections.c executor_command_utils.c \
+				executor.c executor_env_array.c executor_children_utils.c executor_pipes.c executor_redirections.c executor_command_utils.c \
 				free_data.c free.c free_utils.c exit.c exit_handler_utils.c \
 				error.c
 
