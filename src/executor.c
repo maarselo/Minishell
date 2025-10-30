@@ -1,4 +1,4 @@
-		/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
@@ -12,59 +12,17 @@
 
 #include "minishell.h"
 
-static char	*ft_find_path(t_command *current, t_env *env_list)
-{
-	int		i;
-	char	*tmp;
-	char	*path;
-	char	**split_path;
-
-	i = -1;
-	if (access(current->command[0], X_OK) == 0)
-		return (ft_strdup(current->command[0]));
-	tmp = ft_get_env_value(env_list, "PATH");
-	if (!tmp)
-		return (printf("minishell: command not found\n"),
-			exit(T_COMMAND_NOT_FOUND), NULL);
-	split_path = ft_split(tmp, ':');
-	if (!split_path)
-		return (free(tmp), perror("minishell :"), exit(T_GENERAL_ERROR), NULL);
-	free(tmp);
-	while (split_path[++i])
-	{
-		tmp = ft_strjoin(split_path[i], "/");
-		path = ft_strjoin(tmp, current->command[0]);
-		free(tmp);
-		if (access(path, X_OK) == 0)
-			return (ft_free_split(split_path), path);
-		free(path);
-	}
-	return (ft_free_split(split_path), NULL);
-}
-
 void	ft_execute_child(t_command *current_cmd, t_data *data)
 {
 	char	*path;
 	char	**env_array;
 
-	env_array = ft_convert_list(data->env);
-	if (!env_array)
-	{
-		perror("minishell: ");
-		ft_free_data_exit(data, T_GENERAL_ERROR);
-		exit(T_GENERAL_ERROR);
-	}
-	path = ft_find_path(current_cmd, data->env);
+	env_array = ft_convert_list(data);
+	path = ft_find_path(current_cmd, env_array, data);
 	if (!path)
-	{
-		printf("Command %s not found \n", current_cmd->command[0]);
-		ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
-	}
+		ft_error_command_not_found(current_cmd, env_array, data);
 	if (execve(path, current_cmd->command, env_array) == -1)
-	{
-		printf("Command %s not found \n", current_cmd->command[0]);
-		ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
-	}
+		ft_error_command_not_found(current_cmd, env_array, data);
 }
 
 int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
@@ -76,7 +34,8 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 		return (ft_execute_builtin(is_last, current_command, data));
 	pid = fork();
 	if (pid == -1)
-		return (perror("minishell: "), 0);
+		return (perror("minishell:"),
+			ft_set_global_exit_status(T_GENERAL_ERROR), 0);
 	else if (pid == 0)
 	{
 		ft_set_signals_child_mode();
@@ -129,7 +88,7 @@ void	ft_executor(t_data *data)
 					keep = ft_execute_command(true, current_command, data);
 			}
 		}
-		ft_resturare_defaults_fd(data->saved_fd);
+		ft_resturare_defaults_fd(data);
 		if (!keep)
 			break ;
 		current_command = current_command->next;
