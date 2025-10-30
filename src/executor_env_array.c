@@ -27,7 +27,8 @@ static int	ft_get_env_size(t_env *env_list)
 	return (i);
 }
 
-static char	*ft_create_array_value(char *mode, t_env *current, char **env_array, t_data *data)
+static char	*ft_create_array_value(char *mode, t_env *current, char **env_array,
+				t_data *data)
 {
 	char	*str;
 	char	*prev_to_free;
@@ -65,13 +66,16 @@ char	**ft_convert_list(t_data *data)
 	size = ft_get_env_size(data->env);
 	env_array = (char **)ft_calloc(size + 1, sizeof(char *));
 	if (!env_array)
-		return (perror("minishell"), ft_free_data_exit(data, T_GENERAL_ERROR), NULL);
+		return (perror("minishell"),
+			ft_free_data_exit(data, T_GENERAL_ERROR), NULL);
 	while (current_env_node)
 	{
 		if (current_env_node->name && current_env_node->value)
-			env_array[i] = ft_create_array_value(WITH_VALUE, current_env_node, env_array, data);
+			env_array[i] = ft_create_array_value(WITH_VALUE, current_env_node,
+					env_array, data);
 		else if (current_env_node->name)
-			env_array[i] = ft_create_array_value(NULL_VALUE, current_env_node, env_array, data);
+			env_array[i] = ft_create_array_value(NULL_VALUE, current_env_node,
+					env_array, data);
 		current_env_node = current_env_node->next;
 		i++;
 	}
