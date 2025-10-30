@@ -25,10 +25,29 @@ void	ft_execute_child(t_command *current_cmd, t_data *data)
 		ft_error_command_not_found(current_cmd, env_array, data);
 }
 
+static void	ft_update_exit_status(pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, NULL);
+	if (WIFEXITED(status))
+		ft_set_global_exit_status(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		ft_set_global_exit_status(128 + WTERMSIG(status));
+}
+
+static bool	ft_check_wheter_continue(t_command *command)
+{
+	if (command->connector == AND_CONNECTOR && g_status.exit_status != 0)
+		return (false);
+	else if (command->connector == OR_CONNECTOR && g_status.exit_status == 0)
+		return (false);
+	return (true);
+}
+
 int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 {
 	pid_t	pid;
-	int		status;
 
 	if (ft_isbuiltin(current_command->command[0]))
 		return (ft_execute_builtin(is_last, current_command, data));
@@ -44,20 +63,10 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	else
 	{
 		if (current_command->connector == AND_CONNECTOR
-			|| current_command->connector == OR_CONNECTOR
-			|| is_last)
+			|| current_command->connector == OR_CONNECTOR || is_last)
 		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				ft_set_global_exit_status(WEXITSTATUS(status));
-			else if (WIFSIGNALED(status))
-				ft_set_global_exit_status(128 + WTERMSIG(status));
-			if (g_status.exit_status != 0
-				&& current_command->connector == AND_CONNECTOR)
-				return (0);
-			else if (g_status.exit_status == 0
-				&& current_command->connector == OR_CONNECTOR)
-				return (0);
+			ft_update_exit_status(pid);
+			ft_check_wheter_continue(current_command);
 		}
 	}
 	return (1);
@@ -78,15 +87,12 @@ void	ft_executor(t_data *data)
 			return ;
 		if (ft_manage_redirections(current_command))
 			ft_close_pipe(&prev_pipe);
-		else
+		else if (current_command->command)
 		{
-			if (current_command->command)
-			{
-				if (current_command->next)
-					keep = ft_execute_command(false, current_command, data);
-				else
-					keep = ft_execute_command(true, current_command, data);
-			}
+			if (current_command->next)
+				keep = ft_execute_command(false, current_command, data);
+			else
+				keep = ft_execute_command(true, current_command, data);
 		}
 		ft_resturare_defaults_fd(data);
 		if (!keep)
