@@ -28,3 +28,19 @@ void	ft_error_opening_files(void)
 	ft_set_global_exit_status(T_FILES);
 	perror("minishell");
 }
+
+void	*ft_error_malloc_free_envarray_data(char **env_array, t_data *data)
+{
+	perror("minishell");
+	ft_free_split(env_array);
+	ft_free_data_exit(data, T_GENERAL_ERROR);
+	return (NULL);
+}
+
+void	ft_error_command_not_found(t_command *current_cmd, char **env_array, t_data *data)
+{
+	ft_duplicate_stderror_stdin(data);
+	printf("minishell: command %s not found \n", current_cmd->command[0]);
+	ft_free_split(env_array);
+	ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
+}

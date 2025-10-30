@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+///neccesary exit when is not possible dup at the beginning of the minishell
 t_saved_fd	ft_store_defaults_fd(void)
 {
 	t_saved_fd	saved_fd;
@@ -34,10 +34,22 @@ void	ft_close_defaults_fd(t_saved_fd saved_fd)
 		close(saved_fd.saved_stdout);
 }
 
-void	ft_resturare_defaults_fd(t_saved_fd saved_fd)
+void	ft_resturare_defaults_fd(t_data *data)
 {
-	if (saved_fd.saved_stdin != -1)
-		dup2(saved_fd.saved_stdin, STDIN_FILENO);
-	if (saved_fd.saved_stdout != -1)
-		dup2(saved_fd.saved_stdout, STDOUT_FILENO);
+	if (data->saved_fd.saved_stdin != -1)
+	{
+		if (dup2(data->saved_fd.saved_stdin, STDIN_FILENO) == -1)
+			ft_free_data_exit(data, T_GENERAL_ERROR);
+	}
+	if (data->saved_fd.saved_stdout != -1)
+	{
+		if (dup2(data->saved_fd.saved_stdout, STDOUT_FILENO) == -1)
+			ft_free_data_exit(data, T_GENERAL_ERROR);
+	}
+}
+
+void	ft_duplicate_stderror_stdin(t_data *data)
+{
+	if (dup2(STDERR_FILENO, STDOUT_FILENO) == -1)
+		ft_free_data_exit(data, T_GENERAL_ERROR);
 }
