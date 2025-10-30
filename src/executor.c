@@ -29,7 +29,7 @@ static void	ft_update_exit_status(pid_t pid)
 {
 	int	status;
 
-	waitpid(pid, &status, NULL);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		ft_set_global_exit_status(WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
