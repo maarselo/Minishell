@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static char	*ft_check_if_is_absolute_path(char *command, char **env_array, t_data *data)
+static char	*ft_check_if_is_absolute_path(char *command, char **env_array,
+				t_data *data)
 {
 	char	*path;
 
@@ -26,7 +27,8 @@ static char	*ft_check_if_is_absolute_path(char *command, char **env_array, t_dat
 	return (NULL);
 }
 
-static char	*ft_search_in_path(char *command, char **split_path, char **env_array, t_data * data)
+static char	*ft_search_in_path(char *command, char **split_path,
+				char **env_array, t_data *data)
 {
 	int		i;
 	char	*tmp;
@@ -65,5 +67,6 @@ char	*ft_find_path(t_command *current, char **env_array, t_data *data)
 	free(tmp);
 	if (!split_path)
 		return (ft_error_malloc_free_envarray_data(env_array, data));
-	return (ft_search_in_path(current->command[0], split_path, env_array, data));
+	return (ft_search_in_path(current->command[0],
+			split_path, env_array, data));
 }

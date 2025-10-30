@@ -37,7 +37,8 @@ void	*ft_error_malloc_free_envarray_data(char **env_array, t_data *data)
 	return (NULL);
 }
 
-void	ft_error_command_not_found(t_command *current_cmd, char **env_array, t_data *data)
+void	ft_error_command_not_found(t_command *current_cmd, char **env_array,
+			t_data *data)
 {
 	ft_duplicate_stderror_stdin(data);
 	printf("minishell: command %s not found \n", current_cmd->command[0]);
