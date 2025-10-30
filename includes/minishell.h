@@ -166,7 +166,8 @@ void		ft_set_global_heredoc_status(int heredoc_status);
 //default_fd.c
 t_saved_fd	ft_store_defaults_fd(void);
 void		ft_close_defaults_fd(t_saved_fd saved_fd);
-void		ft_resturare_defaults_fd(t_saved_fd saved_fd);
+void		ft_resturare_defaults_fd(t_data *data);
+void		ft_duplicate_stderror_stdin(t_data *data);
 
 //data.c
 t_data		*ft_init_data(t_env *env_list, t_saved_fd saved_fd);
@@ -298,8 +299,8 @@ int			ft_manage_redirections(t_command *current_command);
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
 //executor_utils.c
-int			ft_get_env_size(t_env *env_list);
-char		**ft_convert_list(t_env *env_list);
+char		*ft_find_path(t_command *current, char **env_array, t_data *data);
+char		**ft_convert_list(t_data *data);
 
 //exit_handler_utils.c
 void		ft_exit_many_arguments(char **exit_split);
@@ -328,6 +329,8 @@ void		ft_free_redirections_command(t_redirect *redirections);
 //error
 void		ft_error_creating_pipe(int *prev_pipe);
 void		ft_error_opening_files(void);
+void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
+void		ft_error_command_not_found(t_command *current_cmd, char **env_array, t_data *data);
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);
