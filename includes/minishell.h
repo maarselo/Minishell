@@ -330,7 +330,8 @@ void		ft_free_redirections_command(t_redirect *redirections);
 void		ft_error_creating_pipe(int *prev_pipe);
 void		ft_error_opening_files(void);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
-void		ft_error_command_not_found(t_command *current_cmd, char **env_array, t_data *data);
+void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
+				t_data *data);
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);
