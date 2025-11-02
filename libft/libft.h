@@ -37,6 +37,7 @@ int		ft_isspace(int c);
 int		ft_isprint(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
+int		ft_isalspace(char *str);
 int		ft_atoi(const char *nptr);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
