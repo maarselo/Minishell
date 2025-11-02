@@ -293,7 +293,7 @@ void		ft_close_pipe(int *prev_pipe);
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 //executor_redirection_utils.c
-int		ft_heredoc_sigint_handler(char *content, int pipe_fd[]);
+int			ft_heredoc_sigint_handler(char *content, int pipe_fd[]);
 int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
 //executor_redirections.c
 int			ft_check_heredoc(t_command *current_command, int *prev_pipe);
