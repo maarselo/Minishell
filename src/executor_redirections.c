@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-static int	ft_heredoc_sigint_handler(char *content, int pipe_fd[])
-{
-	ft_set_global_heredoc_status(0);
-	ft_set_global_exit_status(T_SIGINT);
-	free(content);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	return (1);
-}
-
 static int	ft_heredoc(char *delim)
 {
 	char	*content;
@@ -36,7 +26,7 @@ static int	ft_heredoc(char *delim)
 	{
 		if (g_status.heredoc_status == 1)
 			return (ft_heredoc_sigint_handler(content, pipe_fd));
-		if (!ft_strncmp(delim, content, ft_strlen(content) - 1))
+		if (!ft_strncmp_heredoc(delim, content, ft_strlen(content) - 1))
 			return (free(content), dup2(pipe_fd[0], STDIN_FILENO),
 				close(pipe_fd[0]), close(pipe_fd[1]), 0);
 		write(pipe_fd[1], content, ft_strlen(content));
