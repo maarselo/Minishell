@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-static void	ft_set_env_var(t_env *env_list, char *name, char *value)
+static void	ft_set_env_var(char *name, char *value, t_data *data)
 {
 	t_env	*var;
 
-	var = env_list;
+	var = data->env;
 	while (var)
 	{
 		if (ft_strcmp(var->name, name) == 0)
@@ -24,7 +24,11 @@ static void	ft_set_env_var(t_env *env_list, char *name, char *value)
 			if (var->value)
 				free(var->value);
 			if (value)
+			{
 				var->value = ft_strdup(value);
+				if (!var->value)
+					ft_perror_free_data_exit(data, T_GENERAL_ERROR);
+			}
 			else
 				var->value = NULL;
 			return ;
@@ -33,36 +37,40 @@ static void	ft_set_env_var(t_env *env_list, char *name, char *value)
 	}
 }
 
-static void	ft_update_pwd(char *new_path, t_env *env_list)
+static void	ft_update_pwd(char *new_path, t_data *data)
 {
 	t_env	*var;
 	char	*old_path;
 
 	old_path = NULL;
-	var = env_list;
+	var = data->env;
 	while (var)
 	{
 		if (ft_strcmp(var->name, "PWD") == 0)
 		{
 			if (var->value)
+			{
 				old_path = ft_strdup(var->value);
+				if (!old_path)
+					ft_perror_free_data_exit(data, T_GENERAL_ERROR);
+			}
 			break ;
 		}
 		var = var->next;
 	}
-	ft_set_env_var(env_list, "OLDPWD", old_path);
-	ft_set_env_var(env_list, "PWD", new_path);
+	ft_set_env_var("OLDPWD", old_path, data);
+	ft_set_env_var("PWD", new_path, data);
 	if (old_path)
 		free(old_path);
 }
 
-void	ft_cd(char **args, t_env *env_list)
+void	ft_cd(char **args, t_data *data)
 {
 	char	*path;
 
 	if (!args[1])
 	{
-		path = ft_get_env_value(env_list, "HOME");
+		path = ft_get_env_value(data->env, "HOME");
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
@@ -79,7 +87,7 @@ void	ft_cd(char **args, t_env *env_list)
 	}
 	else
 	{
-		ft_update_pwd(path, env_list);
+		ft_update_pwd(path, data);
 		ft_set_global_exit_status(T_SUCCESS);
 	}
 }

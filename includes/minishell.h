@@ -281,24 +281,26 @@ int			ft_execute_builtin(bool is_last, t_command *cmd, t_data *data);
 // bultins_echo.c
 void		ft_echo(char **args);
 // bultins_cd.c
-void		ft_cd(char **args, t_env *env_list);
+void		ft_cd(char **args, t_data *data);
 // builtins_pwd.c
-void		ft_pwd(char **args);
-// builtins_export_utils.c
-char		*ft_split_name_var(char *str);
-char		*ft_split_value_var(char *str);
-void		ft_replace_env_var(t_env *env_list, char *name_var, char *new_val);
-t_env		*ft_create_node_export_by_mode(char *mode, char *var_name,
-				char *var_value);
-t_env		*ft_clone_env_list(t_env *env_list);
+void		ft_pwd(void);
+//builtins_export_utils.c
+t_env		*ft_clone_env_list(t_data *data);
+//builtins_export_variables1.c
+int			ft_is_all_asnum(char *str);
+void		ft_create_and_add_variable(char *mode, char *command, t_data *data);
+//builtins_export_utils2.c 
+char		*ft_split_name_var(char *str, t_data *data);
+char		*ft_split_value_var(char *str, t_data *data, char *var_name);
 // builtins_export.c
-void		ft_export(char **command, t_env *env_list);
+void		ft_export(char **command, t_data *data);
 // builtins_unset.c
 void		ft_unset(char **args, t_env **env_list);
 // builtins_env.c
 void		ft_env(char **args, t_env *env_list);
 
 // executor.c
+int			ft_check_wheter_continue(t_command *command);
 void		ft_executor(t_data *data);
 // executor_pipes.c
 void		ft_close_pipe(int *prev_pipe);
@@ -347,6 +349,8 @@ void		ft_error_opening_files(void);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
 void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
 				t_data *data);
+void		ft_perror_free_data_exit(t_data *data, int exit_code);
+
 // testinf
 void		ft_print_tokens(t_token	*token);
 void		ft_print_command_list(t_command	*command_list);

@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-static int	ft_is_valid_var_name(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != '_' && ft_isalpha(str[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static t_env	*ft_remove_env_var(char *str, t_env *env_list)
 {
 	t_env	*current;
@@ -61,18 +47,13 @@ void	ft_unset(char **args, t_env **env_list)
 	i = 1;
 	if (!args[1])
 	{
-		g_status.exit_status = 0;
+		ft_set_global_exit_status(T_SUCCESS);
 		return ;
 	}
 	while (args[i])
 	{
-		if (ft_is_valid_var_name(args[i]) == 1)
-		{
-			perror("minishell: unset");
-			g_status.exit_status = 1;
-		}
 		*env_list = ft_remove_env_var(args[i], *env_list);
 		i++;
 	}
-	g_status.exit_status = 0;
+	ft_set_global_exit_status(T_SUCCESS);
 }

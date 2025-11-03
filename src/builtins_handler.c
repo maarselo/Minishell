@@ -33,21 +33,20 @@ int	ft_isbuiltin(char *cmd)
 
 int	ft_execute_builtin(bool is_last, t_command *cmd, t_data *data)
 {
-	(void)is_last;
-	(void)data;
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
 		ft_echo(cmd->command);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
-		ft_cd(cmd->command, data->env);
+		ft_cd(cmd->command, data);
 	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
-		ft_pwd(cmd->command);
+		ft_pwd();
 	else if (ft_strcmp(cmd->command[0], "unset") == 0)
 		ft_unset(cmd->command, &data->env);
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
 		ft_env(cmd->command, data->env);
 	else if (ft_strcmp(cmd->command[0], "export") == 0)
-		ft_export(cmd->command, data->env);
-	if (g_status.exit_status != T_SUCCESS)
-		return (0);
+		ft_export(cmd->command, data);
+	if (cmd->connector == AND_CONNECTOR
+		|| cmd->connector == OR_CONNECTOR || is_last)
+		return (ft_check_wheter_continue(cmd));
 	return (1);
 }

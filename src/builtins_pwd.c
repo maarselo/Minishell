@@ -12,16 +12,10 @@
 
 #include "minishell.h"
 
-void	ft_pwd(char **args)
+void	ft_pwd(void)
 {
 	char	*cwd;
 
-	if (args[1])
-	{
-		ft_putstr_fd("minishell: env: too many arguments\n", 2);
-		ft_set_global_exit_status(T_GENERAL_ERROR);
-		return ;
-	}
 	cwd = getcwd(NULL, 0);
 	if (cwd != NULL)
 	{

@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	ft_print_order_variables(t_env *list)
+static void	ft_print_order_variables(t_data *data)
 {
 	t_env	*order_env;
 	t_env	*tmp;
 
-	order_env = ft_clone_env_list(list);
+	order_env = ft_clone_env_list(data);
 	if (!order_env)
 		return ;
 	tmp = order_env;
@@ -31,57 +31,7 @@ void	ft_print_order_variables(t_env *list)
 	}
 }
 
-void	ft_add_var_into_list(t_env *env, t_env *env_list)
-{
-	t_env	*tmp;
-
-	if (!env_list)
-	{
-		env_list = env;
-		return ;
-	}
-	tmp = env_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = env;
-}
-
-int	ft_create_and_add_variable(char *mode, char *command, t_env *env_list)
-{
-	t_env	*env;
-	char	*var_name;
-	char	*var_value;
-
-	var_name = ft_split_name_var(command);
-	var_value = ft_split_value_var(command);
-	if (ft_find_env_var_name(env_list, var_name) == 0)
-	{
-		ft_replace_env_var(env_list, var_name, var_value);
-		free(var_name);
-		free(var_value);
-		return (0);
-	}
-	env = ft_create_node_export_by_mode(mode, var_name, var_value);
-	ft_add_var_into_list(env, env_list);
-	free(var_name);
-	free(var_value);
-	return (0);
-}
-
-static int	ft_is_all_asnum(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] != '\'' && str[i] != '\"' && !ft_isalnum(str[i]))
-			return (0);
-	}
-	return (1);
-}
-
-int	ft_export_single(char *cmd, t_env *env_list)
+static int	ft_export_single(char *cmd, t_data *data)
 {
 	if (ft_isdigit(cmd[0]) || cmd[0] == '=' || ft_contains_metachar(cmd))
 	{
@@ -89,30 +39,34 @@ int	ft_export_single(char *cmd, t_env *env_list)
 		ft_set_global_exit_status(T_GENERAL_ERROR);
 		return (1);
 	}
-	if (!ft_strchr(cmd, '=') && ft_is_all_asnum(cmd))
-		return (ft_create_and_add_variable(NO_VALUE, cmd, env_list));
-	if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] == '=')
-		return (ft_create_and_add_variable(NULL_VALUE, cmd, env_list));
-	if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] != '=')
-		return (ft_create_and_add_variable(WITH_VALUE, cmd, env_list));
+	else if (!ft_strchr(cmd, '=') && ft_is_all_asnum(cmd))
+		ft_create_and_add_variable(NO_VALUE, cmd, data);
+	else if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] == '=')
+		ft_create_and_add_variable(NULL_VALUE, cmd, data);
+	else if (ft_strchr(cmd, '=') && cmd[ft_strlen(cmd) - 1] != '=')
+		ft_create_and_add_variable(WITH_VALUE, cmd, data);
 	return (0);
 }
 
-void	ft_export(char **command, t_env *env_list)
+void	ft_export(char **command, t_data *data)
 {
 	int		i;
 
 	i = 1;
 	if (!command[1])
 	{
-		ft_print_order_variables(env_list);
+		ft_print_order_variables(data);
 		ft_set_global_exit_status(T_SUCCESS);
 		return ;
 	}
 	while (command[i])
 	{
-		if (ft_export_single(command[i], env_list))
+		if (ft_export_single(command[i], data))
+		{
+			i++;
+			ft_set_global_exit_status(T_GENERAL_ERROR);
 			continue ;
+		}
 		ft_set_global_exit_status(T_SUCCESS);
 		i++;
 	}
