@@ -36,13 +36,13 @@ static void	ft_update_exit_status(pid_t pid)
 		ft_set_global_exit_status(128 + WTERMSIG(status));
 }
 
-static bool	ft_check_wheter_continue(t_command *command)
+int	ft_check_wheter_continue(t_command *command)
 {
 	if (command->connector == AND_CONNECTOR && g_status.exit_status != 0)
-		return (false);
+		return (0);
 	else if (command->connector == OR_CONNECTOR && g_status.exit_status == 0)
-		return (false);
-	return (true);
+		return (0);
+	return (1);
 }
 
 int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
@@ -66,7 +66,7 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 			|| current_command->connector == OR_CONNECTOR || is_last)
 		{
 			ft_update_exit_status(pid);
-			ft_check_wheter_continue(current_command);
+			return (ft_check_wheter_continue(current_command));
 		}
 	}
 	return (1);
