@@ -45,3 +45,9 @@ void	ft_error_command_not_found(t_command *current_cmd, char **env_array,
 	ft_free_split(env_array);
 	ft_free_data_exit(data, T_COMMAND_NOT_FOUND);
 }
+
+void	ft_perror_free_data_exit(t_data *data, int exit_code)
+{
+	perror("minishell");
+	ft_free_data_exit(data, exit_code);
+}
