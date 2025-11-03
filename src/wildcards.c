@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 20:10:30 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 16:57:23 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 00:54:41 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,40 +62,29 @@ char	**ft_join_wildcards(char **cmd, int index, char **wc_expanded)
 
 int	ft_match(char *cmd, char *str)
 {
-	int	cmd_i;
-	int	str_i;
-	int	cmd_pattern_i;
-	int	str_backup_i;
+	t_match	m;
 
-	cmd_pattern_i = -1;
-	str_backup_i = -1;
-	cmd_i = 0;
-	str_i = 0;
-	while (str[str_i])
+	m.cmd_pattern_i = -1;
+	m.str_backup_i = -1;
+	m.cmd_i = 0;
+	m.str_i = 0;
+	while (str[m.str_i])
 	{
-		if (cmd[cmd_i] == '*')
+		if (cmd[m.cmd_i] == '*')
+			ft_handle_asterisk(&m);
+		else if (cmd[m.cmd_i] == str[m.str_i])
 		{
-			cmd_pattern_i = cmd_i;
-			str_backup_i = str_i;
-			cmd_i++;
+			m.cmd_i++;
+			m.str_i++;
 		}
-		else if (cmd[cmd_i] == str[str_i])
-		{
-			cmd_i++;
-			str_i++;
-		}
-		else if (cmd_pattern_i != -1)
-		{
-			cmd_i = cmd_pattern_i + 1;
-			str_i = str_backup_i + 1;
-			str_backup_i++;
-		}
+		else if (m.cmd_pattern_i != -1)
+			ft_handle_backtrack(&m);
 		else
 			return (0);
 	}
-	while (cmd[cmd_i] == '*')
-		cmd_i++;
-	return (cmd[cmd_i] == '\0');
+	while (cmd[m.cmd_i] == '*')
+		m.cmd_i++;
+	return (cmd[m.cmd_i] == '\0');
 }
 
 char	**ft_expand_wildcard(char *pattern)

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:05:06 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 20:34:02 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 00:53:05 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,30 @@ void	ft_free_cmd(char **array)
 		free(array);
 }
 
+char	**ft_add_match(char **matches, int *i,
+			struct dirent *entry, char *dir_name)
+{
+	char	*full_path;
+
+	full_path = ft_strjoin(dir_name, entry->d_name);
+	if (!full_path)
+		return (NULL);
+	matches = ft_realloc_array(matches, *i + 1);
+	if (!matches)
+	{
+		free(full_path);
+		return (NULL);
+	}
+	matches[*i] = full_path;
+	(*i)++;
+	return (matches);
+}
+
 char	**ft_loop_entries(DIR *dir, char *pattern,
 			char **matches, char *dir_name)
 {
 	struct dirent	*entry;
 	int				i;
-	char			*full_path;
 
 	i = ft_array_len(matches);
 	entry = readdir(dir);
@@ -70,10 +88,9 @@ char	**ft_loop_entries(DIR *dir, char *pattern,
 		}
 		if (ft_match(pattern, entry->d_name))
 		{
-			full_path = ft_strjoin(dir_name, entry->d_name);
-			matches = ft_realloc_array(matches, i + 1);
-			matches[i] = full_path;
-			i++;
+			matches = ft_add_match(matches, &i, entry, dir_name);
+			if (!matches)
+				return (NULL);
 		}
 		entry = readdir(dir);
 	}

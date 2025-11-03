@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/28 21:57:10 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 01:11:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*ft_join_str_var(char *str, char *to_append)
 {
 	char	*joined;
 
+	if (!str)
+		return (NULL);
 	if (!to_append)
 		to_append = "";
 	joined = ft_strjoin(str, to_append);
@@ -71,4 +73,23 @@ char	*ft_get_env_value(t_env *env_list, char *name_var)
 	if (!current->value)
 		return (ft_strdup(""));
 	return (ft_strdup(current->value));
+}
+
+void	ft_process_command_arg(t_data *data, t_command *tmp,
+			int *i, bool *quotes)
+{
+	char	*expanded;
+
+	if (ft_strchr(tmp->command[*i], '\'')
+		|| ft_strchr(tmp->command[*i], '"'))
+		*quotes = true;
+	expanded = ft_execute_expander(data, tmp->command[*i]);
+	if (!expanded)
+		ft_free_data_exit(data, T_GENERAL_ERROR);
+	free(tmp->command[*i]);
+	tmp->command[*i] = expanded;
+	if (*quotes == false && ft_strchr(tmp->command[*i], '*'))
+		ft_execute_wildcards(data, tmp, i);
+	else
+		(*i)++;
 }

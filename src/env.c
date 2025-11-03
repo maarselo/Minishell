@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 20:07:12 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 17:17:43 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 01:06:09 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char	*ft_get_value_env(char *env_var)
 t_env	*ft_init_env(char *env_var)
 {
 	t_env	*var;
-	char	*tmp;
 
 	var = (t_env *)malloc(sizeof(t_env));
 	if (!var)
@@ -78,14 +77,7 @@ t_env	*ft_init_env(char *env_var)
 	else
 	{
 		var->name = ft_get_name_env(env_var);
-		if (ft_strcmp(var->name, "SHLVL") == 0)
-		{
-			tmp = ft_get_value_env(env_var);
-			var->value = ft_itoa(ft_atoi(tmp) + 1);
-			free(tmp);
-		}
-		else
-			var->value = ft_get_value_env(env_var);
+		var->value = ft_set_var_value(var->name, env_var);
 	}
 	var->next = NULL;
 	return (var);

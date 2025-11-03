@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:53:36 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 18:48:18 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 00:15:43 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,20 @@ int	ft_find_env_var_name(t_env *env_list, char *name)
 		current = current->next;
 	}
 	return (1);
+}
+
+char	*ft_set_var_value(char *name, char *env_var)
+{
+	char	*value;
+	char	*tmp;
+
+	if (ft_strcmp(name, "SHLVL") == 0)
+	{
+		tmp = ft_get_value_env(env_var);
+		value = ft_itoa(ft_atoi(tmp) + 1);
+		free(tmp);
+	}
+	else
+		value = ft_get_value_env(env_var);
+	return (value);
 }

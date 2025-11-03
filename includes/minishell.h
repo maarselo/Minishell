@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/28 22:00:20 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/03 01:05:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,17 @@ typedef struct s_data
 	t_saved_fd	saved_fd;
 }	t_data;
 
+/*
+	wildcards.c
+*/
+typedef struct s_match
+{
+	int	cmd_i;
+	int	str_i;
+	int	cmd_pattern_i;
+	int	str_backup_i;
+}	t_match;
+
 // signals.c
 void		ft_set_signals_prompt_mode(void);
 void		ft_set_signals_heredoc_mode(void);
@@ -230,11 +241,14 @@ void		ft_tokens_to_command_struct(t_token *token_list, t_data *data);
 // expander.c
 void		ft_expand(t_data *data);
 char		*ft_expand_var(char *str, int *i, t_env *env_list);
+char		*ft_execute_expander(t_data *data, char *str);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
 char		*ft_join_str_var(char *str, char *to_append);
 char		*ft_expand_tilde(char *result, t_env *env_list);
 char		*ft_get_env_value(t_env *env_list, char *name_var);
+void		ft_process_command_arg(t_data *data, t_command *tmp,
+				int *i, bool *quotes);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
@@ -247,21 +261,19 @@ int			ft_array_len(char **array);
 void		ft_free_cmd(char **array);
 char		**ft_loop_entries(DIR *dir, char *pattern,
 				char **matches, char *dir_name);
-int			ft_ignore_file(struct dirent *entry, char *pattern);
 // wildcards_dir.c
 void		ft_split_dir(char *pattern, char **dir_name, char **name_pattern);
-void		ft_match_case1(int *cmd_pattern_i, int *str_backup_i,
-				int *cmd_i, int *str_i);
-void		ft_match_case2(int *cmd_i, int *str_i);
-void		ft_match_case3(int *cmd_pattern_i, int *str_backup_i,
-				int *cmd_i, int *str_i);
+void		ft_handle_asterisk(t_match *m);
+void		ft_handle_backtrack(t_match *m);
 // env.c
 t_env		*ft_get_env(char **envp);
+char		*ft_get_value_env(char *env_var);
 // env_utils.c
 int			ft_get_value_length(char *env_var, int i);
 t_env		*ft_create_env_node(char *name, char *value);
 void		ft_add_env_var(t_env **env_list, char *name, char *value);
 int			ft_find_env_var_name(t_env *env_list, char *name);
+char		*ft_set_var_value(char *name, char *env_var);
 
 // builtins.c
 int			ft_isbuiltin(char *cmd);
