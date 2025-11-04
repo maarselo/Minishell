@@ -36,3 +36,9 @@ int	ft_strncmp_heredoc(const char *delim, const char *line, size_t n)
 		return ((unsigned char)delim[i] - (unsigned char)line[i]);
 	return (0);
 }
+
+int	ft_dup_close_pipe_heredoc(int pipe_fd[])
+{
+	return (dup2(pipe_fd[0], STDIN_FILENO),
+		close(pipe_fd[0]), close(pipe_fd[1]), 0);
+}

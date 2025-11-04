@@ -164,10 +164,14 @@ typedef struct s_match
 	int	str_backup_i;
 }	t_match;
 
+// signals_utils.c
+void		ft_sigint_handler_prompt_mode(int signal);
+void		ft_sigint_hadler_heredoc_mode(int signal);
 // signals.c
 void		ft_set_signals_prompt_mode(void);
 void		ft_set_signals_heredoc_mode(void);
 void		ft_set_signals_child_mode(void);
+void		ft_set_signals_parent_mode(void);
 
 // global.c
 void		ft_set_init_global_variables(void);
@@ -307,10 +311,12 @@ void		ft_close_pipe(int *prev_pipe);
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
 				t_command *command_list);
 //executor_redirection_utils.c
+int			ft_dup_close_pipe_heredoc(int pipe_fd[]);
 int			ft_heredoc_sigint_handler(char *content, int pipe_fd[]);
 int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
 //executor_redirections.c
-int			ft_check_heredoc(t_command *current_command, int *prev_pipe);
+int			ft_check_heredoc(t_command *current_command, int *prev_pipe,
+				t_data *data);
 int			ft_manage_redirections(t_command *current_command);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);

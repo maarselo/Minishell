@@ -29,7 +29,11 @@ int	ft_manage_pipes(int *prev_pipe, t_command *current_command,
 
 	previous = ft_get_previous_command(current_command, command_list);
 	if (*prev_pipe != -1 && previous && previous->connector == PIPE_CONNECTOR)
+	{
 		dup2(*prev_pipe, STDIN_FILENO);
+		close(*prev_pipe);
+		*prev_pipe = -1;
+	}
 	if (current_command->connector == PIPE_CONNECTOR)
 	{
 		if (pipe(pipe_fd) == -1)

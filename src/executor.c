@@ -62,6 +62,7 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	}
 	else
 	{
+		ft_set_signals_parent_mode();
 		if (current_command->connector == AND_CONNECTOR
 			|| current_command->connector == OR_CONNECTOR || is_last)
 		{
@@ -83,7 +84,7 @@ void	ft_executor(t_data *data)
 	while (current_command)
 	{
 		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd)
-			|| ft_check_heredoc(current_command, &prev_pipe))
+			|| ft_check_heredoc(current_command, &prev_pipe, data))
 			return ;
 		if (ft_manage_redirections(current_command))
 			ft_close_pipe(&prev_pipe);

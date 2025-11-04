@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	ft_heredoc(char *delim)
+static int	ft_heredoc(t_command *command, t_data *data)
 {
 	char	*content;
 	int		pipe_fd[2];
@@ -20,24 +20,25 @@ static int	ft_heredoc(char *delim)
 	ft_set_signals_heredoc_mode();
 	if (pipe(pipe_fd) == -1)
 		return (ft_error_creating_pipe(NULL), 1);
-	write(1, "> ", 2);
-	content = get_next_line(0);
+	write(data->saved_fd.saved_stdout, "> ", 2);
+	content = get_next_line(data->saved_fd.saved_stdin);
 	while (content)
 	{
 		if (g_status.heredoc_status == 1)
 			return (ft_heredoc_sigint_handler(content, pipe_fd));
-		if (!ft_strncmp_heredoc(delim, content, ft_strlen(content) - 1))
-			return (free(content), dup2(pipe_fd[0], STDIN_FILENO),
-				close(pipe_fd[0]), close(pipe_fd[1]), 0);
+		if (!ft_strncmp_heredoc(command->redirection->delimiter, content,
+				ft_strlen(command->redirection->delimiter))
+			&& content[ft_strlen(command->redirection->delimiter)] == '\n')
+			return (free(content), ft_dup_close_pipe_heredoc(pipe_fd));
 		write(pipe_fd[1], content, ft_strlen(content));
 		free(content);
-		write(1, "> ", 2);
-		content = get_next_line(0);
+		write(data->saved_fd.saved_stdout, "> ", 2);
+		content = get_next_line(data->saved_fd.saved_stdin);
 	}
 	ft_set_global_exit_status(T_SUCCESS);
-	printf("minishell: here-doc delimited by EOF (wanted %s)\n", delim);
-	return (dup2(pipe_fd[0], STDIN_FILENO), close(pipe_fd[0]),
-		close(pipe_fd[1]), 0);
+	printf("minishell: here-doc delimited by EOF (wanted %s)\n",
+		command->redirection->delimiter);
+	return (ft_dup_close_pipe_heredoc(pipe_fd));
 }
 
 static int	ft_open_redirection_file(char *mode, t_command *command)
@@ -69,13 +70,13 @@ static int	ft_open_redirection_file(char *mode, t_command *command)
 	return (0);
 }
 
-int	ft_check_heredoc(t_command *current_command, int *prev_pipe)
+int	ft_check_heredoc(t_command *current_command, int *prev_pipe, t_data *data)
 {
 	if (current_command->redirection)
 	{
 		if (current_command->redirection->heredoc)
 		{
-			if (ft_heredoc(current_command->redirection->delimiter))
+			if (ft_heredoc(current_command, data))
 			{
 				ft_close_pipe(prev_pipe);
 				return (1);
