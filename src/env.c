@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 20:07:12 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/03 01:06:09 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:25:33 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_env	*ft_init_min_env(void)
 		ft_add_env_var(&env_list, "PWD", cwd);
 		free(cwd);
 	}
-	ft_add_env_var(&env_list, "SHLVL", "1");
+	ft_add_env_var(&env_list, "SHLVL", "2");
 	ft_add_env_var(&env_list, "OLDPWD", "");
 	return (env_list);
 }

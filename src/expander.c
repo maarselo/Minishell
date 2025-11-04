@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/03 01:01:27 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:00:24 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*ft_remove_quotes(char *str)
 		}
 		i++;
 	}
+	free(str);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:20:11 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/03 01:11:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:44:49 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_expand_tilde(char *result, t_env *env_list)
 		return (NULL);
 	tmp = ft_get_env_value(env_list, "HOME");
 	if (!tmp)
-		return (ft_strdup(result));
+		return (result);
 	result = ft_join_str_var(result, tmp);
 	free(tmp);
 	if (!result)
