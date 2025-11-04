@@ -6,13 +6,22 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 21:32:55 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/04 19:23:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_global	g_status;
+
+void	ft_check_null_input(char *input, t_data *data)
+{
+	if (!input)
+	{
+		clear_history();
+		ft_free_exit(input, data);
+	}
+}
 
 void	ft_process_input(char *input, t_data *data)
 {
@@ -36,25 +45,19 @@ void	ft_process_input(char *input, t_data *data)
 	}
 }
 
-void	ft_input_loop(char **envp)
+void	ft_input_loop(char **envp, t_env *env_list)
 {
 	char		*input;
-	t_env		*env_list;
 	t_saved_fd	saved_fd;
 	t_data		*data;
 
-	env_list = ft_get_env(envp);
 	saved_fd = ft_store_defaults_fd();
 	data = ft_init_data(env_list, saved_fd);
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
 		input = readline("\033[1;32mminishell $\033[0m ");
-		if (!input)
-		{
-			clear_history();
-			ft_free_exit(input, data);
-		}
+		ft_check_input(input, data);
 		if (!ft_strlen(input))
 		{
 			free(input);
@@ -73,10 +76,13 @@ void	ft_input_loop(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_env	*env_list;
+
 	(void)argv;
 	if (argc != 1)
 		return (0);
 	ft_print_banner();
 	ft_set_init_global_variables();
-	ft_input_loop(envp);
+	env_list = ft_get_env(envp);
+	ft_input_loop(envp, env_list);
 }
