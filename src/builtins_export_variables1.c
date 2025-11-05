@@ -25,18 +25,30 @@ int	ft_is_all_asnum(char *str)
 	return (1);
 }
 
-static void	ft_replace_env_var(t_data *data, char *name_var, char *new_value)
+static void	ft_replace_env_var(char *mode, t_data *data, char *var_name,
+		char *new_value)
 {
 	t_env	*current;
+	char	*tmp;
 
 	current = data->env;
 	while (current)
 	{
-		if (ft_strcmp(current->name, name_var) == 0)
+		if (ft_strcmp(current->name, var_name) == 0)
 		{
-			free(current->value);
-			current->value = new_value;
-			return ;
+			if (ft_strcmp(mode, MODE_APPEND) == 0)
+			{
+				tmp = current->value;
+				current->value = ft_strjoin(current->value, new_value);
+				free(tmp);
+				free(new_value);
+			}
+			else if (ft_strcmp(mode, MODE_WRITE) == 0)
+			{
+				free(current->value);
+				current->value = new_value;
+				return ;
+			}
 		}
 		current = current->next;
 	}
@@ -87,7 +99,10 @@ void	ft_create_and_add_variable(char *mode, char *command, t_data *data)
 	var_value = ft_split_value_var(command, data, var_name);
 	if (ft_find_env_var_name(data->env, var_name) == 0)
 	{
-		ft_replace_env_var(data, var_name, var_value);
+		if (command[ft_strlen_var_name(command - 1)] == '+')
+			ft_replace_env_var(MODE_APPEND, data, var_name, var_value);
+		else
+			ft_replace_env_var(MODE_WRITE, data, var_name, var_value);
 		free(var_name);
 	}
 	else

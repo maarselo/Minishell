@@ -12,13 +12,41 @@
 
 #include "minishell.h"
 
+int	ft_strlen_var_name(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i);
+}
+
+int	ft_contains_metachar_var_name(char *str)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen_var_name(str);
+	while (str[i] && i < len - 1)
+	{
+		if (ft_strchr("@#!$%^*-():;?/.,~+", str[i]))
+			return (1);
+		i++;
+	}
+	if (ft_strchr("@#!$%^*-():;?/.,~", str[i]))
+		return (1);
+	return (0);
+}
+
 char	*ft_split_name_var(char *str, t_data *data)
 {
 	int		i;
 	char	*name;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i] != '+')
 	{
 		if (str[i] == '=')
 			break ;

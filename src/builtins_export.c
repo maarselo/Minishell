@@ -33,7 +33,8 @@ static void	ft_print_order_variables(t_data *data)
 
 static int	ft_export_single(char *cmd, t_data *data)
 {
-	if (ft_isdigit(cmd[0]) || cmd[0] == '=' || ft_contains_metachar(cmd))
+	if (ft_isdigit(cmd[0]) || cmd[0] == '='
+		|| ft_contains_metachar_var_name(cmd))
 	{
 		printf("minishell: export: `%s`: not a valid identifier\n", cmd);
 		ft_set_global_exit_status(T_GENERAL_ERROR);
