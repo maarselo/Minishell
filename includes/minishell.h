@@ -191,7 +191,7 @@ void		ft_print_data(t_data *data);
 // banner.c
 void		ft_print_banner(void);
 // minishell.c
-void		ft_input_loop(char **envp);
+void		ft_input_loop(t_env *env_list);
 
 // tokenizer_utils.c
 int			ft_is_quote(char c);
@@ -241,7 +241,6 @@ char		**ft_alloc_argv_according_words(int *malloc_error, t_token *start,
 // parser.c
 void		ft_tokens_to_command_struct(t_token *token_list, t_data *data);
 
-/////////////////////////////////////////////////////////////////////
 // expander.c
 void		ft_expand(t_data *data);
 char		*ft_expand_var(char *str, int *i, t_env *env_list);
@@ -293,7 +292,9 @@ t_env		*ft_clone_env_list(t_data *data);
 //builtins_export_variables1.c
 int			ft_is_all_asnum(char *str);
 void		ft_create_and_add_variable(char *mode, char *command, t_data *data);
-//builtins_export_utils2.c 
+//builtins_export_utils2.c
+int			ft_strlen_var_name(char *str);
+int			ft_contains_metachar_var_name(char *str);
 char		*ft_split_name_var(char *str, t_data *data);
 char		*ft_split_value_var(char *str, t_data *data, char *var_name);
 // builtins_export.c
@@ -325,17 +326,16 @@ bool		ft_is_last_command(t_command *command);
 char		*ft_find_path(t_command *current, char **env_array, t_data *data);
 char		**ft_convert_list(t_data *data);
 
-//exit_handler_utils.c
+// exit_handler_utils.c
 void		ft_exit_many_arguments(char **exit_split);
 void		ft_exit_alphas(char **exit_split);
-
 // exit.c
 void		ft_free_exit(char *input, t_data *data);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_data *data, t_token *token_list);
 void		ft_exit_handler(char *input, t_data *data);
 
-//free_data.c
+// free_data.c
 void		ft_free_data(t_data *data);
 void		ft_free_data_exit(t_data *data, int exit_code);
 // free.c
@@ -349,7 +349,7 @@ void		ft_free_command_list(t_data *data);
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
 
-//error
+// error
 void		ft_error_creating_pipe(int *prev_pipe);
 void		ft_error_opening_files(void);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);

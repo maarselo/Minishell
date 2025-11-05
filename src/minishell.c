@@ -45,7 +45,7 @@ void	ft_process_input(char *input, t_data *data)
 	}
 }
 
-void	ft_input_loop(char **envp, t_env *env_list)
+void	ft_input_loop(t_env *env_list)
 {
 	char		*input;
 	t_saved_fd	saved_fd;
@@ -57,7 +57,7 @@ void	ft_input_loop(char **envp, t_env *env_list)
 	{
 		ft_set_signals_prompt_mode();
 		input = readline("\033[1;32mminishell $\033[0m ");
-		ft_check_input(input, data);
+		ft_check_null_input(input, data);
 		if (!ft_strlen(input))
 		{
 			free(input);
@@ -84,5 +84,5 @@ int	main(int argc, char **argv, char **envp)
 	ft_print_banner();
 	ft_set_init_global_variables();
 	env_list = ft_get_env(envp);
-	ft_input_loop(envp, env_list);
+	ft_input_loop(env_list);
 }
