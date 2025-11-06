@@ -193,6 +193,7 @@ void		ft_print_data(t_data *data);
 // banner.c
 void		ft_print_banner(void);
 // input.c
+char		*ft_acces_env_value(char *name_var, t_env *env_list);
 char		*ft_get_input(t_data *data);
 // check_input.c
 void		ft_check_null_input(char *input, t_data *data);
