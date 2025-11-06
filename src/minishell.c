@@ -14,15 +14,6 @@
 
 t_global	g_status;
 
-void	ft_check_null_input(char *input, t_data *data)
-{
-	if (!input)
-	{
-		clear_history();
-		ft_free_exit(input, data);
-	}
-}
-
 void	ft_process_input(char *input, t_data *data)
 {
 	t_token		*token_list;
@@ -56,18 +47,12 @@ void	ft_input_loop(t_env *env_list)
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
-		input = readline("\033[1;32mminishell $\033[0m ");
+		input = ft_get_input(data);
 		ft_check_null_input(input, data);
-		if (!ft_strlen(input))
-		{
-			free(input);
+		if (ft_check_void_input(input))
 			continue ;
-		}
-		if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
-		{
-			clear_history();
+		if (ft_check_if_its_exit(input))
 			ft_exit_handler(input, data);
-		}
 		if (*input)
 			ft_process_input(input, data);
 	}

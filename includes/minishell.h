@@ -190,6 +190,12 @@ void		ft_print_data(t_data *data);
 
 // banner.c
 void		ft_print_banner(void);
+// input.c
+char		*ft_get_input(t_data *data);
+// check_input.c
+void		ft_check_null_input(char *input, t_data *data);
+int			ft_check_void_input(char *input);
+int			ft_check_if_its_exit(char *input);
 // minishell.c
 void		ft_input_loop(t_env *env_list);
 
