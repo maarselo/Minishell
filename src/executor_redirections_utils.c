@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redirections_utils.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/08/24 11:58:01 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:11:38 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_heredoc_sigint_handler(char *content, int pipe_fd[])
+int	ft_heredoc_sigint_handler(char *content, int pipe_fd[], t_data *data)
 {
-	ft_set_global_heredoc_status(0);
-	ft_set_global_exit_status(T_SIGINT);
+	ft_set_global_heredoc_status(data, 0);
+	ft_set_global_exit_status(data, T_SIGINT);
 	free(content);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);

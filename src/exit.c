@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 19:24:14 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:16:06 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_exit_handler(t_command *cmd, t_data *data)
 	if (ft_strcmp(cmd->command[0], "exit") == 0 && !cmd->command[1])
 		ft_free_data_exit(data, T_SUCCESS);
 	if (ft_isnumbers(cmd->command[1]) && cmd->command[2])
-		ft_exit_many_arguments();
+		ft_exit_many_arguments(data);
 	else if (!ft_isnumbers(cmd->command[1]))
 		ft_exit_alphas(cmd, data);
 	else if (ft_isnumbers(cmd->command[1]) == 1)

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/03 01:05:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:03:31 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ typedef struct s_global
 	volatile sig_atomic_t	exit_status;
 	volatile sig_atomic_t	heredoc_status;
 }	t_global;
-
-extern t_global	g_status;
 
 /*
 	tokenizer.h
@@ -148,9 +146,11 @@ typedef struct s_saved_fd
 */
 typedef struct s_data
 {
-	t_command	*cmd;
-	t_env		*env;
-	t_saved_fd	saved_fd;
+	t_command		*cmd;
+	t_env			*env;
+	t_saved_fd		saved_fd;
+	sig_atomic_t	exit_status;
+	sig_atomic_t	heredoc_status;
 }	t_data;
 
 /*
@@ -175,11 +175,11 @@ void		ft_set_signals_parent_mode(void);
 
 // global.c
 void		ft_set_init_global_variables(void);
-void		ft_set_global_exit_status(int new_exit_code);
-void		ft_set_global_heredoc_status(int heredoc_status);
+void		ft_set_global_exit_status(t_data *data, int new_exit_code);
+void		ft_set_global_heredoc_status(t_data *data, int heredoc_status);
 
 //default_fd.c
-t_saved_fd	ft_store_defaults_fd(void);
+t_saved_fd	ft_store_defaults_fd(t_env *env_list);
 void		ft_close_defaults_fd(t_saved_fd saved_fd);
 void		ft_resturare_defaults_fd(t_data *data);
 void		ft_duplicate_stderror_stdin(t_data *data);
@@ -248,7 +248,7 @@ void		ft_tokens_to_command_struct(t_token *token_list, t_data *data);
 
 // expander.c
 void		ft_expand(t_data *data);
-char		*ft_expand_var(char *str, int *i, t_env *env_list);
+char		*ft_expand_var(char *str, int *i, t_data *data);
 char		*ft_execute_expander(t_data *data, char *str);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);
@@ -257,6 +257,8 @@ char		*ft_expand_tilde(char *result, t_env *env_list);
 char		*ft_get_env_value(t_env *env_list, char *name_var);
 void		ft_process_command_arg(t_data *data, t_command *tmp,
 				int *i, bool *quotes);
+// expander_quotes.c
+char		*ft_remove_quotes(char *str);
 // wildcards.c
 char		**ft_expand_wildcard(char *str);
 char		**ft_join_wildcards(char **argv, int index, char **wc_expanded);
@@ -287,11 +289,11 @@ char		*ft_set_var_value(char *name, char *env_var);
 int			ft_isbuiltin(char *cmd);
 int			ft_execute_builtin(bool is_last, t_command *cmd, t_data *data);
 // bultins_echo.c
-void		ft_echo(char **args);
+void		ft_echo(t_data *data, char **args);
 // bultins_cd.c
 void		ft_cd(char **args, t_data *data);
 // builtins_pwd.c
-void		ft_pwd(void);
+void		ft_pwd(t_data *data);
 //builtins_export_utils.c
 t_env		*ft_clone_env_list(t_data *data);
 //builtins_export_variables1.c
@@ -305,25 +307,26 @@ char		*ft_split_value_var(char *str, t_data *data, char *var_name);
 // builtins_export.c
 void		ft_export(char **command, t_data *data);
 // builtins_unset.c
-void		ft_unset(char **args, t_env **env_list);
+void		ft_unset(t_data *data, char **args, t_env **env_list);
 // builtins_env.c
-void		ft_env(char **args, t_env *env_list);
+void		ft_env(char **args, t_data *data);
 
 // executor.c
-int			ft_check_wheter_continue(t_command *command);
+int			ft_check_wheter_continue(t_command *command, t_data *data);
 void		ft_executor(t_data *data);
 // executor_pipes.c
 void		ft_close_pipe(int *prev_pipe);
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
-				t_command *command_list);
+				t_command *command_list, t_data *data);
 //executor_redirection_utils.c
 int			ft_dup_close_pipe_heredoc(int pipe_fd[]);
-int			ft_heredoc_sigint_handler(char *content, int pipe_fd[]);
+int			ft_heredoc_sigint_handler(char *content,
+				int pipe_fd[], t_data *data);
 int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
 //executor_redirections.c
 int			ft_check_heredoc(t_command *current_command, int *prev_pipe,
 				t_data *data);
-int			ft_manage_redirections(t_command *current_command);
+int			ft_manage_redirections(t_command *current_command, t_data *data);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
@@ -332,7 +335,7 @@ char		*ft_find_path(t_command *current, char **env_array, t_data *data);
 char		**ft_convert_list(t_data *data);
 
 // exit_handler_utils.c
-void		ft_exit_many_arguments(void);
+void		ft_exit_many_arguments(t_data *data);
 void		ft_exit_alphas(t_command *cmd, t_data *data);
 // exit.c
 void		ft_free_exit(char *input, t_data *data);
@@ -355,8 +358,8 @@ void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
 
 // error
-void		ft_error_creating_pipe(int *prev_pipe);
-void		ft_error_opening_files(void);
+void		ft_error_creating_pipe(t_data *data, int *prev_pipe);
+void		ft_error_opening_files(t_data *data);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
 void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
 				t_data *data);

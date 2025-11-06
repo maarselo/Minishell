@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 19:10:56 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:10:02 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_cd(char **args, t_data *data)
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			ft_set_global_exit_status(T_GENERAL_ERROR);
+			ft_set_global_exit_status(data, T_GENERAL_ERROR);
 			return ;
 		}
 	}
@@ -83,11 +83,11 @@ void	ft_cd(char **args, t_data *data)
 	if (chdir(path) != 0)
 	{
 		perror("minishell: cd");
-		ft_set_global_exit_status(T_GENERAL_ERROR);
+		ft_set_global_exit_status(data, T_GENERAL_ERROR);
 	}
 	else
 	{
 		ft_update_pwd(path, data);
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 	}
 }

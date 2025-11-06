@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 01:14:46 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 04:16:54 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:19:39 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static t_env	*ft_remove_env_var(char *str, t_env *env_list)
 	return (env_list);
 }
 
-void	ft_unset(char **args, t_env **env_list)
+void	ft_unset(t_data *data, char **args, t_env **env_list)
 {
 	int	i;
 
 	i = 1;
 	if (!args[1])
 	{
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 		return ;
 	}
 	while (args[i])
@@ -55,5 +55,5 @@ void	ft_unset(char **args, t_env **env_list)
 		*env_list = ft_remove_env_var(args[i], *env_list);
 		i++;
 	}
-	ft_set_global_exit_status(T_SUCCESS);
+	ft_set_global_exit_status(data, T_SUCCESS);
 }

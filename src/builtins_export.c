@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:22:25 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 17:59:08 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:17:58 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_export_single(char *cmd, t_data *data)
 		|| ft_contains_metachar_var_name(cmd))
 	{
 		printf("minishell: export: `%s`: not a valid identifier\n", cmd);
-		ft_set_global_exit_status(T_GENERAL_ERROR);
+		ft_set_global_exit_status(data, T_GENERAL_ERROR);
 		return (1);
 	}
 	else if (!ft_strchr(cmd, '=') && ft_is_all_asnum(cmd))
@@ -57,7 +57,7 @@ void	ft_export(char **command, t_data *data)
 	if (!command[1])
 	{
 		ft_print_order_variables(data);
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 		return ;
 	}
 	while (command[i])
@@ -65,10 +65,10 @@ void	ft_export(char **command, t_data *data)
 		if (ft_export_single(command[i], data))
 		{
 			i++;
-			ft_set_global_exit_status(T_GENERAL_ERROR);
+			ft_set_global_exit_status(data, T_GENERAL_ERROR);
 			continue ;
 		}
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 		i++;
 	}
 }

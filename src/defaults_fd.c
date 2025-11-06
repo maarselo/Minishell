@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   defaults_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelon      +#+  +:+       +#+        */
+/*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/08/24 11:58:01 by mvillavi         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:05:11 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 ///neccesary exit when is not possible dup at the beginning of the minishell
-t_saved_fd	ft_store_defaults_fd(void)
+t_saved_fd	ft_store_defaults_fd(t_env *env_list)
 {
 	t_saved_fd	saved_fd;
 
@@ -20,8 +20,9 @@ t_saved_fd	ft_store_defaults_fd(void)
 	saved_fd.saved_stdout = dup(STDOUT_FILENO);
 	if (saved_fd.saved_stdin == -1 || saved_fd.saved_stdout == -1)
 	{
+		ft_free_envp(env_list);
 		perror("minishell");
-		ft_set_global_exit_status(1);
+		exit(1);
 	}
 	return (saved_fd);
 }

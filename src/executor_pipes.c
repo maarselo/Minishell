@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 23:57:46 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/10/02 20:16:05 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 17:03:54 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_close_pipe(int *prev_pipe)
 }
 
 int	ft_manage_pipes(int *prev_pipe, t_command *current_command,
-			t_command *command_list)
+			t_command *command_list, t_data *data)
 {
 	int			pipe_fd[2];
 	t_command	*previous;
@@ -37,7 +37,7 @@ int	ft_manage_pipes(int *prev_pipe, t_command *current_command,
 	if (current_command->connector == PIPE_CONNECTOR)
 	{
 		if (pipe(pipe_fd) == -1)
-			return (ft_error_creating_pipe(prev_pipe), 1);
+			return (ft_error_creating_pipe(data, prev_pipe), 1);
 		if (*prev_pipe != -1)
 			close(*prev_pipe);
 		*prev_pipe = dup(pipe_fd[0]);

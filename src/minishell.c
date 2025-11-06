@@ -6,13 +6,11 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/04 19:23:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:10:53 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_global	g_status;
 
 void	ft_process_input(char *input, t_data *data)
 {
@@ -22,10 +20,10 @@ void	ft_process_input(char *input, t_data *data)
 	token_list = ft_tokenizer(input, data);
 	if (!token_list)
 		return (ft_free_input_token(input, token_list),
-			ft_set_global_exit_status(T_SUCCESS));
+			ft_set_global_exit_status(data, T_SUCCESS));
 	else if (ft_syntax1(token_list) || ft_syntax2(token_list))
 		return (ft_free_input_token(input, token_list),
-			ft_set_global_exit_status(T_SYNTAX));
+			ft_set_global_exit_status(data, T_SYNTAX));
 	else
 	{
 		ft_tokens_to_command_struct(token_list, data);
@@ -42,7 +40,7 @@ void	ft_input_loop(t_env *env_list)
 	t_saved_fd	saved_fd;
 	t_data		*data;
 
-	saved_fd = ft_store_defaults_fd();
+	saved_fd = ft_store_defaults_fd(env_list);
 	data = ft_init_data(env_list, saved_fd);
 	while (true)
 	{
@@ -65,7 +63,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (0);
 	ft_print_banner();
-	ft_set_init_global_variables();
 	env_list = ft_get_env(envp);
 	ft_input_loop(env_list);
 }

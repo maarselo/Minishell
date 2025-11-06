@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/10/06 21:31:35 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:14:21 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,22 @@ void	ft_execute_child(t_command *current_cmd, t_data *data)
 		ft_error_command_not_found(current_cmd, env_array, data);
 }
 
-static void	ft_update_exit_status(pid_t pid)
+static void	ft_update_exit_status(pid_t pid, t_data *data)
 {
 	int	status;
 
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		ft_set_global_exit_status(WEXITSTATUS(status));
+		ft_set_global_exit_status(data, WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
-		ft_set_global_exit_status(128 + WTERMSIG(status));
+		ft_set_global_exit_status(data, 128 + WTERMSIG(status));
 }
 
-int	ft_check_wheter_continue(t_command *command)
+int	ft_check_wheter_continue(t_command *command, t_data *data)
 {
-	if (command->connector == AND_CONNECTOR && g_status.exit_status != 0)
+	if (command->connector == AND_CONNECTOR && data->exit_status != 0)
 		return (0);
-	else if (command->connector == OR_CONNECTOR && g_status.exit_status == 0)
+	else if (command->connector == OR_CONNECTOR && data->exit_status == 0)
 		return (0);
 	return (1);
 }
@@ -54,7 +54,7 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell:"),
-			ft_set_global_exit_status(T_GENERAL_ERROR), 0);
+			ft_set_global_exit_status(data, T_GENERAL_ERROR), 0);
 	else if (pid == 0)
 	{
 		ft_set_signals_child_mode();
@@ -66,8 +66,8 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 		if (current_command->connector == AND_CONNECTOR
 			|| current_command->connector == OR_CONNECTOR || is_last)
 		{
-			ft_update_exit_status(pid);
-			return (ft_check_wheter_continue(current_command));
+			ft_update_exit_status(pid, data);
+			return (ft_check_wheter_continue(current_command, data));
 		}
 	}
 	return (1);
@@ -83,10 +83,10 @@ void	ft_executor(t_data *data)
 	current_command = data->cmd;
 	while (current_command)
 	{
-		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd)
+		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd, data)
 			|| ft_check_heredoc(current_command, &prev_pipe, data))
 			return ;
-		if (ft_manage_redirections(current_command))
+		if (ft_manage_redirections(current_command, data))
 			ft_close_pipe(&prev_pipe);
 		else if (current_command->command)
 		{

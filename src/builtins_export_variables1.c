@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 14:19:54 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/04 23:06:35 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:17:23 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ static t_env	*ft_create_node_export_by_mode(char *mode, char *var_name,
 			ft_perror_free_data_exit(data, T_GENERAL_ERROR), NULL);
 	node_env->name = var_name;
 	if (!ft_strcmp(mode, NO_VALUE))
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 	else if (!ft_strcmp(mode, NULL_VALUE) || !ft_strcmp(mode, WITH_VALUE))
 	{
 		node_env->value = var_value;
-		ft_set_global_exit_status(T_SUCCESS);
+		ft_set_global_exit_status(data, T_SUCCESS);
 	}
 	return (node_env);
 }

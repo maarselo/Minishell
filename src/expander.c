@@ -6,67 +6,46 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/04 18:00:24 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:02:18 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_expand_var(char *str, int *i, t_env *env_list)
+static char	*ft_expand_question_mark(t_data *data, int *i)
+{
+	char	*value;
+
+	(*i)++;
+	value = ft_itoa(data->exit_status);
+	if (!value)
+		return (NULL);
+	return (value);
+}
+
+char	*ft_expand_var(char *str, int *i, t_data *data)
 {
 	char	*value;
 	char	*var;
 	int		start;
 
 	(*i)++;
+	if (str[*i] == '\0'
+		|| (!ft_isalnum(str[*i]) && str[*i] != '_' && str[*i] != '?'))
+		return (ft_strdup("$"));
 	if (str[*i] == '?')
-	{
-		(*i)++;
-		value = ft_itoa(g_status.exit_status);
-		if (!value)
-			return (NULL);
-		return (value);
-	}
+		value = ft_expand_question_mark(data, i);
 	start = *i;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	var = ft_substr(str, start, *i - start);
 	if (!var)
 		return (NULL);
-	value = ft_get_env_value(env_list, var);
+	value = ft_get_env_value(data->env, var);
 	free(var);
 	if (value)
 		return (value);
 	return (ft_strdup(""));
-}
-
-char	*ft_remove_quotes(char *str)
-{
-	int		i;
-	bool	in_quotes;
-	bool	in_squotes;
-	char	*result;
-
-	result = ft_strdup("");
-	in_quotes = false;
-	in_squotes = false;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' && in_quotes == false)
-			in_squotes = !in_squotes;
-		else if (str[i] == '"' && in_squotes == false)
-			in_quotes = !in_quotes;
-		else
-		{
-			result = ft_join_char_var(result, str[i]);
-			if (!result)
-				return (free(str), NULL);
-		}
-		i++;
-	}
-	free(str);
-	return (result);
 }
 
 char	*ft_expand_join(char *str, int *i, char *result, t_data *data)
@@ -85,7 +64,7 @@ char	*ft_expand_join(char *str, int *i, char *result, t_data *data)
 			in_quotes = !in_quotes;
 		if (str[*i] == '$' && in_squotes == false)
 		{
-			tmp = ft_expand_var(str, i, data->env);
+			tmp = ft_expand_var(str, i, data);
 			result = ft_join_str_var(result, tmp);
 			free(tmp);
 			continue ;
