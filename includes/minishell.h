@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:03:31 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:15:34 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define NO_VALUE "no_value"
 # define NULL_VALUE "null_value"
 # define WITH_VALUE "with_value"
+
+extern int g_signal;
 
 /*
 	minishell.h

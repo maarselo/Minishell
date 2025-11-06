@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/11/06 18:14:21 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:19:20 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 			ft_set_global_exit_status(data, T_GENERAL_ERROR), 0);
 	else if (pid == 0)
 	{
-		ft_set_signals_child_mode();
+		//ft_set_signals_child_mode();
 		ft_execute_child(current_command, data);
 	}
 	else
 	{
-		ft_set_signals_parent_mode();
+		//ft_set_signals_parent_mode();
 		if (current_command->connector == AND_CONNECTOR
 			|| current_command->connector == OR_CONNECTOR || is_last)
 		{

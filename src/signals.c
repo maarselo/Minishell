@@ -6,12 +6,12 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/06 20:48:19 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:20:01 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	ft_set_signals_prompt_mode(void)
 {
 	signal(SIGINT, ft_sigint_handler_prompt_mode);
@@ -35,3 +35,4 @@ void	ft_set_signals_parent_mode(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
+*/

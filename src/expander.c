@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:02:18 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:25:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ char	*ft_expand_var(char *str, int *i, t_data *data)
 		|| (!ft_isalnum(str[*i]) && str[*i] != '_' && str[*i] != '?'))
 		return (ft_strdup("$"));
 	if (str[*i] == '?')
+	{
 		value = ft_expand_question_mark(data, i);
+		if (!value)
+			return (NULL);
+		return (value);
+	}
 	start = *i;
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
@@ -42,10 +47,9 @@ char	*ft_expand_var(char *str, int *i, t_data *data)
 	if (!var)
 		return (NULL);
 	value = ft_get_env_value(data->env, var);
-	free(var);
 	if (value)
-		return (value);
-	return (ft_strdup(""));
+		return (free(var), value);
+	return (free(var), ft_strdup(""));
 }
 
 char	*ft_expand_join(char *str, int *i, char *result, t_data *data)

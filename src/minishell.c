@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:10:53 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:18:25 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_input_loop(t_env *env_list)
 	data = ft_init_data(env_list, saved_fd);
 	while (true)
 	{
-		ft_set_signals_prompt_mode();
+		//ft_set_signals_prompt_mode();
 		input = ft_get_input(data);
 		ft_check_null_input(input, data);
 		if (ft_check_void_input(input))

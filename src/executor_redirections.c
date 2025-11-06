@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/11/06 19:55:42 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 20:19:27 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_heredoc(t_command *command, t_data *data)
 	char	*content;
 	int		pipe_fd[2];
 
-	ft_set_signals_heredoc_mode();
+	//ft_set_signals_heredoc_mode();
 	if (pipe(pipe_fd) == -1)
 		return (ft_error_creating_pipe(data, NULL), 1);
 	write(data->saved_fd.saved_stdout, "> ", 2);
