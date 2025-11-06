@@ -28,6 +28,8 @@ int	ft_isbuiltin(char *cmd)
 		return (1);
 	else if (!ft_strcmp(cmd, "env"))
 		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
 	return (0);
 }
 
@@ -45,6 +47,8 @@ int	ft_execute_builtin(bool is_last, t_command *cmd, t_data *data)
 		ft_env(cmd->command, data->env);
 	else if (ft_strcmp(cmd->command[0], "export") == 0)
 		ft_export(cmd->command, data);
+	else if (ft_strcmp(cmd->command[0], "exit") == 0)
+		ft_exit_handler(cmd, data);
 	if (cmd->connector == AND_CONNECTOR
 		|| cmd->connector == OR_CONNECTOR || is_last)
 		return (ft_check_wheter_continue(cmd));

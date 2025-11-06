@@ -46,28 +46,21 @@ void	ft_free_data_exit(t_data *data, int exit_code)
 	exit(exit_code);
 }
 
-void	ft_exit_handler(char *input, t_data *data)
+void	ft_exit_handler(t_command *cmd, t_data *data)
 {
 	int		number;
-	char	**exit_split;
 
-	ft_free_data(data);
 	printf("exit\n");
-	if (!ft_strcmp(input, "exit") || !ft_strcmp(input, "exit "))
+	if (ft_strcmp(cmd->command[0], "exit") == 0 && !cmd->command[1])
+		ft_free_data_exit(data, T_SUCCESS);
+	if (ft_isnumbers(cmd->command[1]) && cmd->command[2])
+		ft_exit_many_arguments();
+	else if (!ft_isnumbers(cmd->command[1]))
+		ft_exit_alphas(cmd, data);
+	else if (ft_isnumbers(cmd->command[1]) == 1)
 	{
-		free(input);
-		exit(T_SUCCESS);
-	}
-	exit_split = ft_split(input, ' ');
-	free(input);
-	if (ft_isnumbers(exit_split[1]) && exit_split[2])
-		ft_exit_many_arguments(exit_split);
-	else if (!ft_isnumbers(exit_split[1]))
-		ft_exit_alphas(exit_split);
-	else if (ft_isnumbers(exit_split[1]))
-	{
-		number = ft_atoi(exit_split[1]);
-		ft_free_split(exit_split);
+		number = ft_atoi(cmd->command[1]);
+		ft_free_data(data);
 		if (0 <= number && number <= 255)
 			exit(number);
 		else

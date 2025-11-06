@@ -51,8 +51,6 @@ void	ft_input_loop(t_env *env_list)
 		ft_check_null_input(input, data);
 		if (ft_check_void_input(input))
 			continue ;
-		if (ft_check_if_its_exit(input))
-			ft_exit_handler(input, data);
 		if (*input)
 			ft_process_input(input, data);
 	}

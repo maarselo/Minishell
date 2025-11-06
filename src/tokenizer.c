@@ -56,8 +56,6 @@ static char	*ft_extract_quotes(char *str, int *i)
 			in_squotes = !in_squotes;
 		else if (str[*i] == '"' && in_squotes == false)
 			in_quotes = !in_quotes;
-		//if (str[*i] == ' ' && in_quotes == false)
-			//return (ft_substr(str, start, *i - start));
 		if (in_quotes == false && in_squotes == false)
 		{
 			if (ft_isspace(str[*i]))

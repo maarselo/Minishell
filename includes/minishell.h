@@ -195,7 +195,6 @@ char		*ft_get_input(t_data *data);
 // check_input.c
 void		ft_check_null_input(char *input, t_data *data);
 int			ft_check_void_input(char *input);
-int			ft_check_if_its_exit(char *input);
 // minishell.c
 void		ft_input_loop(t_env *env_list);
 
@@ -333,13 +332,13 @@ char		*ft_find_path(t_command *current, char **env_array, t_data *data);
 char		**ft_convert_list(t_data *data);
 
 // exit_handler_utils.c
-void		ft_exit_many_arguments(char **exit_split);
-void		ft_exit_alphas(char **exit_split);
+void		ft_exit_many_arguments(void);
+void		ft_exit_alphas(t_command *cmd, t_data *data);
 // exit.c
 void		ft_free_exit(char *input, t_data *data);
 void		ft_clean_parser_memory_exit(t_command *command,
 				t_data *data, t_token *token_list);
-void		ft_exit_handler(char *input, t_data *data);
+void		ft_exit_handler(t_command *cmd, t_data *data);
 
 // free_data.c
 void		ft_free_data(t_data *data);

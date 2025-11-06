@@ -27,13 +27,3 @@ int	ft_check_void_input(char *input)
 		return (free(input), 1);
 	return (0);
 }
-
-int	ft_check_if_its_exit(char *input)
-{
-	if (!ft_strcmp(input, "exit") || !ft_strncmp(input, "exit ", 5))
-	{
-		clear_history();
-		return (1);
-	}
-	return (0);
-}
