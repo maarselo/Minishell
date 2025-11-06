@@ -70,7 +70,7 @@ void	ft_cd(char **args, t_data *data)
 
 	if (!args[1])
 	{
-		path = ft_get_env_value(data->env, "HOME");
+		path = ft_acces_env_value("HOME", data->env);
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);

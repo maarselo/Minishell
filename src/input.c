@@ -47,7 +47,7 @@ static char	*ft_cut_hostname(char *hostname_buffer)
 	return (ft_substr(hostname_buffer, 0, ptr - hostname_buffer));
 }
 
-static char	*ft_acces_env_value(char *name_var, t_env *env_list)
+char	*ft_acces_env_value(char *name_var, t_env *env_list)
 {
 	t_env	*env_node;
 

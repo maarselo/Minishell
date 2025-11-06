@@ -73,10 +73,18 @@ static int	ft_open_redirection_file(char *mode,
 
 int	ft_check_heredoc(t_command *current_command, int *prev_pipe, t_data *data)
 {
+	char	*delim;
+
 	if (current_command->redirection)
 	{
 		if (current_command->redirection->heredoc)
 		{
+			if (ft_strchr(current_command->redirection->delimiter, '\'')
+				|| ft_strchr(current_command->redirection->delimiter, '\"'))
+			{
+				delim = current_command->redirection->delimiter;
+				current_command->redirection->delimiter = ft_remove_quotes(delim);
+			}
 			if (ft_heredoc(current_command, data))
 			{
 				ft_close_pipe(prev_pipe);
@@ -93,11 +101,17 @@ int	ft_manage_redirections(t_command *current_command, t_data *data)
 	{
 		if (current_command->redirection->infile)
 		{
+			if (ft_strchr(current_command->redirection->infile, '\'')
+				|| ft_strchr(current_command->redirection->infile, '\"'))
+				current_command->redirection->infile = ft_remove_quotes(current_command->redirection->infile);
 			if (ft_open_redirection_file(MODE_READ, current_command, data))
 				return (1);
 		}
 		if (current_command->redirection->outfile)
 		{
+			if (ft_strchr(current_command->redirection->outfile, '\'')
+				|| ft_strchr(current_command->redirection->outfile, '\"'))
+				current_command->redirection->outfile = ft_remove_quotes(current_command->redirection->outfile);
 			if (current_command->redirection->append)
 			{
 				if (ft_open_redirection_file(MODE_APPEND,

@@ -27,8 +27,6 @@ int	ft_strncmp_heredoc(const char *delim, const char *line, size_t n)
 	size_t	i;
 
 	i = 0;
-	if (ft_isalspace((char *)line))
-		return (1);
 	while (i < n && delim[i] && line[i]
 		&& (unsigned char)delim[i] == (unsigned char)line[i])
 		i++;

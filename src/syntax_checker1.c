@@ -76,8 +76,6 @@ int	ft_check_redirects(t_token *token)
 		{
 			if (!tmp->next || tmp->next->type != T_WORD)
 				return (1);
-			if (tmp->next->is_quoted && ft_strlen(tmp->next->content) == 2)
-				return (1);
 		}
 		tmp = tmp->next;
 	}
