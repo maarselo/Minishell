@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/28 17:12:55 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:39:07 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,27 @@ void	ft_print_tokens(t_token	*token)
 static char	*ft_extract_quotes(char *str, int *i)
 {
 	bool	in_quotes;
+	bool	in_squotes;
 	int		start;
 
 	start = *i;
 	in_quotes = false;
+	in_squotes = false;
 	while (str[*i])
 	{
-		if ((str[*i] == '\"' || str[*i] == '\'') && in_quotes == false)
-			in_quotes = true;
-		else if ((str[*i] == '\"' || str[*i] == '\'') && in_quotes == true)
-			in_quotes = false;
-		if (str[*i] == ' ' && in_quotes == false)
-			return (ft_substr(str, start, *i - start));
+		if (str[*i] == '\'' && in_quotes == false)
+			in_squotes = !in_squotes;
+		else if (str[*i] == '"' && in_squotes == false)
+			in_quotes = !in_quotes;
+		//if (str[*i] == ' ' && in_quotes == false)
+			//return (ft_substr(str, start, *i - start));
+		if (in_quotes == false && in_squotes == false)
+		{
+			if (ft_isspace(str[*i]))
+				return (ft_substr(str, start, *i - start));
+			if (ft_is_operator(str[*i]))
+				return (ft_substr(str, start, *i - start));
+		}
 		(*i)++;
 	}
 	return (ft_substr(str, start, *i - start));
