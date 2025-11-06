@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/04 19:23:37 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:25:27 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,13 @@ void	ft_input_loop(t_env *env_list)
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
-		input = ft_get_input(data);
+		if (isatty(fileno(stdin)))
+			input = readline("\033[1;32mminishell $\033[0m ");
+		else
+		{
+			char *tmp = get_next_line(data->saved_fd.saved_stdin);
+			input = ft_strtrim(tmp, "\n");
+		}
 		ft_check_null_input(input, data);
 		if (ft_check_void_input(input))
 			continue ;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+         #
+#    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/09/23 17:03:31 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/11/06 14:30:10 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR) -fsanitize=address,leak
+CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR)# -fsanitize=address,leak
 LIB_FLAGS = -lreadline -lft 
 # -fsanitize=address
 RM = rm -rf
