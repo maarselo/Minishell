@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:15:34 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/07 02:43:59 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define NULL_VALUE "null_value"
 # define WITH_VALUE "with_value"
 
-extern int g_signal;
+extern int	g_signal;
 
 /*
 	minishell.h
@@ -326,6 +326,8 @@ int			ft_dup_close_pipe_heredoc(int pipe_fd[]);
 int			ft_heredoc_sigint_handler(char *content,
 				int pipe_fd[], t_data *data);
 int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
+int			ft_check_heredoc_signal(t_data *data,
+				t_command *command, int *pipe_fd);
 //executor_redirections.c
 int			ft_check_heredoc(t_command *current_command, int *prev_pipe,
 				t_data *data);

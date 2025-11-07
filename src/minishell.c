@@ -6,11 +6,13 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:24:52 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:18:25 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/07 00:10:52 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_signal;
 
 void	ft_process_input(char *input, t_data *data)
 {
@@ -44,9 +46,14 @@ void	ft_input_loop(t_env *env_list)
 	data = ft_init_data(env_list, saved_fd);
 	while (true)
 	{
-		//ft_set_signals_prompt_mode();
+		ft_set_signals_prompt_mode();
 		input = ft_get_input(data);
 		ft_check_null_input(input, data);
+		if (g_signal != 0)
+		{
+			ft_set_global_exit_status(data, T_SIGINT);
+			g_signal = 0;
+		}
 		if (ft_check_void_input(input))
 			continue ;
 		if (*input)
