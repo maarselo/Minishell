@@ -29,6 +29,7 @@ static void	ft_print_order_variables(t_data *data)
 			printf("declare -x %s\n", tmp->name);
 		tmp = tmp->next;
 	}
+	ft_free_envp(order_env);
 }
 
 static int	ft_export_single(char *cmd, t_data *data)

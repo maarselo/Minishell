@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+int	ft_is_all_asnum(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != '\'' && str[i] != '\"' && !ft_isalnum(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int	ft_strlen_var_name(char *str)
 {
 	int	i;
