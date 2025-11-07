@@ -62,6 +62,30 @@ int	ft_check_heredoc(t_command *command, int *prev_pipe, t_data *data)
 	return (0);
 }
 
+int	ft_check_heredoc(t_command *command, int *prev_pipe, t_data *data)
+{
+	char	*delim;
+
+	if (command->redirection)
+	{
+		if (command->redirection->heredoc)
+		{
+			if (ft_strchr(command->redirection->delimiter, '\'')
+				|| ft_strchr(command->redirection->delimiter, '\"'))
+			{
+				delim = command->redirection->delimiter;
+				command->redirection->delimiter = ft_remove_quotes(delim);
+			}
+			if (ft_heredoc(command, data))
+			{
+				ft_close_pipe(prev_pipe);
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
 static int	ft_open_redirection_file(char *mode,
 			t_command *command, t_data *data)
 {
