@@ -11,17 +11,13 @@
 # **************************************************************************** #
 
 NAME = minishell
-#BONUS = minishell_bonus
 
 SRC_DIR = src
-#BONUS_DIR = bonus
 OBJ_DIR = obj
-#OBJ_BONUS_DIR = obj_bonus
 INCLUDE_DIR = include
 LIBFT_DIR = ./Libft
 
 HEADER = includes/minishell.h
-#BONUS_HEADER = $(INCLUDE_DIR)/minishell_bonus.h
 
 SRCS_FILES = minishell.c banner.c input.c input_check.c global.c signals_utils.c signals.c defaults_fd.c data.c \
 				token.c tokenizer.c tokenizer_utils.c \
@@ -34,20 +30,16 @@ SRCS_FILES = minishell.c banner.c input.c input_check.c global.c signals_utils.c
 				free_data.c free.c free_utils.c exit.c exit_handler_utils.c \
 				error.c
 
-#BONUS_FILES = 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))
-#BSRCS = $(addprefix $(BONUS_DIR)/, $(BONUS_FILES))
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
-#OBJS_BONUS = $(addprefix $(OBJ_BONUS_DIR)/, $(BONUS_FILES:.c=.o))
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR) #-fsanitize=address,leak
+CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR) -fsanitize=address,leak
 LIB_FLAGS = -lreadline -lft 
-# -fsanitize=address
 RM = rm -rf
 
 GREEN = \033[1;32m
@@ -84,15 +76,12 @@ clean:
 	@echo "$(BULLET_RED) $(RED)Cleaning:$(RESET) object files"
 	@make -sC $(LIBFT_DIR) clean 
 	@$(RM) $(OBJ_DIR) 
-#   $(OBJ_BONUS_DIR)
 
 fclean: clean
 	@echo "$(BULLET_RED) $(RED)Removing:$(RESET) $(NAME)"
 	@make -sC $(LIBFT_DIR) fclean
 	@rm -f $(NAME) 
-#$(BONUS)
 
 re: fclean all
 
 .PHONY: all clean fclean re
-#bonus

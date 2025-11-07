@@ -23,10 +23,15 @@ void	ft_error_creating_pipe(t_data *data, int *prev_pipe)
 	printf("minishell: Error while creating pipes.");
 }
 
-void	ft_error_opening_files(t_data *data)
+void	ft_error_opening_files(char *mode, t_command *command, t_data *data)
 {
 	ft_set_global_exit_status(data, T_FILES);
-	perror("minishell");
+	if (!ft_strcmp(mode, MODE_READ))
+		ft_printf_fd(2, "minishell: %s: %s\n", strerror(errno),
+			command->redirection->infile);
+	else if (!ft_strcmp(mode, MODE_WRITE) || !ft_strcmp(mode, MODE_APPEND))
+		ft_printf_fd(2, "minishell: %s: %s\n", strerror(errno),
+			command->redirection->outfile);
 }
 
 void	*ft_error_malloc_free_envarray_data(char **env_array, t_data *data)

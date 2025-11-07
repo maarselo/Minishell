@@ -55,3 +55,21 @@ int	ft_check_heredoc_signal(t_data *data,
 		command->redirection->delimiter);
 	return (ft_dup_close_pipe_heredoc(pipe_fd));
 }
+
+void	ft_check_have_quotes(char *file_type, t_data *data)
+{
+	char	*file;
+
+	if (!ft_strcmp(file_type, INFILE))
+	{
+		file = data->cmd->redirection->infile;
+		if (ft_strchr(file, '\'') || ft_strchr(file, '\"'))
+			data->cmd->redirection->infile = ft_remove_quotes(file);
+	}
+	else if (!ft_strcmp(file_type, OUTFILE))
+	{
+		file = data->cmd->redirection->outfile;
+		if (ft_strchr(file, '\'') || ft_strchr(file, '\"'))
+			data->cmd->redirection->outfile = ft_remove_quotes(file);
+	}
+}

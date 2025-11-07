@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <errno.h>
 # include <dirent.h>
 
 # define MODE_READ "r"
@@ -30,7 +31,10 @@
 # define NULL_VALUE "null_value"
 # define WITH_VALUE "with_value"
 
-extern int	g_signal;
+# define INFILE "infile"
+# define OUTFILE "outfile"
+
+extern int g_signal;
 
 /*
 	minishell.h
@@ -328,10 +332,11 @@ int			ft_heredoc_sigint_handler(char *content,
 int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
 int			ft_check_heredoc_signal(t_data *data,
 				t_command *command, int *pipe_fd);
+void		ft_check_have_quotes(char *file_type, t_data *data);
 //executor_redirections.c
-int			ft_check_heredoc(t_command *current_command, int *prev_pipe,
+int			ft_check_heredoc(t_command *command, int *prev_pipe,
 				t_data *data);
-int			ft_manage_redirections(t_command *current_command, t_data *data);
+int			ft_manage_redirections(t_command *command, t_data *data);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
@@ -364,7 +369,7 @@ void		ft_free_redirections_command(t_redirect *redirections);
 
 // error
 void		ft_error_creating_pipe(t_data *data, int *prev_pipe);
-void		ft_error_opening_files(t_data *data);
+void		ft_error_opening_files(char *mode, t_command *command, t_data *data);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
 void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
 				t_data *data);
