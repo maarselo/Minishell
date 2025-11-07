@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_is_all_asnum(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] != '\'' && str[i] != '\"' && !ft_isalnum(str[i]))
-			return (0);
-	}
-	return (1);
-}
-
 static void	ft_replace_env_var(char *mode, t_data *data, char *var_name,
 		char *new_value)
 {
@@ -74,16 +61,16 @@ static t_env	*ft_create_node_export_by_mode(char *mode, char *var_name,
 	return (node_env);
 }
 
-static void	ft_add_var_into_list(t_env *env, t_env *env_list)
+static void	ft_add_var_into_list(t_env *env, t_env **env_list)
 {
 	t_env	*tmp;
 
-	if (!env_list)
+	if (!*env_list)
 	{
-		env_list = env;
+		*env_list = env;
 		return ;
 	}
-	tmp = env_list;
+	tmp = *env_list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = env;
@@ -96,10 +83,12 @@ void	ft_create_and_add_variable(char *mode, char *command, t_data *data)
 	char	*var_value;
 
 	var_name = ft_split_name_var(command, data);
-	var_value = ft_split_value_var(command, data, var_name);
+	var_value = NULL;
+	if (ft_strcmp(mode, NO_VALUE))
+		var_value = ft_split_value_var(command, data, var_name);
 	if (ft_find_env_var_name(data->env, var_name) == 0)
 	{
-		if (command[ft_strlen_var_name(command - 1)] == '+')
+		if (command[ft_strlen_var_name(command) - 1] == '+')
 			ft_replace_env_var(MODE_APPEND, data, var_name, var_value);
 		else
 			ft_replace_env_var(MODE_WRITE, data, var_name, var_value);
@@ -108,6 +97,6 @@ void	ft_create_and_add_variable(char *mode, char *command, t_data *data)
 	else
 	{
 		env = ft_create_node_export_by_mode(mode, var_name, var_value, data);
-		ft_add_var_into_list(env, data->env);
+		ft_add_var_into_list(env, &data->env);
 	}
 }
