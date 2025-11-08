@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 20:07:12 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/04 17:25:33 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 19:12:09 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ t_env	*ft_init_env(char *env_var)
 
 	var = (t_env *)malloc(sizeof(t_env));
 	if (!var)
-		return (perror("Error allocating memory\n"), exit(8), NULL);
+		return (perror("minishell\n"), exit(8), NULL);
 	if (!ft_strchr(env_var, '='))
 	{
 		var->name = ft_strdup(env_var);
 		if (!var->name)
-			return (perror("Error allocating memory\n"), exit(8), NULL);
+			return (perror("minishell\n"), exit(8), NULL);
+		if (ft_strcmp(var->name, "SHLVL") == 0)
+			var->value = ft_itoa(1);
 		var->value = NULL;
 	}
 	else
@@ -95,7 +97,7 @@ t_env	*ft_init_min_env(void)
 		ft_add_env_var(&env_list, "PWD", cwd);
 		free(cwd);
 	}
-	ft_add_env_var(&env_list, "SHLVL", "2");
+	ft_add_env_var(&env_list, "SHLVL", "1");
 	ft_add_env_var(&env_list, "OLDPWD", "");
 	return (env_list);
 }

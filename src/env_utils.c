@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:53:36 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/04 17:24:52 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 19:18:37 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,18 @@ char	*ft_set_var_value(char *name, char *env_var)
 {
 	char	*value;
 	char	*tmp;
+	int		level;
 
 	if (ft_strcmp(name, "SHLVL") == 0)
 	{
 		tmp = ft_get_value_env(env_var);
-		value = ft_itoa(ft_atoi(tmp) + 1);
+		level = ft_atoi(tmp) + 1;
 		free(tmp);
+		if (level < 0)
+			level = 0;
+		else if (level >= 1000)
+			level = 1;
+		value = ft_itoa(level);
 	}
 	else
 		value = ft_get_value_env(env_var);
