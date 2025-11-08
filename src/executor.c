@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_execute_child(t_command *current_cmd, t_data *data)
+static void	ft_execute_child(t_command *current_cmd, t_data *data)
 {
 	char	*path;
 	char	**env_array;
@@ -25,17 +25,6 @@ void	ft_execute_child(t_command *current_cmd, t_data *data)
 		ft_error_command_not_found(current_cmd, env_array, data);
 }
 
-static void	ft_update_exit_status(pid_t pid, t_data *data)
-{
-	int	status;
-
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		ft_set_global_exit_status(data, WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		ft_set_global_exit_status(data, 128 + WTERMSIG(status));
-}
-
 int	ft_check_wheter_continue(t_command *command, t_data *data)
 {
 	if (command->connector == AND_CONNECTOR && data->exit_status != 0)
@@ -45,7 +34,24 @@ int	ft_check_wheter_continue(t_command *command, t_data *data)
 	return (1);
 }
 
-int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
+void	ft_wait_childs(int executed_commands, int *pid_array, t_data *data)
+{
+	int	index;
+	int	status;
+
+	index = 0;
+	while (index <= executed_commands)
+	{
+		waitpid(pid_array[index], &status, 0);
+		if (WIFEXITED(status))
+			ft_set_global_exit_status(data, WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			ft_set_global_exit_status(data, 128 + WTERMSIG(status));
+		index++;
+	}
+}
+
+static int	ft_execute_command(bool is_last, t_command *current_command, int executed_commands, pid_t *pid_array, t_data *data)
 {
 	pid_t	pid;
 
@@ -62,11 +68,12 @@ int	ft_execute_command(bool is_last, t_command *current_command, t_data *data)
 	}
 	else
 	{
+		pid_array[executed_commands] = pid;
 		ft_set_signals_parent_mode();
 		if (current_command->connector == AND_CONNECTOR
 			|| current_command->connector == OR_CONNECTOR || is_last)
 		{
-			ft_update_exit_status(pid, data);
+			ft_wait_childs(executed_commands, pid_array, data);
 			return (ft_check_wheter_continue(current_command, data));
 		}
 	}
@@ -78,9 +85,12 @@ void	ft_executor(t_data *data)
 	int			prev_pipe;
 	int			keep;
 	t_command	*current_command;
+	int			executed_commands;
+	pid_t		pid_array[ft_get_total_commands(data->cmd)];
 
 	prev_pipe = -1;
 	current_command = data->cmd;
+	executed_commands = 0;
 	while (current_command)
 	{
 		if (ft_manage_pipes(&prev_pipe, current_command, data->cmd, data)
@@ -91,13 +101,14 @@ void	ft_executor(t_data *data)
 		else if (current_command->command)
 		{
 			if (current_command->next)
-				keep = ft_execute_command(false, current_command, data);
+				keep = ft_execute_command(false, current_command, executed_commands, pid_array, data);
 			else
-				keep = ft_execute_command(true, current_command, data);
+				keep = ft_execute_command(true, current_command, executed_commands, pid_array, data);
 		}
 		ft_resturare_defaults_fd(data);
 		if (!keep)
 			break ;
+		executed_commands++;
 		current_command = current_command->next;
 	}
 }

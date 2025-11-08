@@ -42,3 +42,20 @@ bool	ft_is_last_command(t_command *command)
 		return (true);
 	return (false);
 }
+
+int	ft_get_total_commands(t_command *command_list)
+{
+	int			total;
+	t_command	*cmd;
+
+	if (!command_list)
+		return (0);
+	total = 0;
+	cmd = command_list;
+	while (cmd)
+	{
+		total++;
+		cmd = cmd->next;
+	}
+	return (total);
+}
