@@ -50,6 +50,8 @@ void	ft_exit_handler(t_command *cmd, t_data *data)
 {
 	int		number;
 
+	if (ft_get_previous_command(cmd, data->cmd) || cmd->next)
+		return ;
 	printf("exit\n");
 	if (ft_strcmp(cmd->command[0], "exit") == 0 && !cmd->command[1])
 		ft_free_data_exit(data, T_SUCCESS);
