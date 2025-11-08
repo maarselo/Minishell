@@ -340,6 +340,7 @@ int			ft_manage_redirections(t_command *command, t_data *data);
 //executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
+int			ft_get_total_commands(t_command *command_list);
 //executor_utils.c
 char		*ft_find_path(t_command *current, char **env_array, t_data *data);
 char		**ft_convert_list(t_data *data);
