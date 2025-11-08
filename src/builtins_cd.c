@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:23:42 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 16:10:02 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 18:27:35 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,30 @@ static void	ft_update_pwd(char *new_path, t_data *data)
 		free(old_path);
 }
 
+static void	ft_check_new_path(t_data *data)
+{
+	char	*current_path;
+
+	current_path = getcwd(NULL, 0);
+	if (!current_path)
+	{
+		perror("minishell: cd: getcwd failed");
+		ft_set_global_exit_status(data, T_GENERAL_ERROR);
+		return ;
+	}
+	ft_update_pwd(current_path, data);
+	ft_set_global_exit_status(data, T_SUCCESS);
+	free(current_path);
+}
+
 void	ft_cd(char **args, t_data *data)
 {
-	char	*path;
+	char	*new_path;
 
 	if (!args[1])
 	{
-		path = ft_acces_env_value("HOME", data->env);
-		if (!path)
+		new_path = ft_acces_env_value("HOME", data->env);
+		if (!new_path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			ft_set_global_exit_status(data, T_GENERAL_ERROR);
@@ -79,15 +95,12 @@ void	ft_cd(char **args, t_data *data)
 		}
 	}
 	else
-		path = args[1];
-	if (chdir(path) != 0)
+		new_path = args[1];
+	if (chdir(new_path) != 0)
 	{
 		perror("minishell: cd");
 		ft_set_global_exit_status(data, T_GENERAL_ERROR);
 	}
 	else
-	{
-		ft_update_pwd(path, data);
-		ft_set_global_exit_status(data, T_SUCCESS);
-	}
+		ft_check_new_path(data);
 }

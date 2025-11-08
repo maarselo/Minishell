@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/07 02:43:59 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 18:08:02 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define INFILE "infile"
 # define OUTFILE "outfile"
 
-extern int g_signal;
+extern int	g_signal;
 
 /*
 	minishell.h
@@ -369,7 +369,8 @@ void		ft_free_redirections_command(t_redirect *redirections);
 
 // error
 void		ft_error_creating_pipe(t_data *data, int *prev_pipe);
-void		ft_error_opening_files(char *mode, t_command *command, t_data *data);
+void		ft_error_opening_files(char *mode, t_command *command,
+				t_data *data);
 void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
 void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
 				t_data *data);

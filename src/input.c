@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:22:25 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/05 17:59:08 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 18:08:38 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,15 @@ char	*ft_acces_env_value(char *name_var, t_env *env_list)
 char	*ft_get_input(t_data *data)
 {
 	char	host_buffer[1024];
+	char	current_path[1024];
 	char	*hostname;
 	char	*prompt;
 	char	*input;
 
 	if (!isatty(STDIN_FILENO))
 		ft_error_input_terminal_free_data(data);
+	if (getcwd(current_path, sizeof(current_path)) == NULL)
+		return (readline("\033[1;34mminishell \033[0m"));
 	if (!ft_acces_env_value("USER", data->env)
 		|| gethostname(host_buffer, sizeof(host_buffer)) == -1
 		|| !ft_acces_env_value("PWD", data->env))
@@ -77,7 +80,7 @@ char	*ft_get_input(t_data *data)
 	hostname = ft_cut_hostname(host_buffer);
 	prompt = ft_strjoin_multi(8, "\033[1;34m",
 			ft_acces_env_value("USER", data->env), "@", hostname, ":",
-			ft_acces_env_value("PWD", data->env), "$ ", "\033[0m");
+			current_path, "$ ", "\033[0m");
 	input = readline(prompt);
 	return (free(hostname), free(prompt), input);
 }
