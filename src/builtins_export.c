@@ -24,7 +24,7 @@ static void	ft_print_order_variables(t_data *data)
 	while (tmp)
 	{
 		if (tmp->value)
-			printf("declare -x %s=\'%s\'\n", tmp->name, tmp->value);
+			printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
 		else
 			printf("declare -x %s\n", tmp->name);
 		tmp = tmp->next;

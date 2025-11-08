@@ -12,7 +12,56 @@
 
 #include "minishell.h"
 
-static void	ft_replace_env_var(char *mode, t_data *data, char *var_name,
+static int	ft_check_shlvl(char *mode, char *var_name, char *new_value,
+			t_data *data)
+{
+	char	*tmp;
+	int		number;
+	char	*str_number;
+	t_env	*env_node;
+
+	if (ft_strcmp("SHLVL", var_name))
+		return (0);
+	number = ft_atoi(new_value);
+	free(new_value);
+	if (number > 1000)
+	{
+		ft_printf_fd(2, "minishell: shell level to high, resetting to 1\n");
+		number = 1;
+	}
+	else if (number < 0)
+		number = 0;
+	env_node = data->env;
+	while (env_node)
+	{
+		if (!ft_strcmp(env_node->name, "SHLVL"))
+		{
+			if (!ft_strcmp(mode, MODE_WRITE))
+			{
+				free(env_node->value);
+				env_node->value = ft_itoa(number);
+			}
+			else if (!ft_strcmp(mode, MODE_APPEND))
+			{
+				tmp = env_node->value;
+				str_number = ft_itoa(number);
+				env_node->value = ft_strjoin(env_node->value, str_number);
+				free(tmp);
+				free(str_number);
+				if (ft_atoi(env_node->value) > 1000)
+				{
+					free(env_node->value);
+					env_node->value = ft_strdup("1");
+					ft_printf_fd(2, "minishell: shell level to high, resetting to 1 ");
+				}
+			}
+		}
+		env_node = env_node->next;
+	}
+	return (1);
+}
+
+static int	ft_replace_env_var(char *mode, t_data *data, char *var_name,
 		char *new_value)
 {
 	t_env	*current;
@@ -21,24 +70,26 @@ static void	ft_replace_env_var(char *mode, t_data *data, char *var_name,
 	current = data->env;
 	while (current)
 	{
+		if (ft_check_shlvl(mode, var_name, new_value, data))
+			return (1);
 		if (ft_strcmp(current->name, var_name) == 0)
 		{
 			if (ft_strcmp(mode, MODE_APPEND) == 0)
 			{
 				tmp = current->value;
 				current->value = ft_strjoin(current->value, new_value);
-				free(tmp);
-				free(new_value);
+				return (free(tmp), free(new_value), 1);
 			}
 			else if (ft_strcmp(mode, MODE_WRITE) == 0)
 			{
 				free(current->value);
 				current->value = new_value;
-				return ;
+				return (1);
 			}
 		}
 		current = current->next;
 	}
+	return (0);
 }
 
 static t_env	*ft_create_node_export_by_mode(char *mode, char *var_name,
