@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 10:39:01 by mvillavi          #+#    #+#             */
-/*   Updated: 2025/11/07 00:22:50 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/08 23:53:09 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,11 @@ void	ft_executor(t_data *data)
 		else if (current_command->command)
 		{
 			if (current_command->next)
-				keep = ft_execute_command(false, current_command, executed_commands, pid_array, data);
+				keep = ft_execute_command(false, current_command,
+						executed_commands, pid_array, data);
 			else
-				keep = ft_execute_command(true, current_command, executed_commands, pid_array, data);
+				keep = ft_execute_command(true, current_command,
+						executed_commands, pid_array, data);
 		}
 		ft_resturare_defaults_fd(data);
 		if (!keep)

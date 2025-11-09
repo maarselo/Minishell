@@ -6,7 +6,7 @@
 #    By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/29 15:39:24 by fbanzo-s          #+#    #+#              #
-#    Updated: 2025/11/08 20:56:05 by fbanzo-s         ###   ########.fr        #
+#    Updated: 2025/11/09 00:45:15 by fbanzo-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT_DIR = ./Libft
 HEADER = includes/minishell.h
 
 SRCS_FILES = minishell.c banner.c input.c input_check.c global.c signals_utils.c signals.c defaults_fd.c data.c \
-				token.c tokenizer.c tokenizer_utils.c \
+				token.c tokenizer.c tokenizer_utils.c builtins_export_variables1_utils.c \
 				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c \
 				parser.c parser_utils.c parser_redirection_utils.c init_parser_struct.c \
 				expander.c expander_utils.c env.c env_utils.c wildcards.c wildcards_dir.c wildcards_utils.c \

@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/08 18:08:02 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/09 00:11:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,8 @@ t_env		*ft_clone_env_list(t_data *data);
 //builtins_export_variables1.c
 int			ft_is_all_asnum(char *str);
 void		ft_create_and_add_variable(char *mode, char *command, t_data *data);
+// builtins_export_variables1_utils.c
+void		ft_find_shlvl(t_env *end_node, char *mode, int number);
 //builtins_export_utils2.c
 int			ft_strlen_var_name(char *str);
 int			ft_contains_metachar_var_name(char *str);
