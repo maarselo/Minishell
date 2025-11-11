@@ -99,14 +99,8 @@ void	ft_executor(t_data *data)
 		if (ft_manage_redirections(current_command, data))
 			ft_close_pipe(&prev_pipe);
 		else if (current_command->command)
-		{
-			if (current_command->next)
-				keep = ft_execute_command(false, current_command,
+				keep = ft_execute_command(!current_command->next, current_command,
 						executed_commands, pid_array, data);
-			else
-				keep = ft_execute_command(true, current_command,
-						executed_commands, pid_array, data);
-		}
 		ft_resturare_defaults_fd(data);
 		if (!keep)
 			break ;
