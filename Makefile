@@ -60,7 +60,7 @@ $(LIBFT):
 	@make -sC $(LIBFT_DIR)
 	@make -sC $(LIBFT_DIR) bonus
 
-$(NAME): $(OBJS) $(LIBFT) $(HEADER) Makefile
+$(NAME): $(LIBFT) $(OBJS) $(HEADER) Makefile
 	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ Compilación completada!$(RESET)"
 
