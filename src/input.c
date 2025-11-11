@@ -47,6 +47,34 @@ static char	*ft_cut_hostname(char *hostname_buffer)
 	return (ft_substr(hostname_buffer, 0, ptr - hostname_buffer));
 }
 
+static char *ft_cut_current_path(char *current_path, t_data *data)
+{
+	int		index;
+	int		count;
+	char	*path_without_home;
+	char	*final_path;
+
+	index = 0;
+	count = 0;
+	while (current_path[index])
+	{
+		if (count >= 3)
+			break ;
+		if (current_path[index] == '/')
+			count++;
+		if (count == 3)
+			continue ;
+		index++;
+	}
+	path_without_home = ft_substr(current_path, index, ft_strlen(current_path) - index);
+	if (!path_without_home)
+		return (ft_perror_free_data_exit(data, T_GENERAL_ERROR), NULL);
+	final_path = ft_strjoin("~", path_without_home);
+	if (!final_path)
+		return (ft_perror_free_data_exit(data, T_GENERAL_ERROR), NULL);
+	return (free(path_without_home), final_path);
+}
+
 char	*ft_acces_env_value(char *name_var, t_env *env_list)
 {
 	t_env	*env_node;
@@ -65,6 +93,7 @@ char	*ft_get_input(t_data *data)
 {
 	char	host_buffer[1024];
 	char	current_path[1024];
+	char	*final_path;
 	char	*hostname;
 	char	*prompt;
 	char	*input;
@@ -78,9 +107,10 @@ char	*ft_get_input(t_data *data)
 		|| !ft_acces_env_value("PWD", data->env))
 		return (readline("\033[1;34mminishell \033[0m"));
 	hostname = ft_cut_hostname(host_buffer);
+	final_path = ft_cut_current_path(current_path, data);
 	prompt = ft_strjoin_multi(8, "\033[1;34m",
 			ft_acces_env_value("USER", data->env), "@", hostname, ":",
-			current_path, "$ ", "\033[0m");
+			final_path, "$ ", "\033[0m");
 	input = readline(prompt);
-	return (free(hostname), free(prompt), input);
+	return (free(hostname), free(prompt), free(final_path), input);
 }
