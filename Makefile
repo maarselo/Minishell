@@ -19,7 +19,7 @@ LIBFT_DIR = ./Libft
 
 HEADER = includes/minishell.h
 
-SRCS_FILES = minishell.c banner.c input.c input_check.c global.c signals_utils.c signals.c defaults_fd.c data.c \
+SRCS_FILES = minishell.c banner.c input_check.c global.c signals_utils.c signals.c defaults_fd.c data.c \
 				token.c tokenizer.c tokenizer_utils.c builtins_export_variables1_utils.c \
 				syntax.c  syntax_checker1.c syntax_checker2.c syntax_checker_utils.c \
 				parser.c parser_utils.c parser_redirection_utils.c init_parser_struct.c \
@@ -28,7 +28,7 @@ SRCS_FILES = minishell.c banner.c input.c input_check.c global.c signals_utils.c
 				builtins_export.c builtins_export_utils.c builtins_export_variables1.c builtins_export_variables2.c builtins_unset.c builtins_env.c \
 				executor.c executor_env_array.c executor_children_utils.c executor_pipes.c executor_redirections.c executor_redirections_utils.c executor_command_utils.c \
 				free_data.c free.c free_utils.c exit.c exit_handler_utils.c \
-				error.c
+				error.c error1.c
 
 
 SRCS = $(addprefix $(SRC_DIR)/, $(SRCS_FILES))

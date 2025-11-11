@@ -12,35 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_print_tokens(t_token	*token)
-{
-	t_token	*first_token;
-
-	first_token = token;
-	while (first_token)
-	{
-		ft_printf("%s\n", first_token->content);
-		first_token = first_token->next;
-	}
-}
-
-/*static char	*ft_extract_quotes(char *str, int	*i)
-{
-	int		start;
-	int		end;
-	char	quote;
-
-	quote = str[*i];
-	start = *i;
-	(*i)++;
-	while (str[*i] && str[*i] != quote)
-		(*i)++;
-	if (str[*i] == quote)
-		(*i)++;
-	end = *i;
-	return (ft_substr(str, start, end - start));
-}*/
-
 static char	*ft_extract_quotes(char *str, int *i)
 {
 	bool	in_quotes;

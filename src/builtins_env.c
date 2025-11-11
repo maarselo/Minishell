@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+char	*ft_acces_env_value(char *name_var, t_env *env_list)
+{
+	t_env	*env_node;
+
+	env_node = env_list;
+	while (env_node)
+	{
+		if (ft_strcmp(env_node->name, name_var) == 0)
+			return (env_node->value);
+		env_node = env_node->next;
+	}
+	return (NULL);
+}
+
 void	ft_env(char **args, t_data *data)
 {
 	t_env	*current;

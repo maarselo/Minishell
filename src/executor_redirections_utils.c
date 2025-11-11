@@ -51,7 +51,8 @@ int	ft_check_heredoc_signal(t_data *data,
 		return (1);
 	}
 	ft_set_global_exit_status(data, T_SUCCESS);
-	printf("minishell: here-doc delimited by EOF (wanted %s)\n",
+	ft_printf_fd(data->saved_fd.saved_stdout,
+		"minishell: here-doc delimited by EOF (wanted %s)\n",
 		command->redirection->delimiter);
 	return (ft_dup_close_pipe_heredoc(pipe_fd));
 }

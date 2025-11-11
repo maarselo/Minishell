@@ -70,3 +70,14 @@ char	*ft_find_path(t_command *current, char **env_array, t_data *data)
 	return (ft_search_in_path(current->command[0],
 			split_path, env_array, data));
 }
+
+int	ft_execute_check_keep(int executed_commands, t_command *current_command,
+	t_data *data)
+{
+	if (current_command->next)
+		return (ft_execute_command(false, current_command,
+				executed_commands, data));
+	else
+		return (ft_execute_command(true, current_command,
+				executed_commands, data));
+}

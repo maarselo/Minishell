@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-///neccesary exit when is not possible dup at the beginning of the minishell
+
 t_saved_fd	ft_store_defaults_fd(t_env *env_list)
 {
 	t_saved_fd	saved_fd;

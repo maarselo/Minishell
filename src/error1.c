@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_data.c                                        :+:      :+:    :+:   */
+/*   error1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvillavi <mvillavi@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: mvillavi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/10/02 20:26:11 by fbanzo-s         ###   ########.fr       */
+/*   Created: 2025/11/11 11:59:11 by mvillavi          #+#    #+#             */
+/*   Updated: 2025/11/11 11:59:13 by mvillavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_data(t_data *data)
+void	ft_error_input_terminal_free_data(t_data *data)
 {
-	if (data->env)
-		ft_free_envp(data->env);
-	if (data->cmd)
-		ft_free_command_list(data);
-	ft_close_defaults_fd(data->saved_fd);
-	if (data->pid_array)
-		free(data->pid_array);
-	free(data);
+	ft_putstr_fd("\033[1;34mminishell\033[0m: input is not a terminal\n", 2);
+	ft_free_data(data);
+	exit(1);
 }

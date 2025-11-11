@@ -29,30 +29,13 @@ t_data	*ft_init_data(t_env *env_list, t_saved_fd saved_fd)
 	data->saved_fd = saved_fd;
 	data->exit_status = 0;
 	data->heredoc_status = 0;
+	data->pid_array = NULL;
 	return (data);
 }
-/*
-void	ft_print_data(t_data *data)
-{
-	t_command	*tmp_cmd;
-	int			i;
 
-	if (!data)
-		return ;
-	if (data->cmd)
-	{
-		tmp_cmd = data->cmd;
-		while (tmp_cmd)
-		{
-			i = 0;
-			ft_putstr_fd("--- Nuevo Comando ---\n", 1);
-			while (tmp_cmd->command[i])
-			{
-				ft_putstr_fd(tmp_cmd->command[i], 1);
-				ft_putstr_fd("\n", 1);
-				i++;
-			}
-			tmp_cmd = tmp_cmd->next;
-		}
-	}
-}*/
+void	ft_init_pid_array(t_data *data)
+{
+	data->pid_array = malloc(sizeof(pid_t) * ft_get_total_commands(data->cmd));
+	if (!data->pid_array)
+		ft_perror_free_data_exit(data, T_GENERAL_ERROR);
+}

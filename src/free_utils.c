@@ -39,3 +39,11 @@ void	ft_free_redirections_command(t_redirect *redirections)
 	free(redirections);
 	redirections = NULL;
 }
+
+void	ft_free_pid_array(t_data *data)
+{
+	if (!data->pid_array)
+		return ;
+	free(data->pid_array);
+	data->pid_array = NULL;
+}

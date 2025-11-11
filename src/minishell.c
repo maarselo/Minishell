@@ -32,6 +32,7 @@ void	ft_process_input(char *input, t_data *data)
 		ft_free_input_token(input, token_list);
 		ft_expand(data);
 		ft_executor(data);
+		ft_free_pid_array(data);
 		ft_free_command_list(data);
 	}
 }
@@ -47,7 +48,9 @@ void	ft_input_loop(t_env *env_list)
 	while (true)
 	{
 		ft_set_signals_prompt_mode();
-		input = ft_get_input(data);
+		if (!isatty(STDIN_FILENO))
+			ft_error_input_terminal_free_data(data);
+		input = readline("\033[1;34mminishell \033[0m");
 		ft_check_null_input(input, data);
 		if (g_signal != 0)
 		{

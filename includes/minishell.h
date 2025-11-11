@@ -36,41 +36,26 @@
 
 extern int	g_signal;
 
-/*
-	minishell.h
-	Extern global to manipulate exit status from the last command
-*/
 typedef enum exit_codes
 {
 	T_SUCCESS = 0,
 	T_GENERAL_ERROR = 1,
 	T_FILES = 1,
 	T_SYNTAX = 2,
-	T_NON_EXISTENT_DIRECTORY = 2,//cd
-	T_DIRECTORY_PERMITS = 2,//cd
+	T_NON_EXISTENT_DIRECTORY = 2,
+	T_DIRECTORY_PERMITS = 2,
 	T_EXECUTABLE_PERMITS = 126,
 	T_COMMAND_NOT_FOUND = 127,
 	T_SIGINT = 130,
 	T_SIGQUIT = 131,
 }	t_exit_types;
 
-/*
-sig_atomic_t → asegura que la lectura/escritura sea atómica
-				(no se corta en medio).
-volatile → asegura que cada vez que el programa use la variable,
-				 lea/escriba desde memoria, no desde registro cacheado.
-*/
 typedef struct s_global
 {
 	volatile sig_atomic_t	exit_status;
 	volatile sig_atomic_t	heredoc_status;
 }	t_global;
 
-/*
-	tokenizer.h
-	Enum to diff the different types in the token_list and struct
-	to five the token list in linked list to parser.
-*/
 typedef enum e_token_type
 {
 	T_WORD,
@@ -93,14 +78,6 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-/*
-	parser.h
-	Enum to separate the differents commands and know if its necesarry 
-	pipes or only do, have better the connector in the same struct.
-	If the value of the connector its NULL, its only 1 command, or the last. 
-	Struct to give to the expansor/ executor to exapnsion.
-	execute more easy.
-*/
 typedef enum e_connector_type
 {
 	PIPE_CONNECTOR = 1,
@@ -125,11 +102,6 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-/*
-	env.c
-	Struct to manage transform char ** to linked_list,
-	to manipualte variables.
-*/
 typedef struct s_env
 {
 	char			*name;
@@ -137,31 +109,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-/*
-	executor.c
-	Struct to save the real terminal fd, and the real stdout
-*/
 typedef struct s_saved_fd
 {
 	int			saved_stdin;
 	int			saved_stdout;
 }	t_saved_fd;
 
-/*
-	data.c
-*/
-typedef struct s_data
-{
-	t_command		*cmd;
-	t_env			*env;
-	t_saved_fd		saved_fd;
-	sig_atomic_t	exit_status;
-	sig_atomic_t	heredoc_status;
-}	t_data;
-
-/*
-	wildcards.c
-*/
 typedef struct s_match
 {
 	int	cmd_i;
@@ -169,6 +122,16 @@ typedef struct s_match
 	int	cmd_pattern_i;
 	int	str_backup_i;
 }	t_match;
+
+typedef struct s_data
+{
+	t_command		*cmd;
+	t_env			*env;
+	t_saved_fd		saved_fd;
+	sig_atomic_t	exit_status;
+	sig_atomic_t	heredoc_status;
+	pid_t			*pid_array;
+}	t_data;
 
 // signals_utils.c
 void		ft_sigint_handler_prompt_mode(int signal);
@@ -184,21 +147,18 @@ void		ft_set_init_global_variables(void);
 void		ft_set_global_exit_status(t_data *data, int new_exit_code);
 void		ft_set_global_heredoc_status(t_data *data, int heredoc_status);
 
-//default_fd.c
+// default_fd.c
 t_saved_fd	ft_store_defaults_fd(t_env *env_list);
 void		ft_close_defaults_fd(t_saved_fd saved_fd);
 void		ft_resturare_defaults_fd(t_data *data);
 void		ft_duplicate_stderror_stdin(t_data *data);
 
-//data.c
+// data.c
 t_data		*ft_init_data(t_env *env_list, t_saved_fd saved_fd);
-void		ft_print_data(t_data *data);
+void		ft_init_pid_array(t_data *data);
 
 // banner.c
 void		ft_print_banner(void);
-// input.c
-char		*ft_acces_env_value(char *name_var, t_env *env_list);
-char		*ft_get_input(t_data *data);
 // check_input.c
 void		ft_check_null_input(char *input, t_data *data);
 int			ft_check_void_input(char *input);
@@ -301,14 +261,14 @@ void		ft_echo(t_data *data, char **args);
 void		ft_cd(char **args, t_data *data);
 // builtins_pwd.c
 void		ft_pwd(t_data *data);
-//builtins_export_utils.c
+// builtins_export_utils.c
 t_env		*ft_clone_env_list(t_data *data);
-//builtins_export_variables1.c
+// builtins_export_variables1.c
 int			ft_is_all_asnum(char *str);
 void		ft_create_and_add_variable(char *mode, char *command, t_data *data);
 // builtins_export_variables1_utils.c
 void		ft_find_shlvl(t_env *end_node, char *mode, int number);
-//builtins_export_utils2.c
+// builtins_export_utils2.c
 int			ft_strlen_var_name(char *str);
 int			ft_contains_metachar_var_name(char *str);
 char		*ft_split_name_var(char *str, t_data *data);
@@ -318,11 +278,14 @@ void		ft_export(char **command, t_data *data);
 // builtins_unset.c
 void		ft_unset(t_data *data, char **args, t_env **env_list);
 // builtins_env.c
+char		*ft_acces_env_value(char *name_var, t_env *env_list);
 void		ft_env(char **args, t_data *data);
 
 // executor.c
 int			ft_check_wheter_continue(t_command *command, t_data *data);
 void		ft_executor(t_data *data);
+int			ft_execute_command(bool is_last, t_command *current_command,
+				int executed_commands, t_data *data);
 // executor_pipes.c
 void		ft_close_pipe(int *prev_pipe);
 int			ft_manage_pipes(int *prev_pipe, t_command *current_command,
@@ -335,15 +298,17 @@ int			ft_strncmp_heredoc(const char *delim, const char *line, size_t n);
 int			ft_check_heredoc_signal(t_data *data,
 				t_command *command, int *pipe_fd);
 void		ft_check_have_quotes(char *file_type, t_data *data);
-//executor_redirections.c
+// executor_redirections.c
 int			ft_check_heredoc(t_command *command, int *prev_pipe,
 				t_data *data);
 int			ft_manage_redirections(t_command *command, t_data *data);
-//executor_command_utils.c
+// executor_command_utils.c
 t_command	*ft_get_previous_command(t_command *find, t_command *command_list);
 bool		ft_is_last_command(t_command *command);
 int			ft_get_total_commands(t_command *command_list);
-//executor_utils.c
+// executor_utils.c
+int			ft_execute_check_keep(int executed_commands,
+				t_command *current_command, t_data *data);
 char		*ft_find_path(t_command *current, char **env_array, t_data *data);
 char		**ft_convert_list(t_data *data);
 
@@ -366,11 +331,13 @@ void		ft_free_envp(t_env *envp);
 void		ft_free_split(char **split);
 void		ft_free_envp(t_env *envp);
 void		ft_free_command_list(t_data *data);
+void		ft_free_pid_array(t_data *data);
 // free.utils.c
 void		ft_free_argv_command(char **argv_command);
 void		ft_free_redirections_command(t_redirect *redirections);
 
 // error
+void		ft_error_input_terminal_free_data(t_data *data);
 void		ft_error_creating_pipe(t_data *data, int *prev_pipe);
 void		ft_error_opening_files(char *mode, t_command *command,
 				t_data *data);
@@ -378,9 +345,5 @@ void		*ft_error_malloc_free_envarray_data(char **env_array, t_data *data);
 void		ft_error_command_not_found(t_command *current_cmd, char **env_array,
 				t_data *data);
 void		ft_perror_free_data_exit(t_data *data, int exit_code);
-
-// testinf
-void		ft_print_tokens(t_token	*token);
-void		ft_print_command_list(t_command	*command_list);
 
 #endif
