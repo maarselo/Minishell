@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:23:02 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/09 00:11:15 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/11 21:14:31 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void		ft_tokens_to_command_struct(t_token *token_list, t_data *data);
 
 // expander.c
 void		ft_expand(t_data *data);
-char		*ft_expand_var(char *str, int *i, t_data *data);
+char		*ft_expand_var(char *str, int *i, t_data *data, bool quoted);
 char		*ft_execute_expander(t_data *data, char *str);
 // expander_utils.c
 char		*ft_join_char_var(char *str, char c);

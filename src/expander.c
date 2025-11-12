@@ -6,7 +6,7 @@
 /*   By: fbanzo-s <fbanzo-s@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 04:07:31 by fbanzo-s          #+#    #+#             */
-/*   Updated: 2025/11/06 20:25:15 by fbanzo-s         ###   ########.fr       */
+/*   Updated: 2025/11/11 21:14:15 by fbanzo-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,15 @@ static char	*ft_expand_question_mark(t_data *data, int *i)
 	return (value);
 }
 
-char	*ft_expand_var(char *str, int *i, t_data *data)
+char	*ft_expand_var(char *str, int *i, t_data *data, bool quoted)
 {
 	char	*value;
 	char	*var;
 	int		start;
 
+	if (str[*i + 1] == ' ' || str[*i + 1] == '\0' || quoted == true)
+		return ((*i)++, ft_strdup("$"));
 	(*i)++;
-	if (str[*i] == '\0'
-		|| (!ft_isalnum(str[*i]) && str[*i] != '_' && str[*i] != '?'))
-		return (ft_strdup("$"));
 	if (str[*i] == '?')
 	{
 		value = ft_expand_question_mark(data, i);
@@ -68,7 +67,7 @@ char	*ft_expand_join(char *str, int *i, char *result, t_data *data)
 			in_quotes = !in_quotes;
 		if (str[*i] == '$' && in_squotes == false)
 		{
-			tmp = ft_expand_var(str, i, data);
+			tmp = ft_expand_var(str, i, data, (in_squotes || in_quotes));
 			result = ft_join_str_var(result, tmp);
 			free(tmp);
 			continue ;
