@@ -29,7 +29,8 @@ char	*ft_expand_var(char *str, int *i, t_data *data, bool quoted)
 	char	*var;
 	int		start;
 
-	if (str[*i + 1] == ' ' || str[*i + 1] == '\0' || quoted == true)
+	if (str[*i + 1] == ' ' || str[*i + 1] == '\0'
+		|| (quoted == true && !ft_isalnum(str[*i + 1])))
 		return ((*i)++, ft_strdup("$"));
 	(*i)++;
 	if (str[*i] == '?')
