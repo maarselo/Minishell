@@ -38,7 +38,7 @@ OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.c=.o))
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR) -fsanitize=address,leak
+CFLAGS = -g -Wall -Wextra -Werror -I$(INCLUDE_DIR) #-fsanitize=address,leak
 LIB_FLAGS = -lreadline -lft 
 RM = rm -rf
 
