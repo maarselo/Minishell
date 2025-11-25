@@ -63,12 +63,16 @@ void	ft_check_have_quotes(char *file_type, t_data *data)
 
 	if (!ft_strcmp(file_type, INFILE))
 	{
+		if (!data->cmd->redirection)
+			return ;
 		file = data->cmd->redirection->infile;
 		if (ft_strchr(file, '\'') || ft_strchr(file, '\"'))
 			data->cmd->redirection->infile = ft_remove_quotes(file);
 	}
 	else if (!ft_strcmp(file_type, OUTFILE))
 	{
+		if (!data->cmd->redirection)
+			return ;
 		file = data->cmd->redirection->outfile;
 		if (ft_strchr(file, '\'') || ft_strchr(file, '\"'))
 			data->cmd->redirection->outfile = ft_remove_quotes(file);
